@@ -1,0 +1,6 @@
+/* Base spacing & responsive tweaks */
+.card-title { font-weight: 600; }
+
+@media (min-width: 1400px) {
+  .container { max-width: 1200px; } /* Readability optimization for ultra-wide screens */
+}
