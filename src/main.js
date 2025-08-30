@@ -5,4 +5,8 @@ import router from './router/index.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/main.css';
 
+// Folding Interaction
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 createApp(App).use(router).mount('#app');

@@ -1,0 +1,8 @@
+[
+     { "id": 1, "title": "Managing Stress at Work", "summary": "Practical tips to reduce stress.", "tag": "mental", "rating": 4.5 },
+     { "id": 2, "title": "Heart Health Basics", "summary": "Know your numbers: BP, LDL, BMI.", "tag": "cardio", "rating": 4.3 },
+     { "id": 3, "title": "Beginner Strength Routine", "summary": "A 20-minute plan for busy men.", "tag": "fitness", "rating": 4.2 },
+     { "id": 4, "title": "Healthy Sleep Habits", "summary": "Simple habits for better sleep.", "tag": "sleep", "rating": 4.4 },
+     { "id": 5, "title": "Diabetes: Food Choices", "summary": "Low-GI staples and swaps.", "tag": "nutrition", "rating": 4.1 },
+     { "id": 6, "title": "Work–Life Balance", "summary": "Small boundaries, big impact.", "tag": "mental", "rating": 4.0 }
+   ]

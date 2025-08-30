@@ -1,10 +1,58 @@
 <template>
-  <div class="py-5">
-    <h2 class="h4">Health Resources</h2>
-    <p class="text-muted">This is a placeholder page for resources.</p>
-  </div>
+  <section>
+    <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
+      <h2 class="h4 mb-0">Health Resources</h2>
+
+      <div class="ms-md-auto d-flex gap-2">
+        <select class="form-select" v-model="filterTag" style="max-width:180px" aria-label="Filter by tag">
+          <option value="">All Tags</option>
+          <option v-for="t in tags" :key="t" :value="t">{{ t }}</option>
+        </select>
+
+        <select class="form-select" v-model="sortBy" style="max-width:180px" aria-label="Sort resources">
+          <option value="rating">Sort by Rating</option>
+          <option value="title">Sort by Title</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div v-for="r in viewList" :key="r.id" class="col-12 col-sm-6 col-lg-4">
+        <ResourceCard :item="r" :isFav="favorites.includes(r.id)" @toggle="onToggleFav" />
+      </div>
+    </div>
+
+    <p v-if="viewList.length === 0" class="text-muted mt-3">No resources match your filters.</p>
+  </section>
 </template>
 
 <script setup>
-// keep empty on purpose
+import { ref, computed, onMounted } from 'vue';
+import data from '../data/resources.json';
+import ResourceCard from '../components/ResourceCard.vue';
+import { getFavorites, toggleFavorite } from '../utils/storage.js';
+
+const list = ref([]);
+const favorites = ref([]);
+const filterTag = ref('');
+const sortBy = ref('rating');
+
+onMounted(() => {
+  list.value = data;
+  favorites.value = getFavorites();
+});
+
+const tags = computed(() => [...new Set(list.value.map(i => i.tag))]);
+
+const viewList = computed(() => {
+  let arr = [...list.value];
+  if (filterTag.value) arr = arr.filter(i => i.tag === filterTag.value);
+  if (sortBy.value === 'rating') arr.sort((a,b)=> b.rating - a.rating);
+  else arr.sort((a,b)=> a.title.localeCompare(b.title));
+  return arr;
+});
+
+function onToggleFav(id) {
+  favorites.value = toggleFavorite(id);
+}
 </script>
