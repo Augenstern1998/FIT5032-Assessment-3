@@ -1,11 +1,14 @@
+<!-- NavBar.vue -->
 <template>
-  <nav class="navbar navbar-expand-lg bg-light border-bottom">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container">
       <RouterLink class="navbar-brand fw-semibold" to="/">Men's Health</RouterLink>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
-              aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon">☰</span>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#nav"
+              aria-controls="nav" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span> 
       </button>
 
       <div class="collapse navbar-collapse" id="nav">
@@ -24,5 +27,11 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <style scoped>
+/* Hide the hamburger icon */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: none !important;
+}
+
 .navbar-toggler { border: 1px solid #ddd; border-radius: 6px; padding: .25rem .5rem; }
 </style>

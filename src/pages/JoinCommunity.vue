@@ -149,7 +149,7 @@ const form = reactive({
 const t = reactive({});            // touched markers
 const success = ref(false);
 
-// 校验规则
+// Validation rules
 const rules = {
   name: (v) => (v?.trim() ? '' : 'Name is required.'),
   email: (v) => (/^\S+@\S+\.\S+$/.test(v) ? '' : 'Please enter a valid email.'),
