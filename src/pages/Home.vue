@@ -2,14 +2,9 @@
   <section class="container py-4">
     <!-- Title：-->
     <div class="text-center mb-4">
-      <h1 class="display-5">Welcome to Men's Health</h1>
+      <h1 class="display-5">Welcome to Men’s Health</h1>
       <p class="text-muted">Practical tools and trusted resources for every stage of life.</p>
       <p class="fw-semibold">Tips loaded: {{ tips.length }}</p>
-      
-      <!-- Show error message if redirected from unauthorized access -->
-      <div v-if="$route.query.error === 'unauthorized'" class="alert alert-warning mt-3" role="alert">
-        <strong>Access Denied:</strong> You don't have permission to access that page.
-      </div>
     </div>
 
     <!-- Tips list -->
