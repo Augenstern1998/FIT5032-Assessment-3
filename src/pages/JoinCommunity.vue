@@ -134,6 +134,7 @@
 <script setup>
 import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { saveFormDraft, loadFormDraft, clearFormDraft } from '../utils/storage.js';
+import { validateName, validateEmail, validateAge, sanitizeText, sanitizeInput } from '../utils/security.js';
 
 const interestOptions = ['mental health', 'fitness', 'nutrition', 'sleep', 'cardio'];
 
@@ -149,16 +150,26 @@ const form = reactive({
 const t = reactive({});            // touched markers
 const success = ref(false);
 
-// Validation rules
+// Enhanced validation rules with security
 const rules = {
-  name: (v) => (v?.trim() ? '' : 'Name is required.'),
-  email: (v) => (/^\S+@\S+\.\S+$/.test(v) ? '' : 'Please enter a valid email.'),
+  name: (v) => {
+    const validation = validateName(v);
+    if (!validation.isValid) {
+      return 'Name must be 2-50 characters and contain only letters and spaces.';
+    }
+    return '';
+  },
+  email: (v) => (validateEmail(v) ? '' : 'Please enter a valid email address.'),
   age: (v) => {
-    const n = Number(v);
-    return Number.isFinite(n) && n >= 16 && n <= 120 ? '' : 'Age must be between 16 and 120.';
+    const validation = validateAge(v);
+    return validation.isValid ? '' : 'Age must be between 16 and 120.';
   },
   interests: (v) => (v?.length ? '' : 'Select at least one area of interest.'),
-  message: (v) => (v ? (v.trim().length >= 10 ? '' : 'Message must be at least 10 characters.') : ''),
+  message: (v) => {
+    if (!v) return '';
+    const sanitized = sanitizeText(v);
+    return sanitized.length >= 10 ? '' : 'Message must be at least 10 characters.';
+  },
   agree: (v) => (v ? '' : 'Please agree to the community guidelines.'),
 };
 
@@ -202,12 +213,26 @@ function onSubmit() {
   Object.keys(form).forEach((k) => (t[k] = true));
   if (!isValid.value) return;
 
-  // Simulate successful submission
+  // Sanitize form data before submission
+  const sanitizedData = {
+    name: sanitizeInput(form.name, 'name'),
+    email: sanitizeInput(form.email, 'email'),
+    age: form.age,
+    interests: form.interests,
+    message: sanitizeText(form.message),
+    agree: form.agree
+  };
+
+  // Simulate successful submission with sanitized data
   success.value = true;
   clearFormDraft();
-  // Reset
+  
+  // Reset form
   Object.assign(form, { name: '', email: '', age: '', interests: [], message: '', agree: false });
   Object.keys(t).forEach((k) => delete t[k]);
+
+  // Log sanitized data (in real app, this would be sent to server)
+  console.log('Form submitted with sanitized data:', sanitizedData);
 
   // Successful notice fades out after 4 seconds
   setTimeout(() => (success.value = false), 4000);
