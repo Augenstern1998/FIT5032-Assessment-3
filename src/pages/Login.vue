@@ -19,16 +19,10 @@
 </template>
 
 <script setup>
-<<<<<<< HEAD
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { loginUser } from '../utils/auth.js';
 import { validateEmail, sanitizeInput } from '../utils/security.js';
-=======
-import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { loginUser } from '../utils/auth.js';
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 
 const router = useRouter();
 const route = useRoute();
@@ -36,7 +30,6 @@ const email = ref('');
 const password = ref('');
 const notice = ref('');
 const noticeClass = ref('alert-danger');
-<<<<<<< HEAD
 const loginAttempts = ref(0);
 const isBlocked = ref(false);
 
@@ -71,21 +64,11 @@ async function onSubmit() {
     noticeClass.value = 'alert-success';
     notice.value = 'Login successful! Redirecting...';
     loginAttempts.value = 0; // Reset attempts on success
-=======
-
-async function onSubmit() {
-  notice.value = '';
-  try {
-    await loginUser({ email: email.value, password: password.value });
-    noticeClass.value = 'alert-success';
-    notice.value = 'Login successful! Redirecting...';
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
     const redirect = route.query.redirect || '/';
     setTimeout(() => router.push(String(redirect)), 300);
   } catch (e) {
     noticeClass.value = 'alert-danger';
     notice.value = e?.message || 'Login failed.';
-<<<<<<< HEAD
     loginAttempts.value++;
     
     // Block after 3 failed attempts
@@ -96,8 +79,6 @@ async function onSubmit() {
         loginAttempts.value = 0;
       }, 30000); // 30 second cooldown
     }
-=======
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   }
 }
 </script>

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // Client-side security utilities for XSS prevention and input validation
-=======
-// Simple client-side helpers to mitigate common XSS in UI bindings.
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 
 export function sanitizeText(input) {
   const s = String(input ?? '');
@@ -14,7 +10,6 @@ export function sanitizeText(input) {
     .replaceAll("'", '&#39;');
 }
 
-<<<<<<< HEAD
 export function sanitizeHtml(input) {
   // More comprehensive HTML sanitization
   const s = String(input ?? '');
@@ -90,9 +85,5 @@ export default {
   sanitizeInput,
   escapeRegex,
 };
-
-=======
-export default { sanitizeText };
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 
 

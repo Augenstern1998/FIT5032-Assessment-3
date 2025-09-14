@@ -16,10 +16,7 @@
           <li class="nav-item"><RouterLink class="nav-link" to="/">Home</RouterLink></li>
           <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
           <li class="nav-item"><RouterLink class="nav-link" to="/join">Join Community</RouterLink></li>
-<<<<<<< HEAD
           <li class="nav-item" v-if="user && user.role === 'admin'"><RouterLink class="nav-link" to="/admin">Admin</RouterLink></li>
-=======
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
           <li class="nav-item" v-if="!user"><RouterLink class="btn btn-sm btn-outline-primary" to="/login">Login</RouterLink></li>
           <li class="nav-item" v-if="!user"><RouterLink class="btn btn-sm btn-primary" to="/register">Register</RouterLink></li>
           <li class="nav-item dropdown" v-if="user">
@@ -40,10 +37,7 @@
 import { RouterLink, useRouter } from 'vue-router';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { getCurrentUser, logout, AUTH_CHANGED_EVENT } from '../utils/auth.js';
-<<<<<<< HEAD
 import { resetIdleTimer } from '../utils/session.js';
-=======
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 
 const router = useRouter();
 const user = ref(null);
@@ -55,7 +49,6 @@ function load() {
 onMounted(() => {
   load();
   window.addEventListener(AUTH_CHANGED_EVENT, load);
-<<<<<<< HEAD
   
   // Reset idle timer on user activity
   if (getCurrentUser()) {
@@ -64,8 +57,6 @@ onMounted(() => {
       load();
     });
   }
-=======
->>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 });
 
 onBeforeUnmount(() => {
