@@ -1,0 +1,6 @@
+src/components/NavBar.vue
+src/pages/Login.vue
+src/pages/Register.vue
+src/router/index.js
+src/utils/auth.js
+src/utils/security.js

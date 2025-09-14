@@ -10,7 +10,10 @@ const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/resources', name: 'resources', component: Resources },
   { path: '/join', name: 'join', component: JoinCommunity, meta: { requiresAuth: true } },
+<<<<<<< HEAD
   { path: '/admin', name: 'admin', component: () => import('../pages/AdminDashboard.vue'), meta: { requiresAuth: true, roles: ['admin'] } },
+=======
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'register', component: Register },
 ];
@@ -22,6 +25,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
+<<<<<<< HEAD
   const user = getCurrentUser();
   
   // Check authentication
@@ -41,6 +45,12 @@ router.beforeEach((to) => {
     }
   }
   
+=======
+  if (to.meta?.requiresAuth) {
+    const user = getCurrentUser();
+    if (!user) return { name: 'login', query: { redirect: to.fullPath } };
+  }
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   return true;
 });
 

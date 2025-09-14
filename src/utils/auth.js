@@ -9,6 +9,7 @@ function emitAuthChanged() {
 }
 
 function setSession(session) {
+<<<<<<< HEAD
   if (session) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
     // Start idle timer for session security
@@ -25,6 +26,10 @@ function setSession(session) {
       stopIdleTimer();
     });
   }
+=======
+  if (session) localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  else localStorage.removeItem(SESSION_KEY);
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   emitAuthChanged();
 }
 
@@ -68,11 +73,14 @@ export async function registerUser({ name, email, password, role = 'member' }) {
     throw new Error('Email is already registered.');
   }
 
+<<<<<<< HEAD
   // Enhanced password validation
   if (password.length < 6) {
     throw new Error('Password must be at least 6 characters long.');
   }
 
+=======
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   const passwordHash = await hashPassword(password);
   const user = {
     id: Date.now(),
@@ -80,7 +88,10 @@ export async function registerUser({ name, email, password, role = 'member' }) {
     email: String(email).trim().toLowerCase(),
     role,
     passwordHash,
+<<<<<<< HEAD
     createdAt: new Date().toISOString(),
+=======
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
   };
   users.push(user);
   writeUsers(users);

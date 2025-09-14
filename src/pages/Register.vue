@@ -30,10 +30,16 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { registerUser } from '../utils/auth.js';
 import { validateEmail, validatePassword, validateName, sanitizeInput } from '../utils/security.js';
+=======
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { registerUser } from '../utils/auth.js';
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
 
 const router = useRouter();
 const route = useRoute();
@@ -44,6 +50,7 @@ const role = ref('member');
 const notice = ref('');
 const noticeClass = ref('alert-danger');
 
+<<<<<<< HEAD
 // Enhanced validation
 const nameValidation = computed(() => validateName(name.value));
 const emailValidation = computed(() => validateEmail(email.value));
@@ -85,6 +92,16 @@ async function onSubmit() {
       password: password.value, 
       role: role.value 
     });
+=======
+async function onSubmit() {
+  notice.value = '';
+  if (!name.value || !email.value || !password.value) {
+    notice.value = 'Please fill all required fields.';
+    return;
+  }
+  try {
+    await registerUser({ name: name.value, email: email.value, password: password.value, role: role.value });
+>>>>>>> 971db2f520855767059a6f2b614d884da8de2979
     noticeClass.value = 'alert-success';
     notice.value = 'Account created! Redirecting...';
     const redirect = route.query.redirect || '/';
