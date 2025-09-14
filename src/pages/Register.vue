@@ -1,9 +1,12 @@
+<!-- Registration page component with validation and security features -->
 <template>
   <section class="container py-4" style="max-width: 640px">
     <h2 class="h4 mb-3">Create Account</h2>
 
+    <!-- Status message display -->
     <div v-if="notice" class="alert" :class="noticeClass" role="alert">{{ notice }}</div>
 
+    <!-- Registration form with validation -->
     <form @submit.prevent="onSubmit" novalidate>
       <div class="mb-3">
         <label class="form-label" for="name">Full name *</label>
@@ -35,8 +38,11 @@ import { useRouter, useRoute } from 'vue-router';
 import { registerUser } from '../utils/auth.js';
 import { validateEmail, validatePassword, validateName, sanitizeInput } from '../utils/security.js';
 
+// Router and route instances
 const router = useRouter();
 const route = useRoute();
+
+// Form data reactive references
 const name = ref('');
 const email = ref('');
 const password = ref('');
@@ -44,41 +50,48 @@ const role = ref('member');
 const notice = ref('');
 const noticeClass = ref('alert-danger');
 
-// Enhanced validation
+// Validation computed properties
 const nameValidation = computed(() => validateName(name.value));
 const emailValidation = computed(() => validateEmail(email.value));
 const passwordValidation = computed(() => validatePassword(password.value));
 
+// Overall form validation status
 const isFormValid = computed(() => {
   return nameValidation.value.isValid && 
          emailValidation.value && 
          passwordValidation.value.isValid;
 });
 
+/**
+ * Handle form submission with validation and security checks
+ */
 async function onSubmit() {
   notice.value = '';
   
-  // Sanitize inputs
+  // Sanitize user inputs for security
   const sanitizedName = sanitizeInput(name.value, 'name');
   const sanitizedEmail = sanitizeInput(email.value, 'email');
   
-  // Enhanced validation
+  // Validate name format and length
   if (!nameValidation.value.isValid) {
     notice.value = 'Name must be 2-50 characters and contain only letters and spaces.';
     return;
   }
   
+  // Validate email format
   if (!emailValidation.value) {
     notice.value = 'Please enter a valid email address.';
     return;
   }
   
+  // Validate password strength
   if (!passwordValidation.value.isValid) {
     notice.value = 'Password must be at least 6 characters long.';
     return;
   }
   
   try {
+    // Attempt registration with sanitized data
     await registerUser({ 
       name: sanitizedName, 
       email: sanitizedEmail, 
@@ -87,9 +100,12 @@ async function onSubmit() {
     });
     noticeClass.value = 'alert-success';
     notice.value = 'Account created! Redirecting...';
+    
+    // Redirect to intended page or home
     const redirect = route.query.redirect || '/';
     setTimeout(() => router.push(String(redirect)), 300);
   } catch (e) {
+    // Handle registration failure
     noticeClass.value = 'alert-danger';
     notice.value = e?.message || 'Registration failed.';
   }

@@ -1,14 +1,16 @@
+<!-- Community join form with comprehensive validation and auto-save functionality -->
 <template>
   <section class="container py-4" style="max-width: 760px">
     <h2 class="h4 mb-3">Join Our Community</h2>
 
-    <!-- successful notice -->
+    <!-- Success message display -->
     <div v-if="success" class="alert alert-success" role="alert">
       Thanks for joining! Your request has been recorded.
     </div>
 
+    <!-- Community join form with real-time validation -->
     <form @submit.prevent="onSubmit" novalidate>
-      <!-- Name -->
+      <!-- Name input field -->
       <div class="mb-3">
         <label for="name" class="form-label">Full name *</label>
         <input
@@ -27,7 +29,7 @@
         </div>
       </div>
 
-      <!-- Email -->
+      <!-- Email input field -->
       <div class="mb-3">
         <label for="email" class="form-label">Email *</label>
         <input
@@ -46,7 +48,7 @@
         </div>
       </div>
 
-      <!-- Age -->
+      <!-- Age input field -->
       <div class="mb-3">
         <label for="age" class="form-label">Age *</label>
         <input
@@ -66,7 +68,7 @@
         </div>
       </div>
 
-      <!-- Interests -->
+      <!-- Interest selection fieldset -->
       <fieldset class="mb-3">
         <legend class="col-form-label pt-0">Areas of interest *</legend>
         <div class="d-flex flex-wrap gap-3">
@@ -87,7 +89,7 @@
         </div>
       </fieldset>
 
-      <!-- Message -->
+      <!-- Message textarea -->
       <div class="mb-3">
         <label for="msg" class="form-label">Message (min 10 chars)</label>
         <textarea
@@ -98,14 +100,14 @@
           @blur="touch('message')"
           :aria-invalid="!!err.message"
           :aria-describedby="err.message ? 'msg-help' : null"
-          placeholder="Tell us what support or activities you’re looking for…"
+          placeholder="Tell us what support or activities you're looking for…"
         ></textarea>
         <div v-if="t.message && err.message" id="msg-help" class="invalid-feedback d-block">
           {{ err.message }}
         </div>
       </div>
 
-      <!-- Agree -->
+      <!-- Agreement checkbox -->
       <div class="form-check mb-3">
         <input
           class="form-check-input"
@@ -123,6 +125,7 @@
         </div>
       </div>
 
+      <!-- Form action buttons -->
       <div class="d-flex gap-2">
         <button type="submit" class="btn btn-primary" :disabled="!isValid">Submit</button>
         <button type="button" class="btn btn-outline-secondary" @click="clearDraft">Clear Draft</button>
@@ -136,8 +139,10 @@ import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { saveFormDraft, loadFormDraft, clearFormDraft } from '../utils/storage.js';
 import { validateName, validateEmail, validateAge, sanitizeText, sanitizeInput } from '../utils/security.js';
 
+// Available interest options for the community
 const interestOptions = ['mental health', 'fitness', 'nutrition', 'sleep', 'cardio'];
 
+// Reactive form data object
 const form = reactive({
   name: '',
   email: '',
@@ -147,10 +152,11 @@ const form = reactive({
   agree: false,
 });
 
+// Touch tracking for field validation display
 const t = reactive({});            // touched markers
 const success = ref(false);
 
-// Enhanced validation rules with security
+// Enhanced validation rules with security measures
 const rules = {
   name: (v) => {
     const validation = validateName(v);
@@ -173,7 +179,7 @@ const rules = {
   agree: (v) => (v ? '' : 'Please agree to the community guidelines.'),
 };
 
-// Calculate the errors
+// Computed property to calculate validation errors
 const err = computed(() => ({
   name: rules.name(form.name),
   email: rules.email(form.email),
@@ -183,13 +189,18 @@ const err = computed(() => ({
   agree: rules.agree(form.agree),
 }));
 
+// Overall form validation status
 const isValid = computed(() => Object.values(err.value).every((e) => e === ''));
 
+/**
+ * Mark a field as touched to show validation errors
+ * @param {string} key - Form field key to mark as touched
+ */
 function touch(key) {
   t[key] = true;
 }
 
-// Auto-save draft
+// Auto-save form draft on any changes
 watch(
   form,
   (v) => {
@@ -198,22 +209,28 @@ watch(
   { deep: true }
 );
 
-// Load draft
+// Load saved draft when component mounts
 onMounted(() => {
   const draft = loadFormDraft();
   Object.assign(form, draft);
 });
 
+/**
+ * Clear saved form draft
+ */
 function clearDraft() {
   clearFormDraft();
 }
 
+/**
+ * Handle form submission with validation and sanitization
+ */
 function onSubmit() {
-  // Mark all as touched to show errors
+  // Mark all fields as touched to show validation errors
   Object.keys(form).forEach((k) => (t[k] = true));
   if (!isValid.value) return;
 
-  // Sanitize form data before submission
+  // Sanitize form data before submission for security
   const sanitizedData = {
     name: sanitizeInput(form.name, 'name'),
     email: sanitizeInput(form.email, 'email'),
@@ -227,14 +244,14 @@ function onSubmit() {
   success.value = true;
   clearFormDraft();
   
-  // Reset form
+  // Reset form to initial state
   Object.assign(form, { name: '', email: '', age: '', interests: [], message: '', agree: false });
   Object.keys(t).forEach((k) => delete t[k]);
 
   // Log sanitized data (in real app, this would be sent to server)
   console.log('Form submitted with sanitized data:', sanitizedData);
 
-  // Successful notice fades out after 4 seconds
+  // Hide success message after 4 seconds
   setTimeout(() => (success.value = false), 4000);
 }
 </script>
