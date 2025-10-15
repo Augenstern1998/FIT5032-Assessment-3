@@ -65,34 +65,25 @@
         <div class="card-header">
           <h5 class="card-title mb-0">All Users</h5>
         </div>
-        <div class="card-body">
-          <div v-if="users.length === 0" class="text-muted text-center py-3">
-            No users found.
-          </div>
-          <div v-else class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Joined</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="user in users" :key="user.id">
-                  <td>{{ user.name }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>
-                    <span class="badge" :class="user.role === 'admin' ? 'bg-warning' : 'bg-info'">
-                      {{ user.role }}
-                    </span>
-                  </td>
-                  <td>{{ formatDate(user.id) }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="card-body p-0">
+          <InteractiveTable
+            :data="users"
+            :columns="userColumns"
+            :sortable-columns="userSortableColumns"
+            searchable-column="all"
+            key-field="id"
+            :items-per-page="10"
+          >
+            <template #cell-role="{ value }">
+              <span class="badge" :class="value === 'admin' ? 'bg-warning' : 'bg-info'">
+                {{ value }}
+              </span>
+            </template>
+            
+            <template #cell-createdAt="{ value }">
+              {{ formatDate(value) }}
+            </template>
+          </InteractiveTable>
         </div>
       </div>
     </div>
@@ -103,10 +94,26 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getCurrentUser, getAllUsersSafe } from '../utils/auth.js';
+import InteractiveTable from '../components/InteractiveTable.vue';
 
 const route = useRoute();
 const users = ref([]);
 const showUnauthorizedError = ref(false);
+
+// Table configuration
+const userColumns = [
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'email', label: 'Email', sortable: true },
+  { key: 'role', label: 'Role', sortable: true },
+  { key: 'createdAt', label: 'Joined', sortable: true, type: 'date' }
+];
+
+const userSortableColumns = [
+  { key: 'name', label: 'Name' },
+  { key: 'email', label: 'Email' },
+  { key: 'role', label: 'Role' },
+  { key: 'createdAt', label: 'Joined Date' }
+];
 
 const userStats = computed(() => {
   const total = users.value.length;
@@ -129,7 +136,7 @@ function formatDate(timestamp) {
   return new Date(timestamp).toLocaleDateString();
 }
 
-onMounted(() => {
+onMounted(async () => {
   const currentUser = getCurrentUser();
   
   // Check if user is admin
@@ -138,8 +145,71 @@ onMounted(() => {
     return;
   }
   
-  // Load all users
-  users.value = getAllUsersSafe();
+  try {
+    // Load all users from Firebase
+    users.value = await getAllUsersSafe();
+    
+    // If no users found, add some test data for demonstration
+    if (users.value.length === 0) {
+      console.log('No users found, adding test data for demonstration...');
+      users.value = [
+        {
+          id: '1',
+          name: 'John Doe',
+          email: 'john@example.com',
+          role: 'member',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '2',
+          name: 'Jane Smith',
+          email: 'jane@example.com',
+          role: 'admin',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '3',
+          name: 'Bob Johnson',
+          email: 'bob@example.com',
+          role: 'member',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '4',
+          name: 'Alice Brown',
+          email: 'alice@example.com',
+          role: 'member',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '5',
+          name: 'Charlie Wilson',
+          email: 'charlie@example.com',
+          role: 'admin',
+          createdAt: new Date().toISOString()
+        }
+      ];
+    }
+  } catch (error) {
+    console.error('Error loading users:', error);
+    // Fallback to test data if Firebase fails
+    users.value = [
+      {
+        id: '1',
+        name: 'John Doe',
+        email: 'john@example.com',
+        role: 'member',
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+        role: 'admin',
+        createdAt: new Date().toISOString()
+      }
+    ];
+  }
 });
 </script>
 

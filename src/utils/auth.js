@@ -1,8 +1,22 @@
-// Local authentication utilities with SHA-256 hashing and session persistence
+// Hybrid authentication utilities - Firebase Auth with local fallback
+import { 
+  getCurrentUser as getFirebaseUser,
+  isAuthenticated as isFirebaseAuthenticated,
+  registerUser as firebaseRegisterUser,
+  loginUser as firebaseLoginUser,
+  loginWithGoogle as firebaseLoginWithGoogle,
+  logout as firebaseLogout,
+  getAllUsers as firebaseGetAllUsers,
+  AUTH_CHANGED_EVENT as FIREBASE_AUTH_CHANGED_EVENT
+} from './firebaseAuth.js';
 
+// Local authentication utilities (fallback)
 const USERS_KEY = 'mh_users';
 const SESSION_KEY = 'mh_session';
 export const AUTH_CHANGED_EVENT = 'mh_auth_changed';
+
+// Use Firebase as primary auth, local as fallback
+const USE_FIREBASE = true;
 
 function emitAuthChanged() {
   try { window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT)); } catch {}
@@ -41,18 +55,8 @@ function writeUsers(users) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-export function getCurrentUser() {
-  try {
-    const raw = localStorage.getItem(SESSION_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function logout() { setSession(null); }
-
-export async function hashPassword(plainText) {
+// Local auth functions (fallback)
+async function hashPassword(plainText) {
   const enc = new TextEncoder();
   const data = enc.encode(String(plainText));
   const digest = await crypto.subtle.digest('SHA-256', data);
@@ -61,14 +65,13 @@ export async function hashPassword(plainText) {
   return hex;
 }
 
-export async function registerUser({ name, email, password, role = 'member' }) {
+async function localRegisterUser({ name, email, password, role = 'member' }) {
   const users = readUsers();
   const existing = users.find((u) => u.email.toLowerCase() === String(email).toLowerCase());
   if (existing) {
     throw new Error('Email is already registered.');
   }
 
-  // Enhanced password validation
   if (password.length < 6) {
     throw new Error('Password must be at least 6 characters long.');
   }
@@ -84,13 +87,12 @@ export async function registerUser({ name, email, password, role = 'member' }) {
   };
   users.push(user);
   writeUsers(users);
-  // Auto login after register
   const session = { id: user.id, name: user.name, email: user.email, role: user.role };
   setSession(session);
   return session;
 }
 
-export async function loginUser({ email, password }) {
+async function localLoginUser({ email, password }) {
   const users = readUsers();
   const u = users.find((x) => x.email.toLowerCase() === String(email).toLowerCase());
   if (!u) throw new Error('Account not found.');
@@ -101,13 +103,105 @@ export async function loginUser({ email, password }) {
   return session;
 }
 
-export function isAuthenticated() {
-  return !!getCurrentUser();
+function localGetCurrentUser() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
 }
 
-export function getAllUsersSafe() {
-  // For admin dashboards later: omit sensitive fields
+function localIsAuthenticated() {
+  return !!localGetCurrentUser();
+}
+
+function localGetAllUsersSafe() {
   return readUsers().map(({ passwordHash, ...rest }) => rest);
+}
+
+function localLogout() { 
+  setSession(null); 
+}
+
+// Main exported functions - Firebase first, local fallback
+export function getCurrentUser() {
+  if (USE_FIREBASE) {
+    const firebaseUser = getFirebaseUser();
+    if (firebaseUser) {
+      return {
+        id: firebaseUser.uid,
+        uid: firebaseUser.uid,
+        name: firebaseUser.displayName || 'User',
+        email: firebaseUser.email,
+        role: 'member', // Will be updated from Firestore
+        emailVerified: firebaseUser.emailVerified
+      };
+    }
+  }
+  return localGetCurrentUser();
+}
+
+export function isAuthenticated() {
+  if (USE_FIREBASE) {
+    return isFirebaseAuthenticated();
+  }
+  return localIsAuthenticated();
+}
+
+export async function registerUser(userData) {
+  if (USE_FIREBASE) {
+    try {
+      return await firebaseRegisterUser(userData);
+    } catch (error) {
+      console.warn('Firebase registration failed, falling back to local:', error);
+      return await localRegisterUser(userData);
+    }
+  }
+  return await localRegisterUser(userData);
+}
+
+export async function loginUser(credentials) {
+  if (USE_FIREBASE) {
+    try {
+      return await firebaseLoginUser(credentials);
+    } catch (error) {
+      console.warn('Firebase login failed, falling back to local:', error);
+      return await localLoginUser(credentials);
+    }
+  }
+  return await localLoginUser(credentials);
+}
+
+export async function loginWithGoogle() {
+  if (USE_FIREBASE) {
+    return await firebaseLoginWithGoogle();
+  }
+  throw new Error('Google login is only available with Firebase authentication');
+}
+
+export async function logout() {
+  if (USE_FIREBASE) {
+    try {
+      await firebaseLogout();
+      return;
+    } catch (error) {
+      console.warn('Firebase logout failed, falling back to local:', error);
+    }
+  }
+  localLogout();
+}
+
+export async function getAllUsersSafe() {
+  if (USE_FIREBASE) {
+    try {
+      return await firebaseGetAllUsers();
+    } catch (error) {
+      console.warn('Firebase get users failed, falling back to local:', error);
+      return localGetAllUsersSafe();
+    }
+  }
+  return localGetAllUsersSafe();
 }
 
 export default {
