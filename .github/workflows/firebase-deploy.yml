@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Firebase
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy
+    name: Deploy to Firebase
     steps:
       - uses: actions/checkout@v4
       
@@ -38,17 +38,6 @@ jobs:
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
           VITE_MAPBOX_ACCESS_TOKEN: ${{ secrets.VITE_MAPBOX_ACCESS_TOKEN }}
       
-      # Cloudflare Pages 部署 - 需要配置 API Token
-      # - name: Deploy to Cloudflare Pages
-      #   uses: cloudflare/pages-action@v1
-      #   with:
-      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      #     projectName: fit5032-assessment-3
-      #     directory: dist
-      #     gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      #     wranglerVersion: '3'
-      
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -56,4 +45,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
           projectId: 'mens-health-app-b7749'
           channelId: 'live'
-
