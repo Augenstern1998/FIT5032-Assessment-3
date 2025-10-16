@@ -126,18 +126,35 @@ function localLogout() {
 
 // Main exported functions - Firebase first, local fallback
 export async function getCurrentUser() {
+  console.log('🔍 getCurrentUser called, USE_FIREBASE:', USE_FIREBASE);
+  
   if (USE_FIREBASE) {
-    const firebaseUser = getFirebaseUser();
+    // Try multiple times to get Firebase user (for production environment)
+    let firebaseUser = null;
+    for (let i = 0; i < 3; i++) {
+      firebaseUser = getFirebaseUser();
+      if (firebaseUser) break;
+      
+      console.log(`🔄 Attempt ${i + 1}: No Firebase user found, waiting...`);
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    console.log('🔥 Firebase user after retries:', firebaseUser ? 'exists' : 'null');
+    
     if (firebaseUser) {
       // 尝试从 Firestore 获取用户角色
       try {
         const { doc, getDoc } = await import('firebase/firestore');
         const { db } = await import('../config/firebase.js');
+        
+        console.log('📄 Fetching user document from Firestore...');
         const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
         
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          return {
+          console.log('✅ User data from Firestore:', userData);
+          
+          const user = {
             id: firebaseUser.uid,
             uid: firebaseUser.uid,
             name: firebaseUser.displayName || userData.name || 'User',
@@ -145,13 +162,18 @@ export async function getCurrentUser() {
             role: userData.role || 'member',
             emailVerified: firebaseUser.emailVerified
           };
+          
+          console.log('👤 Returning user with Firestore data:', user);
+          return user;
+        } else {
+          console.log('⚠️ No user document found in Firestore, using fallback');
         }
       } catch (error) {
-        console.warn('Failed to load user role from Firestore:', error);
+        console.warn('❌ Failed to load user role from Firestore:', error);
       }
       
       // 回退到基本用户信息
-      return {
+      const fallbackUser = {
         id: firebaseUser.uid,
         uid: firebaseUser.uid,
         name: firebaseUser.displayName || 'User',
@@ -159,8 +181,15 @@ export async function getCurrentUser() {
         role: 'member',
         emailVerified: firebaseUser.emailVerified
       };
+      
+      console.log('👤 Returning fallback user:', fallbackUser);
+      return fallbackUser;
+    } else {
+      console.log('❌ No Firebase user found after retries');
     }
   }
+  
+  console.log('🔄 Falling back to local auth');
   return localGetCurrentUser();
 }
 

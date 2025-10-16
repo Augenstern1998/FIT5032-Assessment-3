@@ -38,7 +38,17 @@ function emitAuthChanged() {
 
 // Get current user
 export function getCurrentUser() {
-  return auth.currentUser;
+  const user = auth.currentUser;
+  console.log('🔥 getFirebaseUser called, currentUser:', user ? 'exists' : 'null');
+  if (user) {
+    console.log('👤 Firebase user details:', {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      emailVerified: user.emailVerified
+    });
+  }
+  return user;
 }
 
 // Check if user is authenticated

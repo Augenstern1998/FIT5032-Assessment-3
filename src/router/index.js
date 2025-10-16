@@ -29,26 +29,48 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  const user = await getCurrentUser();
-  
-  // Check authentication
-  if (to.meta?.requiresAuth && !user) {
-    return { name: 'login', query: { redirect: to.fullPath } };
-  }
-  
-  // Check role-based authorization
-  if (to.meta?.roles && user) {
-    const userRoles = Array.isArray(user.role) ? user.role : [user.role];
-    const requiredRoles = to.meta.roles;
-    const hasRequiredRole = requiredRoles.some(role => userRoles.includes(role));
+  try {
+    console.log(`🔍 Route guard: Checking access to ${to.path}`);
     
-    if (!hasRequiredRole) {
-      // Redirect to home with error message for unauthorized access
-      return { name: 'home', query: { error: 'unauthorized' } };
+    // Add a small delay to ensure auth state is fully loaded
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    const user = await getCurrentUser();
+    console.log(`👤 Route guard: Current user:`, user);
+    
+    // Check authentication
+    if (to.meta?.requiresAuth && !user) {
+      console.log(`❌ Route guard: No user found, redirecting to login`);
+      return { name: 'login', query: { redirect: to.fullPath } };
     }
+    
+    // Check role-based authorization
+    if (to.meta?.roles && user) {
+      const userRoles = Array.isArray(user.role) ? user.role : [user.role];
+      const requiredRoles = to.meta.roles;
+      const hasRequiredRole = requiredRoles.some(role => userRoles.includes(role));
+      
+      console.log(`🔐 Route guard: User roles: ${userRoles}, Required: ${requiredRoles}, Has access: ${hasRequiredRole}`);
+      
+      if (!hasRequiredRole) {
+        console.log(`❌ Route guard: Insufficient permissions, redirecting to home`);
+        // Redirect to home with error message for unauthorized access
+        return { name: 'home', query: { error: 'unauthorized' } };
+      }
+    }
+    
+    console.log(`✅ Route guard: Access granted to ${to.path}`);
+    return true;
+  } catch (error) {
+    console.error('❌ Route guard error:', error);
+    
+    // If there's an error and the route requires auth, redirect to login
+    if (to.meta?.requiresAuth) {
+      return { name: 'login', query: { redirect: to.fullPath } };
+    }
+    
+    return true;
   }
-  
-  return true;
 });
 
 export default router;
