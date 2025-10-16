@@ -17,8 +17,6 @@
               <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
               <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
               <li class="nav-item"><RouterLink class="nav-link" to="/join">Join Community</RouterLink></li>
-              <li class="nav-item"><RouterLink class="nav-link" to="/user-setup">User Setup</RouterLink></li>
-              <li class="nav-item"><RouterLink class="nav-link" to="/auth-debug">Auth Debug</RouterLink></li>
           <li class="nav-item dropdown" v-if="user && user.role === 'admin'">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">Admin</a>
             <ul class="dropdown-menu">
