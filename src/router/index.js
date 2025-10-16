@@ -6,6 +6,7 @@ import Contact from '../pages/Contact.vue';
 import Login from '../pages/Login.vue';
 import Register from '../pages/Register.vue';
 import ForgotPassword from '../pages/ForgotPassword.vue';
+import AuthTest from '../pages/AuthTest.vue';
 import { getCurrentUser } from '../utils/auth.js';
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'register', component: Register },
   { path: '/forgot-password', name: 'forgot-password', component: ForgotPassword },
+  { path: '/auth-test', name: 'auth-test', component: AuthTest },
 ];
 
 const router = createRouter({

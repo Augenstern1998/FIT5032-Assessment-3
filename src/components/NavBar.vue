@@ -83,10 +83,30 @@ onMounted(() => {
       user.value = null;
       console.log('User signed out, clearing state');
     }
+    
+    // Force UI update
+    setTimeout(() => {
+      load();
+    }, 100);
   });
   
   // Store unsubscribe function for cleanup
   window._firebaseAuthUnsubscribe = unsubscribe;
+  
+  // Additional auth status refresh on page visibility change
+  const handleVisibilityChange = () => {
+    if (!document.hidden) {
+      console.log('Page became visible, refreshing auth status');
+      load();
+    }
+  };
+  
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+  // Cleanup function
+  return () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
 });
 
 onBeforeUnmount(() => {

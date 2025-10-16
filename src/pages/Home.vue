@@ -129,16 +129,40 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { getCurrentUser, AUTH_CHANGED_EVENT } from '../utils/auth.js'
 import tipsData from '../data/tips.json'
 
 // Reactive reference for tips data
 const tips = ref([])
+const user = ref(null)
 
 // Load tips data when component is mounted
 onMounted(() => {
   tips.value = tipsData
+  
+  // Load current user
+  loadUser()
+  
+  // Listen to auth changes
+  window.addEventListener(AUTH_CHANGED_EVENT, loadUser)
+  window.addEventListener('firebase_auth_changed', loadUser)
 })
+
+onBeforeUnmount(() => {
+  window.removeEventListener(AUTH_CHANGED_EVENT, loadUser)
+  window.removeEventListener('firebase_auth_changed', loadUser)
+})
+
+async function loadUser() {
+  try {
+    user.value = await getCurrentUser()
+    console.log('Home page user loaded:', user.value)
+  } catch (error) {
+    console.error('Failed to load user in home page:', error)
+    user.value = null
+  }
+}
 
 // Get icon for each tip based on index
 const getTipIcon = (index) => {

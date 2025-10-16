@@ -112,7 +112,7 @@
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { RouterLink } from 'vue-router';
-import { loginUser, loginWithGoogle } from '../utils/auth.js';
+import { loginUser, loginWithGoogle, AUTH_CHANGED_EVENT } from '../utils/auth.js';
 import { validateEmail, sanitizeInput } from '../utils/security.js';
 
 const router = useRouter();
@@ -160,6 +160,11 @@ async function onSubmit() {
     noticeClass.value = 'alert-success';
     notice.value = 'Login successful! Redirecting...';
     loginAttempts.value = 0; // Reset attempts on success
+    
+    // Force auth state update
+    window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
+    window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
+    
     const redirect = route.query.redirect || '/';
     setTimeout(() => router.push(String(redirect)), 300);
   } catch (e) {
