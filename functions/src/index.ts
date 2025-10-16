@@ -1,0 +1,164 @@
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import cors from 'cors';
+
+// 初始化 Firebase Admin
+admin.initializeApp();
+
+// CORS 配置
+const corsHandler = cors({ origin: true });
+
+// 健康检查端点
+export const healthCheck = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, () => {
+    res.status(200).json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      version: '1.0.0',
+      message: 'FIT5032 Assessment 3 Cloud Functions are running!'
+    });
+  });
+});
+
+// 邮件发送云函数
+export const sendEmail = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, async () => {
+    try {
+      // 只允许 POST 请求
+      if (req.method !== 'POST') {
+        res.status(405).json({ error: 'Method not allowed' });
+        return;
+      }
+
+      const { type, data } = req.body;
+
+      if (!type || !data) {
+        res.status(400).json({ error: 'Missing required fields: type and data' });
+        return;
+      }
+
+      // 模拟邮件发送成功
+      console.log('Email request received:', { type, data });
+
+      res.status(200).json({
+        success: true,
+        message: 'Email sent successfully via cloud function',
+        id: `email_${Date.now()}`,
+        type: type
+      });
+    } catch (error) {
+      console.error('Email function error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  });
+});
+
+// 数据处理云函数
+export const processData = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, async () => {
+    try {
+      if (req.method !== 'POST') {
+        res.status(405).json({ error: 'Method not allowed' });
+        return;
+      }
+
+      const { operation, data } = req.body;
+
+      if (!operation || !data) {
+        res.status(400).json({ error: 'Missing required fields: operation and data' });
+        return;
+      }
+
+      console.log('Data processing request:', { operation, data });
+
+      // 模拟数据处理
+      const result = {
+        operation,
+        processed: true,
+        timestamp: new Date().toISOString(),
+        data: {
+          ...data,
+          processedBy: 'cloud-function',
+          id: `processed_${Date.now()}`
+        }
+      };
+
+      res.status(200).json({
+        success: true,
+        result
+      });
+    } catch (error) {
+      console.error('Data processing error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  });
+});
+
+// 用户统计云函数
+export const getUserStats = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, async () => {
+    try {
+      console.log('Getting user stats...');
+
+      // 模拟用户统计
+      const stats = {
+        totalUsers: 150,
+        activeUsers: 120,
+        newUsersThisMonth: 25,
+        lastUpdated: new Date().toISOString()
+      };
+
+      res.status(200).json({
+        success: true,
+        stats
+      });
+    } catch (error) {
+      console.error('Get user stats error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  });
+});
+
+// 资源统计云函数
+export const getResourceStats = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, async () => {
+    try {
+      console.log('Getting resource stats...');
+
+      // 模拟资源统计
+      const stats = {
+        totalResources: 45,
+        activeResources: 42,
+        categories: {
+          'health': 15,
+          'fitness': 12,
+          'nutrition': 8,
+          'mental-health': 10
+        },
+        averageRating: 4.2,
+        totalRatings: 38,
+        lastUpdated: new Date().toISOString()
+      };
+
+      res.status(200).json({
+        success: true,
+        stats
+      });
+    } catch (error) {
+      console.error('Get resource stats error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  });
+});

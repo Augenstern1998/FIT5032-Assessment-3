@@ -32,4 +32,7 @@ console.log('Firestore initialized with project:', firebaseConfig.projectId);
 // Initialize Analytics (only in production)
 export const analytics = typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? getAnalytics(app) : null;
 
+// Export app instance for use in other modules
+export { app };
+
 export default app;

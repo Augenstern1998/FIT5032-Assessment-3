@@ -1,0 +1,218 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendContactEmail = sendContactEmail;
+exports.sendPasswordResetEmail = sendPasswordResetEmail;
+exports.sendWelcomeEmail = sendWelcomeEmail;
+const nodemailer = __importStar(require("nodemailer"));
+/**
+ * 发送联系邮件
+ */
+async function sendContactEmail(data) {
+    try {
+        // 创建邮件传输器
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+        // 邮件内容
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.ADMIN_EMAIL || 'admin@example.com',
+            subject: `[网站联系表单] ${data.subject}`,
+            html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">新的联系表单提交</h2>
+          
+          <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #666;">联系信息</h3>
+            <p><strong>姓名:</strong> ${data.name}</p>
+            <p><strong>邮箱:</strong> ${data.email}</p>
+            <p><strong>主题:</strong> ${data.subject}</p>
+            <p><strong>订阅新闻:</strong> ${data.subscribeNewsletter ? '是' : '否'}</p>
+          </div>
+          
+          <div style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+            <h3 style="margin-top: 0; color: #666;">消息内容</h3>
+            <p style="white-space: pre-wrap;">${data.message}</p>
+          </div>
+          
+          <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 5px;">
+            <p style="margin: 0; font-size: 12px; color: #666;">
+              提交时间: ${new Date().toLocaleString('zh-CN')}<br>
+              来源页面: FIT5032 Assessment 3 - 联系表单
+            </p>
+          </div>
+        </div>
+      `,
+            attachments: data.attachment ? [{
+                    filename: data.attachment.filename,
+                    content: data.attachment.content,
+                    contentType: data.attachment.contentType
+                }] : []
+        };
+        // 发送邮件
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Contact email sent successfully:', info.messageId);
+        return {
+            success: true,
+            id: info.messageId
+        };
+    }
+    catch (error) {
+        console.error('Failed to send contact email:', error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error'
+        };
+    }
+}
+/**
+ * 发送密码重置邮件
+ */
+async function sendPasswordResetEmail(userEmail, resetLink) {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: '密码重置请求 - FIT5032 Assessment 3',
+            html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">密码重置请求</h2>
+          
+          <p>您好，</p>
+          <p>我们收到了您的密码重置请求。请点击下面的链接来重置您的密码：</p>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetLink}" 
+               style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+              重置密码
+            </a>
+          </div>
+          
+          <p>如果上面的按钮无法点击，请复制以下链接到浏览器中打开：</p>
+          <p style="word-break: break-all; color: #666;">${resetLink}</p>
+          
+          <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+            <p style="margin: 0; font-size: 12px; color: #666;">
+              此链接将在24小时后失效。<br>
+              如果您没有请求密码重置，请忽略此邮件。
+            </p>
+          </div>
+        </div>
+      `
+        };
+        const info = await transporter.sendMail(mailOptions);
+        return {
+            success: true,
+            id: info.messageId
+        };
+    }
+    catch (error) {
+        console.error('Failed to send password reset email:', error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error'
+        };
+    }
+}
+/**
+ * 发送欢迎邮件
+ */
+async function sendWelcomeEmail(userEmail, userName) {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: '欢迎加入 FIT5032 Assessment 3！',
+            html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">欢迎，${userName}！</h2>
+          
+          <p>感谢您注册我们的应用！我们很高兴您加入我们的社区。</p>
+          
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #666;">您可以：</h3>
+            <ul>
+              <li>浏览丰富的学习资源</li>
+              <li>使用交互式数据表格</li>
+              <li>查看地图功能</li>
+              <li>联系我们的支持团队</li>
+            </ul>
+          </div>
+          
+          <p>如果您有任何问题，请随时联系我们。</p>
+          
+          <div style="margin-top: 30px; padding: 15px; background: #e8f4fd; border-radius: 5px;">
+            <p style="margin: 0; font-size: 12px; color: #666;">
+              这是自动发送的邮件，请勿回复。<br>
+              FIT5032 Assessment 3 团队
+            </p>
+          </div>
+        </div>
+      `
+        };
+        const info = await transporter.sendMail(mailOptions);
+        return {
+            success: true,
+            id: info.messageId
+        };
+    }
+    catch (error) {
+        console.error('Failed to send welcome email:', error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error'
+        };
+    }
+}
+//# sourceMappingURL=emailService.js.map

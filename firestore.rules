@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 用户文档规则
+    match /users/{userId} {
+      // 用户可以读取和写入自己的数据
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // 管理员可以读取所有用户数据
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // 资源文档规则
+    match /resources/{resourceId} {
+      // 所有认证用户都可以读取资源
+      allow read: if request.auth != null;
+      
+      // 只有管理员可以创建、更新、删除资源
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // 管理员文档规则
+    match /admins/{adminId} {
+      // 只有现有管理员可以读取管理员列表
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      
+      // 只有超级管理员可以写入管理员文档
+      allow write: if request.auth != null && 
+        request.auth.uid == 'your-super-admin-uid';
+    }
+    
+    // 联系表单提交规则
+    match /contact_submissions/{submissionId} {
+      // 认证用户可以创建联系表单提交
+      allow create: if request.auth != null;
+      
+      // 只有管理员可以读取联系表单提交
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // 用户评分规则
+    match /ratings/{ratingId} {
+      // 用户可以创建自己的评分
+      allow create: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      
+      // 用户可以更新自己的评分
+      allow update: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      
+      // 所有认证用户都可以读取评分
+      allow read: if request.auth != null;
+    }
+  }
+}
+

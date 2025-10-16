@@ -1,0 +1,12 @@
+name = "fit5032-assessment-3"
+compatibility_date = "2024-01-15"
+
+# 这是一个 Pages 项目，不是 Workers 项目
+pages_build_output_dir = "dist"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+

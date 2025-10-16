@@ -171,6 +171,7 @@ import { ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { validateEmail, sanitizeInput } from '../utils/security.js';
 import { sendContactEmail, sendSimpleContactEmail } from '../utils/emailService.js';
+import cloudFunctionService from '../services/cloudFunctions.js';
 
 const formData = ref({
   name: '',
@@ -215,13 +216,27 @@ async function onSubmit() {
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // 发送联系邮件（先尝试简化版本）
+    // 发送联系邮件（优先使用云函数，回退到 EmailJS）
     let emailSent = false;
     try {
-      emailSent = await sendSimpleContactEmail(cleanData);
-    } catch (error) {
-      console.error('Simple email failed, trying full version:', error);
-      emailSent = await sendContactEmail(cleanData);
+      // 尝试使用云函数发送邮件
+      console.log('Attempting to send email via cloud function...');
+      const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
+      if (cloudResult.success) {
+        emailSent = true;
+        console.log('Email sent successfully via cloud function');
+      } else {
+        throw new Error('Cloud function failed');
+      }
+    } catch (cloudError) {
+      console.warn('Cloud function failed, falling back to EmailJS:', cloudError);
+      // 回退到 EmailJS
+      try {
+        emailSent = await sendSimpleContactEmail(cleanData);
+      } catch (error) {
+        console.error('Simple email failed, trying full version:', error);
+        emailSent = await sendContactEmail(cleanData);
+      }
     }
 
     if (emailSent) {
