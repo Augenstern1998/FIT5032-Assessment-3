@@ -203,15 +203,22 @@ export async function loginWithGoogle() {
 }
 
 export async function logout() {
+  console.log('Auth logout: Starting logout process...');
+  
   if (USE_FIREBASE) {
     try {
+      console.log('Auth logout: Calling Firebase logout...');
       await firebaseLogout();
+      console.log('Auth logout: Firebase logout completed');
       return;
     } catch (error) {
-      console.warn('Firebase logout failed, falling back to local:', error);
+      console.warn('Auth logout: Firebase logout failed, falling back to local:', error);
     }
   }
+  
+  console.log('Auth logout: Calling local logout...');
   localLogout();
+  console.log('Auth logout: Local logout completed');
 }
 
 export async function getAllUsersSafe() {

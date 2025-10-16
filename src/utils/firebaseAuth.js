@@ -178,11 +178,16 @@ export async function loginWithGoogle() {
 // Logout user
 export async function logout() {
   try {
+    console.log('Firebase logout: Starting signOut...');
     await signOut(auth);
+    console.log('Firebase logout: signOut completed');
     emitAuthChanged();
+    console.log('Firebase logout: Auth changed event emitted');
   } catch (error) {
-    console.error('Logout error:', error);
-    throw new Error('Logout failed. Please try again.');
+    console.error('Firebase logout error:', error);
+    // Don't throw error, just log it and emit auth changed anyway
+    emitAuthChanged();
+    console.log('Firebase logout: Emitted auth changed despite error');
   }
 }
 

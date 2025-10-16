@@ -120,8 +120,30 @@ onBeforeUnmount(() => {
 });
 
 async function onLogout() {
+  console.log('Starting logout...');
+  
   try {
+    // 先清除本地状态
+    user.value = null;
+    console.log('Local state cleared');
+    
+    // 调用logout函数
     await logout();
+    console.log('Logout function completed');
+    
+    // 触发认证状态变化事件
+    window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
+    window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
+    console.log('Auth events dispatched');
+    
+    // 跳转到首页
+    router.push('/');
+    console.log('Redirected to home');
+    
+  } catch (error) {
+    console.error('Logout error:', error);
+    
+    // 即使出错也要清除本地状态
     user.value = null;
     
     // 触发认证状态变化事件
@@ -130,11 +152,7 @@ async function onLogout() {
     
     // 跳转到首页
     router.push('/');
-  } catch (error) {
-    console.error('Logout error:', error);
-    // 即使出错也要清除本地状态
-    user.value = null;
-    router.push('/');
+    console.log('Fallback logout completed');
   }
 }
 </script>
