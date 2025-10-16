@@ -2,13 +2,13 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import cors from 'cors';
 
-// 初始化 Firebase Admin
+// Initialize Firebase Admin
 admin.initializeApp();
 
-// CORS 配置
+// CORS configuration
 const corsHandler = cors({ origin: true });
 
-// 健康检查端点
+// Health check endpoint
 export const healthCheck = functions.https.onRequest((req, res) => {
   corsHandler(req, res, () => {
     res.status(200).json({
@@ -20,11 +20,11 @@ export const healthCheck = functions.https.onRequest((req, res) => {
   });
 });
 
-// 邮件发送云函数
+// Email sending cloud function
 export const sendEmail = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
-      // 只允许 POST 请求
+      // Only allow POST requests
       if (req.method !== 'POST') {
         res.status(405).json({ error: 'Method not allowed' });
         return;
@@ -37,7 +37,7 @@ export const sendEmail = functions.https.onRequest((req, res) => {
         return;
       }
 
-      // 模拟邮件发送成功
+      // Simulate successful email sending
       console.log('Email request received:', { type, data });
 
       res.status(200).json({
@@ -56,7 +56,7 @@ export const sendEmail = functions.https.onRequest((req, res) => {
   });
 });
 
-// 数据处理云函数
+// Data processing cloud function
 export const processData = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
@@ -74,7 +74,7 @@ export const processData = functions.https.onRequest((req, res) => {
 
       console.log('Data processing request:', { operation, data });
 
-      // 模拟数据处理
+      // Simulate data processing
       const result = {
         operation,
         processed: true,
@@ -100,13 +100,13 @@ export const processData = functions.https.onRequest((req, res) => {
   });
 });
 
-// 用户统计云函数
+// User statistics cloud function
 export const getUserStats = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
       console.log('Getting user stats...');
 
-      // 模拟用户统计
+      // Simulate user statistics
       const stats = {
         totalUsers: 150,
         activeUsers: 120,
@@ -128,13 +128,13 @@ export const getUserStats = functions.https.onRequest((req, res) => {
   });
 });
 
-// 资源统计云函数
+// Resource statistics cloud function
 export const getResourceStats = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
       console.log('Getting resource stats...');
 
-      // 模拟资源统计
+      // Simulate resource statistics
       const stats = {
         totalResources: 45,
         activeResources: 42,

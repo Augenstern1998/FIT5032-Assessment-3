@@ -55,7 +55,7 @@ import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { registerUser, loginWithGoogle } from '../utils/auth.js';
 import { validateEmail, validatePassword, validateName, sanitizeInput } from '../utils/security.js';
-// 注意：欢迎邮件功能已禁用，因为EmailJS免费版只允许2个模板
+// Note: Welcome email feature is disabled because EmailJS free version only allows 2 templates
 
 const router = useRouter();
 const route = useRoute();
@@ -113,8 +113,8 @@ async function onSubmit() {
       role: role.value 
     });
 
-    // 注意：欢迎邮件功能暂时禁用，因为EmailJS免费版只允许2个模板
-    // 如果需要欢迎邮件，可以升级到付费版或使用其他邮件服务
+    // Note: Welcome email feature is temporarily disabled because EmailJS free version only allows 2 templates
+    // If welcome email is needed, upgrade to paid version or use other email service
     console.log('Registration successful - Welcome email disabled due to EmailJS template limit');
     noticeClass.value = 'alert-success';
     notice.value = 'Account created successfully! Redirecting...';

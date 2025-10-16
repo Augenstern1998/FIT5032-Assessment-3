@@ -28,7 +28,7 @@ interface ProcessingResult {
 }
 
 /**
- * 处理用户数据操作
+ * Process user data operations
  */
 export async function processUserData(operation: string, data: any): Promise<ProcessingResult> {
   try {
@@ -61,7 +61,7 @@ export async function processUserData(operation: string, data: any): Promise<Pro
 }
 
 /**
- * 创建用户记录
+ * Create user record
  */
 async function createUser(userData: UserData): Promise<ProcessingResult> {
   try {
@@ -94,7 +94,7 @@ async function createUser(userData: UserData): Promise<ProcessingResult> {
 }
 
 /**
- * 更新用户信息
+ * Update user information
  */
 async function updateUser(userData: Partial<UserData> & { uid: string }): Promise<ProcessingResult> {
   try {
@@ -125,7 +125,7 @@ async function updateUser(userData: Partial<UserData> & { uid: string }): Promis
 }
 
 /**
- * 获取用户统计信息
+ * Get user statistics
  */
 async function getUserStats(data: any): Promise<ProcessingResult> {
   try {
@@ -167,7 +167,7 @@ async function getUserStats(data: any): Promise<ProcessingResult> {
 }
 
 /**
- * 创建资源记录
+ * Create resource record
  */
 async function createResource(resourceData: Omit<ResourceData, 'id' | 'createdAt' | 'updatedAt'>): Promise<ProcessingResult> {
   try {
@@ -204,7 +204,7 @@ async function createResource(resourceData: Omit<ResourceData, 'id' | 'createdAt
 }
 
 /**
- * 更新资源信息
+ * Update resource information
  */
 async function updateResource(resourceData: Partial<ResourceData> & { id: string }): Promise<ProcessingResult> {
   try {
@@ -239,7 +239,7 @@ async function updateResource(resourceData: Partial<ResourceData> & { id: string
 }
 
 /**
- * 获取资源统计信息
+ * Get resource statistics
  */
 async function getResourceStats(data: any): Promise<ProcessingResult> {
   try {
@@ -263,11 +263,11 @@ async function getResourceStats(data: any): Promise<ProcessingResult> {
         stats.activeResources++;
       }
       
-      // 统计分类
+      // Count categories
       const category = resourceData.category || 'uncategorized';
       stats.categories[category] = (stats.categories[category] || 0) + 1;
       
-      // 统计评分
+      // Count ratings
       if (resourceData.rating && typeof resourceData.rating === 'number') {
         totalRatingSum += resourceData.rating;
         ratingCount++;

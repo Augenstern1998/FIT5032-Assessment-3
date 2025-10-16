@@ -1,11 +1,11 @@
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { app } from '@/config/firebase.js';
 
-// 初始化 Firebase Functions
+// Initialize Firebase Functions
 const functions = getFunctions(app);
 
 /**
- * 云函数服务类
+ * Cloud Functions service class
  */
 class CloudFunctionService {
   constructor() {
@@ -13,9 +13,9 @@ class CloudFunctionService {
   }
 
   /**
-   * 发送联系邮件
-   * @param {Object} contactData - 联系表单数据
-   * @returns {Promise<Object>} 发送结果
+   * Send contact email
+   * @param {Object} contactData - Contact form data
+   * @returns {Promise<Object>} Send result
    */
   async sendContactEmail(contactData) {
     try {
@@ -47,8 +47,8 @@ class CloudFunctionService {
   }
 
   /**
-   * 获取用户资料
-   * @returns {Promise<Object>} 用户资料
+   * Get user profile
+   * @returns {Promise<Object>} User profile
    */
   async getUserProfile() {
     try {
@@ -64,8 +64,8 @@ class CloudFunctionService {
   }
 
   /**
-   * 获取资源统计信息
-   * @returns {Promise<Object>} 资源统计
+   * Get resource statistics
+   * @returns {Promise<Object>} Resource statistics
    */
   async getResourceStats() {
     try {
@@ -81,10 +81,10 @@ class CloudFunctionService {
   }
 
   /**
-   * 处理用户数据
-   * @param {string} operation - 操作类型
-   * @param {Object} data - 数据
-   * @returns {Promise<Object>} 处理结果
+   * Process user data
+   * @param {string} operation - Operation type
+   * @param {Object} data - Data
+   * @returns {Promise<Object>} Processing result
    */
   async processUserData(operation, data) {
     try {
@@ -114,8 +114,8 @@ class CloudFunctionService {
   }
 
   /**
-   * 健康检查
-   * @returns {Promise<Object>} 健康状态
+   * Health check
+   * @returns {Promise<Object>} Health status
    */
   async healthCheck() {
     try {
@@ -136,23 +136,23 @@ class CloudFunctionService {
   }
 
   /**
-   * 获取云函数基础 URL
-   * @returns {string} 云函数 URL
+   * Get cloud functions base URL
+   * @returns {string} Cloud functions URL
    */
   getFunctionUrl() {
-    // 在开发环境中使用本地模拟器
+    // Use local emulator in development environment
     if (import.meta.env.DEV) {
       return 'http://localhost:5001/mens-health-app-b7749/us-central1';
     }
     
-    // 在生产环境中使用实际的云函数 URL
+    // Use actual cloud functions URL in production environment
     return 'https://us-central1-mens-health-app-b7749.cloudfunctions.net';
   }
 
   /**
-   * 发送欢迎邮件
-   * @param {Object} userData - 用户数据
-   * @returns {Promise<Object>} 发送结果
+   * Send welcome email
+   * @param {Object} userData - User data
+   * @returns {Promise<Object>} Send result
    */
   async sendWelcomeEmail(userData) {
     try {
@@ -182,9 +182,9 @@ class CloudFunctionService {
   }
 
   /**
-   * 发送密码重置邮件
-   * @param {Object} resetData - 重置数据
-   * @returns {Promise<Object>} 发送结果
+   * Send password reset email
+   * @param {Object} resetData - Reset data
+   * @returns {Promise<Object>} Send result
    */
   async sendPasswordResetEmail(resetData) {
     try {
@@ -214,7 +214,7 @@ class CloudFunctionService {
   }
 }
 
-// 创建单例实例
+// Create singleton instance
 const cloudFunctionService = new CloudFunctionService();
 
 export default cloudFunctionService;

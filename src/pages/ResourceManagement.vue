@@ -228,7 +228,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* 复用 AdminDashboard 的样式 */
+/* Reuse AdminDashboard styles */
 .admin-page {
   min-height: 100vh;
 }

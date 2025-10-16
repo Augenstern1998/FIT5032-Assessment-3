@@ -1,21 +1,21 @@
-// 测试云函数配置的脚本
+// Script to test cloud functions configuration
 import cloudFunctionService from './src/services/cloudFunctions.js';
 
 async function testCloudFunctions() {
-  console.log('🧪 开始测试云函数配置...\n');
+  console.log('🧪 Starting cloud functions configuration test...\n');
 
   try {
-    // 测试健康检查
-    console.log('1. 测试健康检查...');
+    // Test health check
+    console.log('1. Testing health check...');
     const healthResult = await cloudFunctionService.healthCheck();
-    console.log('✅ 健康检查结果:', healthResult);
+    console.log('✅ Health check result:', healthResult);
   } catch (error) {
-    console.log('⚠️ 健康检查失败 (这是正常的，因为云函数可能还未部署):', error.message);
+    console.log('⚠️ Health check failed (this is normal, cloud functions may not be deployed yet):', error.message);
   }
 
   try {
-    // 测试联系邮件（模拟数据）
-    console.log('\n2. 测试联系邮件发送...');
+    // Test contact email (simulated data)
+    console.log('\n2. Testing contact email sending...');
     const contactData = {
       name: 'Test User',
       email: 'test@example.com',
@@ -25,25 +25,25 @@ async function testCloudFunctions() {
     };
     
     const emailResult = await cloudFunctionService.sendContactEmail(contactData);
-    console.log('✅ 联系邮件结果:', emailResult);
+    console.log('✅ Contact email result:', emailResult);
   } catch (error) {
-    console.log('⚠️ 联系邮件测试失败 (这是正常的，因为云函数可能还未部署):', error.message);
+    console.log('⚠️ Contact email test failed (this is normal, cloud functions may not be deployed yet):', error.message);
   }
 
   try {
-    // 测试资源统计
-    console.log('\n3. 测试资源统计...');
+    // Test resource statistics
+    console.log('\n3. Testing resource statistics...');
     const statsResult = await cloudFunctionService.getResourceStats();
-    console.log('✅ 资源统计结果:', statsResult);
+    console.log('✅ Resource statistics result:', statsResult);
   } catch (error) {
-    console.log('⚠️ 资源统计测试失败 (这是正常的，因为云函数可能还未部署):', error.message);
+    console.log('⚠️ Resource statistics test failed (this is normal, cloud functions may not be deployed yet):', error.message);
   }
 
-  console.log('\n🎯 云函数测试完成！');
-  console.log('📝 注意: 如果看到警告信息，这是正常的，因为云函数需要先部署到 Firebase 才能正常工作。');
-  console.log('🚀 要部署云函数，请运行: npm run deploy:functions');
+  console.log('\n🎯 Cloud functions testing completed!');
+  console.log('📝 Note: If you see warning messages, this is normal because cloud functions need to be deployed to Firebase first to work properly.');
+  console.log('🚀 To deploy cloud functions, run: npm run deploy:functions');
 }
 
-// 运行测试
+// Run tests
 testCloudFunctions().catch(console.error);
 

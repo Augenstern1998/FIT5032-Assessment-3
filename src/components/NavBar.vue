@@ -123,34 +123,34 @@ async function onLogout() {
   console.log('Starting logout...');
   
   try {
-    // 先清除本地状态
+    // Clear local state first
     user.value = null;
     console.log('Local state cleared');
     
-    // 调用logout函数
+    // Call logout function
     await logout();
     console.log('Logout function completed');
     
-    // 触发认证状态变化事件
+    // Trigger authentication state change event
     window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
     window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
     console.log('Auth events dispatched');
     
-    // 跳转到首页
+    // Navigate to home page
     router.push('/');
     console.log('Redirected to home');
     
   } catch (error) {
     console.error('Logout error:', error);
     
-    // 即使出错也要清除本地状态
+    // Clear local state even if error occurs
     user.value = null;
     
-    // 触发认证状态变化事件
+    // Trigger authentication state change event
     window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
     window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
     
-    // 跳转到首页
+    // Navigate to home page
     router.push('/');
     console.log('Fallback logout completed');
   }

@@ -1,21 +1,21 @@
 import emailjs, { EMAILJS_CONFIG } from '../config/emailjs.js';
 
 /**
- * 发送联系邮件给开发者
- * @param {Object} contactData - 联系表单数据
- * @param {string} contactData.name - 用户姓名
- * @param {string} contactData.email - 用户邮箱
- * @param {string} contactData.subject - 邮件主题
- * @param {string} contactData.message - 邮件内容
- * @param {File|null} contactData.attachment - 附件文件
- * @param {boolean} contactData.subscribeNewsletter - 是否订阅新闻
- * @returns {Promise<boolean>} - 发送是否成功
+ * Send contact email to developer
+ * @param {Object} contactData - Contact form data
+ * @param {string} contactData.name - User name
+ * @param {string} contactData.email - User email
+ * @param {string} contactData.subject - Email subject
+ * @param {string} contactData.message - Email content
+ * @param {File|null} contactData.attachment - Attachment file
+ * @param {boolean} contactData.subscribeNewsletter - Whether to subscribe to newsletter
+ * @returns {Promise<boolean>} - Whether sending was successful
  */
 export async function sendContactEmail(contactData) {
   try {
     console.log('Sending contact email from:', contactData.email);
     
-    // 处理附件信息
+    // Handle attachment information
     let attachmentInfo = '';
     if (contactData.attachment) {
       attachmentInfo = `
@@ -26,7 +26,7 @@ File Size: ${formatFileSize(contactData.attachment.size)}
 File Type: ${contactData.attachment.type}`;
     }
     
-    // 使用EmailJS支持的模板参数
+    // Use EmailJS supported template parameters
     const templateParams = {
       user_name: contactData.name,
       user_email: contactData.email,
@@ -39,13 +39,13 @@ Additional Information:
 - Page URL: ${window.location.href}`
     };
 
-    // EmailJS附件处理 - 使用官方推荐的方式
+    // EmailJS attachment handling - using official recommended method
     if (contactData.attachment) {
       try {
-        // 将文件转换为base64
+        // Convert file to base64
         const base64File = await fileToBase64(contactData.attachment);
         
-        // EmailJS附件参数
+        // EmailJS attachment parameters
         templateParams.attachment_base64 = base64File;
         templateParams.attachment_filename = contactData.attachment.name;
         templateParams.attachment_type = contactData.attachment.type;
@@ -57,11 +57,11 @@ Additional Information:
         });
       } catch (error) {
         console.warn('Failed to process attachment:', error);
-        // 继续发送邮件，但不包含附件
+        // Continue sending email, but without attachment
       }
     }
 
-    // 使用联系表单模板发送邮件
+    // Send email using contact form template
     console.log('Sending email with params:', templateParams);
     console.log('Service ID:', EMAILJS_CONFIG.serviceId);
     console.log('Template ID:', EMAILJS_CONFIG.templates.contact);
@@ -87,15 +87,15 @@ Additional Information:
 }
 
 /**
- * 发送简化的联系邮件（用于测试）
- * @param {Object} contactData - 联系表单数据
- * @returns {Promise<boolean>} - 发送是否成功
+ * Send simplified contact email (for testing)
+ * @param {Object} contactData - Contact form data
+ * @returns {Promise<boolean>} - Whether sending was successful
  */
 export async function sendSimpleContactEmail(contactData) {
   try {
     console.log('Sending simple contact email from:', contactData.email);
     
-    // 使用最基本的模板参数
+    // Use most basic template parameters
     const templateParams = {
       user_name: contactData.name,
       user_email: contactData.email,
@@ -126,12 +126,12 @@ export async function sendSimpleContactEmail(contactData) {
 }
 
 /**
- * 发送密码重置邮件
- * @param {Object} userData - 用户数据
- * @param {string} userData.name - 用户姓名
- * @param {string} userData.email - 用户邮箱
- * @param {string} resetLink - 重置链接
- * @returns {Promise<boolean>} - 发送是否成功
+ * Send password reset email
+ * @param {Object} userData - User data
+ * @param {string} userData.name - User name
+ * @param {string} userData.email - User email
+ * @param {string} resetLink - Reset link
+ * @returns {Promise<boolean>} - Whether sending was successful
  */
 export async function sendPasswordResetEmail(userData, resetLink) {
   try {
@@ -158,10 +158,10 @@ export async function sendPasswordResetEmail(userData, resetLink) {
 }
 
 /**
- * 发送通用邮件
- * @param {string} templateId - 模板ID
- * @param {Object} templateParams - 模板参数
- * @returns {Promise<boolean>} - 发送是否成功
+ * Send general email
+ * @param {string} templateId - Template ID
+ * @param {Object} templateParams - Template parameters
+ * @returns {Promise<boolean>} - Whether sending was successful
  */
 export async function sendEmail(templateId, templateParams) {
   try {
@@ -182,9 +182,9 @@ export async function sendEmail(templateId, templateParams) {
 }
 
 /**
- * 将文件转换为Base64字符串
- * @param {File} file - 要转换的文件
- * @returns {Promise<string>} - Base64字符串
+ * Convert file to Base64 string
+ * @param {File} file - File to convert
+ * @returns {Promise<string>} - Base64 string
  */
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -196,9 +196,9 @@ function fileToBase64(file) {
 }
 
 /**
- * 格式化文件大小
- * @param {number} bytes - 字节数
- * @returns {string} - 格式化后的文件大小
+ * Format file size
+ * @param {number} bytes - Number of bytes
+ * @returns {string} - Formatted file size
  */
 function formatFileSize(bytes) {
   if (bytes === 0) return '0 Bytes';

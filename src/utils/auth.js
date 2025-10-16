@@ -129,7 +129,7 @@ export async function getCurrentUser() {
   if (USE_FIREBASE) {
     const firebaseUser = getFirebaseUser();
     if (firebaseUser) {
-      // 尝试从 Firestore 获取用户角色
+      // Try to get user role from Firestore
       try {
         const { doc, getDoc } = await import('firebase/firestore');
         const { db } = await import('../config/firebase.js');
@@ -150,7 +150,7 @@ export async function getCurrentUser() {
         console.warn('Failed to load user role from Firestore:', error);
       }
       
-      // 回退到基本用户信息
+      // Fallback to basic user information
       return {
         id: firebaseUser.uid,
         uid: firebaseUser.uid,

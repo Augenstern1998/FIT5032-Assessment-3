@@ -270,27 +270,27 @@ async function onSubmit() {
   isLoading.value = true;
   
   try {
-    // 验证表单
+    // Validate form
     if (!isFormValid.value) {
       noticeClass.value = 'alert-danger';
       notice.value = 'Please fill in all required fields correctly.';
       return;
     }
 
-    // 清理输入
+    // Sanitize input
     const cleanData = {
       name: sanitizeInput(formData.value.name, 'name'),
       email: sanitizeInput(formData.value.email, 'email'),
       subject: sanitizeInput(formData.value.subject, 'text'),
       message: sanitizeInput(formData.value.message, 'text'),
-      attachment: formData.value.attachment, // 文件对象不需要清理
+      attachment: formData.value.attachment, // File object doesn't need sanitization
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // 发送联系邮件（优先使用云函数，回退到 EmailJS）
+    // Send contact email (prefer cloud function, fallback to EmailJS)
     let emailSent = false;
     try {
-      // 尝试使用云函数发送邮件
+      // Try to send email using cloud function
       console.log('Attempting to send email via cloud function...');
       const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
       if (cloudResult.success) {
@@ -301,7 +301,7 @@ async function onSubmit() {
       }
     } catch (cloudError) {
       console.warn('Cloud function failed, falling back to EmailJS:', cloudError);
-      // 回退到 EmailJS
+      // Fallback to EmailJS
       try {
         emailSent = await sendSimpleContactEmail(cleanData);
       } catch (error) {
@@ -332,16 +332,16 @@ function handleFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
 
-  // 验证文件大小 (5MB = 5 * 1024 * 1024 bytes)
+  // Validate file size (5MB = 5 * 1024 * 1024 bytes)
   const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
     noticeClass.value = 'alert-danger';
     notice.value = 'File size must be less than 5MB.';
-    event.target.value = ''; // 清空文件输入
+    event.target.value = ''; // Clear file input
     return;
   }
 
-  // 验证文件类型
+  // Validate file type
   const allowedTypes = [
     'application/pdf',
     'application/msword',
@@ -356,17 +356,17 @@ function handleFileUpload(event) {
   if (!allowedTypes.includes(file.type)) {
     noticeClass.value = 'alert-danger';
     notice.value = 'File type not supported. Please upload PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, or GIF files.';
-    event.target.value = ''; // 清空文件输入
+    event.target.value = ''; // Clear file input
     return;
   }
 
   formData.value.attachment = file;
-  notice.value = ''; // 清除之前的错误信息
+  notice.value = ''; // Clear previous error message
 }
 
 function removeAttachment() {
   formData.value.attachment = null;
-  // 清空文件输入
+  // Clear file input
   const fileInput = document.getElementById('attachment');
   if (fileInput) {
     fileInput.value = '';
@@ -392,7 +392,7 @@ function resetForm() {
   };
   notice.value = '';
   
-  // 清空文件输入
+  // Clear file input
   const fileInput = document.getElementById('attachment');
   if (fileInput) {
     fileInput.value = '';

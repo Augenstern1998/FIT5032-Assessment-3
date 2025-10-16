@@ -51,29 +51,29 @@ async function onSubmit() {
   isLoading.value = true;
   
   try {
-    // 验证邮箱
+    // Validate email
     if (!emailValidation.value) {
       noticeClass.value = 'alert-danger';
       notice.value = 'Please enter a valid email address.';
       return;
     }
 
-    // 清理输入
+    // Sanitize input
     const cleanEmail = sanitizeInput(email.value, 'email');
 
-    // 生成重置链接（在实际应用中，这应该是一个安全的token）
+    // Generate reset link (in real application, this should be a secure token)
     const resetLink = `${window.location.origin}/reset-password?token=temp_token&email=${encodeURIComponent(cleanEmail)}`;
 
-    // 发送密码重置邮件
+    // Send password reset email
     const emailSent = await sendPasswordResetEmail({
-      name: 'User', // 在实际应用中，应该从数据库获取用户姓名
+      name: 'User', // In real application, should get user name from database
       email: cleanEmail
     }, resetLink);
 
     if (emailSent) {
       noticeClass.value = 'alert-success';
       notice.value = 'Password reset email sent! Please check your inbox and follow the instructions.';
-      email.value = ''; // 清空邮箱输入
+      email.value = ''; // Clear email input
     } else {
       noticeClass.value = 'alert-warning';
       notice.value = 'Failed to send reset email. Please try again or contact support.';
