@@ -32,15 +32,40 @@ router.beforeEach(async (to) => {
   try {
     console.log(`🔍 Route guard: Checking access to ${to.path}`);
     
-    // Add a small delay to ensure auth state is fully loaded
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // For production environment, be more lenient with auth checks
+    const isProduction = window.location.hostname !== 'localhost';
     
-    const user = await getCurrentUser();
-    console.log(`👤 Route guard: Current user:`, user);
+    if (isProduction) {
+      // In production, add longer delay and retry mechanism
+      await new Promise(resolve => setTimeout(resolve, 300));
+    } else {
+      // In development, shorter delay
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    let user = null;
+    let attempts = 0;
+    const maxAttempts = isProduction ? 3 : 1;
+    
+    // Try to get user with retries
+    while (attempts < maxAttempts && !user) {
+      try {
+        user = await getCurrentUser();
+        console.log(`👤 Route guard attempt ${attempts + 1}: Current user:`, user ? 'exists' : 'null');
+        if (user) break;
+      } catch (error) {
+        console.warn(`⚠️ Route guard attempt ${attempts + 1} failed:`, error.message);
+      }
+      
+      attempts++;
+      if (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
+    }
     
     // Check authentication
     if (to.meta?.requiresAuth && !user) {
-      console.log(`❌ Route guard: No user found, redirecting to login`);
+      console.log(`❌ Route guard: No user found after ${attempts} attempts, redirecting to login`);
       return { name: 'login', query: { redirect: to.fullPath } };
     }
     

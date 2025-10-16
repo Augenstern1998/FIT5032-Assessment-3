@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test</title>
+</head>
+<body>
+    <h1>Authentication Test</h1>
+    <button onclick="testAuth()">Test Authentication</button>
+    <div id="result"></div>
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA866ntQjm_mCSIV6tOY49sC87VCos3Zjo",
+            authDomain: "mens-health-app-b7749.firebaseapp.com",
+            projectId: "mens-health-app-b7749",
+            storageBucket: "mens-health-app-b7749.firebasestorage.app",
+            messagingSenderId: "153718063629",
+            appId: "1:153718063629:web:988c1a11b7ba0150888b44",
+            measurementId: "G-1JQMFN2VF2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.testAuth = async function() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing authentication...</p>';
+
+            try {
+                // Check current user
+                const currentUser = auth.currentUser;
+                console.log('Current user:', currentUser);
+
+                if (currentUser) {
+                    // Get user data from Firestore
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    const userData = userDoc.exists() ? userDoc.data() : null;
+
+                    resultDiv.innerHTML = `
+                        <h3>Authentication Status: ✅ Logged In</h3>
+                        <p><strong>UID:</strong> ${currentUser.uid}</p>
+                        <p><strong>Email:</strong> ${currentUser.email}</p>
+                        <p><strong>Display Name:</strong> ${currentUser.displayName || 'Not set'}</p>
+                        <p><strong>Email Verified:</strong> ${currentUser.emailVerified}</p>
+                        <p><strong>Firestore Data:</strong> ${userData ? JSON.stringify(userData, null, 2) : 'No data'}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<h3>Authentication Status: ❌ Not Logged In</h3>';
+                }
+
+                // Listen to auth state changes
+                onAuthStateChanged(auth, (user) => {
+                    console.log('Auth state changed:', user ? 'signed in' : 'signed out');
+                });
+
+            } catch (error) {
+                console.error('Auth test error:', error);
+                resultDiv.innerHTML = `<h3>Error:</h3><p>${error.message}</p>`;
+            }
+        };
+
+        // Auto-test on page load
+        window.testAuth();
+    </script>
+</body>
+</html>
