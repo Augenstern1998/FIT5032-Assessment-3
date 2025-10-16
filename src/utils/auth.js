@@ -125,16 +125,38 @@ function localLogout() {
 }
 
 // Main exported functions - Firebase first, local fallback
-export function getCurrentUser() {
+export async function getCurrentUser() {
   if (USE_FIREBASE) {
     const firebaseUser = getFirebaseUser();
     if (firebaseUser) {
+      // 尝试从 Firestore 获取用户角色
+      try {
+        const { doc, getDoc } = await import('firebase/firestore');
+        const { db } = await import('../config/firebase.js');
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          return {
+            id: firebaseUser.uid,
+            uid: firebaseUser.uid,
+            name: firebaseUser.displayName || userData.name || 'User',
+            email: firebaseUser.email,
+            role: userData.role || 'member',
+            emailVerified: firebaseUser.emailVerified
+          };
+        }
+      } catch (error) {
+        console.warn('Failed to load user role from Firestore:', error);
+      }
+      
+      // 回退到基本用户信息
       return {
         id: firebaseUser.uid,
         uid: firebaseUser.uid,
         name: firebaseUser.displayName || 'User',
         email: firebaseUser.email,
-        role: 'member', // Will be updated from Firestore
+        role: 'member',
         emailVerified: firebaseUser.emailVerified
       };
     }

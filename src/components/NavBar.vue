@@ -50,8 +50,14 @@ import { resetIdleTimer } from '../utils/session.js';
 const router = useRouter();
 const user = ref(null);
 
-function load() {
-  user.value = getCurrentUser();
+async function load() {
+  try {
+    user.value = await getCurrentUser();
+    console.log('User loaded:', user.value);
+  } catch (error) {
+    console.error('Failed to load user:', error);
+    user.value = null;
+  }
 }
 
 onMounted(() => {
@@ -59,12 +65,14 @@ onMounted(() => {
   
   // Listen to both local and Firebase auth changes
   window.addEventListener(AUTH_CHANGED_EVENT, load);
+  window.addEventListener('firebase_auth_changed', load);
   
   // Listen to Firebase auth state changes
-  const unsubscribe = onAuthStateChange((firebaseUser) => {
+  const unsubscribe = onAuthStateChange(async (firebaseUser) => {
+    console.log('Firebase auth state changed:', firebaseUser ? 'signed in' : 'signed out');
     if (firebaseUser) {
       // User is signed in
-      load();
+      await load();
       // Reset idle timer on user activity
       resetIdleTimer(() => {
         logout();
@@ -73,6 +81,7 @@ onMounted(() => {
     } else {
       // User is signed out
       user.value = null;
+      console.log('User signed out, clearing state');
     }
   });
   
@@ -82,6 +91,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener(AUTH_CHANGED_EVENT, load);
+  window.removeEventListener('firebase_auth_changed', load);
   
   // Unsubscribe from Firebase auth state changes
   if (window._firebaseAuthUnsubscribe) {
@@ -90,16 +100,32 @@ onBeforeUnmount(() => {
 });
 
 async function onLogout() {
+  console.log('Starting logout process...');
   try {
     await logout();
-    load();
-    router.push('/');
+    console.log('Logout completed');
   } catch (error) {
     console.error('Logout error:', error);
-    // Force logout even if there's an error
-    user.value = null;
-    router.push('/');
   }
+  
+  // 强制清除用户状态
+  user.value = null;
+  console.log('User state cleared');
+  
+  // 触发认证状态变化事件
+  window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
+  window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
+  
+  // 立即更新 UI
+  setTimeout(() => {
+    router.push('/');
+  }, 50);
+  
+  // 再次确保状态清除
+  setTimeout(() => {
+    user.value = null;
+    console.log('Final user state check:', user.value);
+  }, 200);
 }
 </script>
 
