@@ -13,10 +13,12 @@
 
       <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-          <li class="nav-item"><RouterLink class="nav-link" to="/">Home</RouterLink></li>
-          <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
-          <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
-          <li class="nav-item"><RouterLink class="nav-link" to="/join">Join Community</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/">Home</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/join">Join Community</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/user-setup">User Setup</RouterLink></li>
+              <li class="nav-item"><RouterLink class="nav-link" to="/auth-debug">Auth Debug</RouterLink></li>
           <li class="nav-item dropdown" v-if="user && user.role === 'admin'">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">Admin</a>
             <ul class="dropdown-menu">
@@ -130,11 +132,225 @@ async function onLogout() {
 </script>
 
 <style scoped>
+/* Modern Navbar Styling */
+.navbar {
+  background: var(--white) !important;
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4) 0;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+  color: var(--gray-900) !important;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-brand::before {
+  content: '🏥';
+  font-size: 1.5rem;
+}
+
+.navbar-nav {
+  gap: 0.5rem;
+}
+
+.nav-link {
+  font-weight: var(--font-weight-medium);
+  color: var(--gray-600) !important;
+  transition: all var(--transition-fast);
+  padding: 0.75rem 1rem !important;
+  border-radius: var(--radius-lg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-gradient);
+  transition: all var(--transition-fast);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color) !important;
+  background: rgba(102, 126, 234, 0.1);
+  text-decoration: none;
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+  width: 80%;
+}
+
+.dropdown-menu {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--gray-700);
+  transition: all var(--transition-fast);
+  border-radius: 0;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.dropdown-item-text {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  font-weight: var(--font-weight-normal);
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0;
+  border-color: var(--gray-200);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  color: white;
+}
+
 /* Hide the hamburger icon */
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
   content: none !important;
 }
 
-.navbar-toggler { border: 1px solid #ddd; border-radius: 6px; padding: .25rem .5rem; }
+.navbar-toggler {
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.navbar-toggler:hover {
+  border-color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* User dropdown styling */
+.nav-item.dropdown .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-item.dropdown .nav-link::after {
+  margin-left: 0;
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .navbar-nav {
+    padding: 1rem 0;
+    gap: 0.25rem;
+  }
+  
+  .nav-link {
+    padding: 0.75rem 1rem !important;
+    border-radius: var(--radius-md);
+  }
+  
+  .dropdown-menu {
+    margin-top: 0.25rem;
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: var(--font-size-lg);
+  }
+  
+  .navbar-brand::before {
+    font-size: 1.25rem;
+  }
+  
+  .btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Animation for mobile menu */
+.navbar-collapse {
+  transition: all var(--transition-normal);
+}
+
+.navbar-collapse.collapsing {
+  transition: height 0.35s ease;
+}
+
+/* Active state for current page */
+.router-link-active.nav-link {
+  color: var(--primary-color) !important;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.router-link-active.nav-link::before {
+  width: 80%;
+}
 </style>

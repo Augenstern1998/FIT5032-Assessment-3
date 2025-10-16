@@ -1,169 +1,240 @@
 <template>
-  <section class="container py-4" style="max-width: 800px">
-    <div class="row">
-      <div class="col-lg-8">
-        <h2 class="h4 mb-4">Contact Us</h2>
-        <p class="text-muted mb-4">
-          Have questions, feedback, or need support? We'd love to hear from you! 
-          Send us a message and we'll get back to you as soon as possible.
-        </p>
+  <div class="contact-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-background"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="gradient-text">Contact Us</span>
+          </h1>
+          <p class="hero-subtitle">
+            Have questions, feedback, or need support? We'd love to hear from you! 
+            Send us a message and we'll get back to you as soon as possible.
+          </p>
+        </div>
+      </div>
+    </section>
 
-        <div v-if="notice" class="alert" :class="noticeClass" role="alert">{{ notice }}</div>
-
-        <form @submit.prevent="onSubmit" novalidate>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">Your Name *</label>
-              <input 
-                id="name" 
-                type="text" 
-                class="form-control" 
-                v-model.trim="formData.name" 
-                required 
-                :disabled="isLoading"
-              />
+    <!-- Contact Form Section -->
+    <section class="contact-section">
+      <div class="container">
+        <div class="contact-container">
+          <div class="contact-form-wrapper">
+            <div class="form-header">
+              <h2 class="section-title">
+                <i class="fas fa-paper-plane me-3"></i>
+                Send us a Message
+              </h2>
+              <p class="section-subtitle">We're here to help and would love to hear from you</p>
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="email" class="form-label">Your Email *</label>
-              <input 
-                id="email" 
-                type="email" 
-                class="form-control" 
-                v-model.trim="formData.email" 
-                required 
-                :disabled="isLoading"
-              />
-            </div>
-          </div>
 
-          <div class="mb-3">
-            <label for="subject" class="form-label">Subject *</label>
-            <select 
-              id="subject" 
-              class="form-select" 
-              v-model="formData.subject" 
-              required 
-              :disabled="isLoading"
-            >
-              <option value="">Select a subject</option>
-              <option value="General Inquiry">General Inquiry</option>
-              <option value="Technical Support">Technical Support</option>
-              <option value="Feature Request">Feature Request</option>
-              <option value="Bug Report">Bug Report</option>
-              <option value="Partnership">Partnership</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+            <div v-if="notice" class="alert" :class="noticeClass" role="alert">{{ notice }}</div>
 
-          <div class="mb-3">
-            <label for="message" class="form-label">Message *</label>
-            <textarea 
-              id="message" 
-              class="form-control" 
-              rows="6" 
-              v-model.trim="formData.message" 
-              required 
-              :disabled="isLoading"
-              placeholder="Please describe your inquiry in detail (minimum 10 characters)..."
-            ></textarea>
-            <div class="form-text">
-              {{ formData.message.length }}/1000 characters
-              <span v-if="formData.message.length > 0 && formData.message.length < 10" class="text-danger">
-                (Minimum 10 characters required)
-              </span>
-            </div>
-          </div>
+            <form @submit.prevent="onSubmit" novalidate class="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name" class="form-label">
+                    <i class="fas fa-user me-2"></i>
+                    Your Name *
+                  </label>
+                  <input 
+                    id="name" 
+                    type="text" 
+                    class="form-control" 
+                    v-model.trim="formData.name" 
+                    required 
+                    :disabled="isLoading"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email" class="form-label">
+                    <i class="fas fa-envelope me-2"></i>
+                    Your Email *
+                  </label>
+                  <input 
+                    id="email" 
+                    type="email" 
+                    class="form-control" 
+                    v-model.trim="formData.email" 
+                    required 
+                    :disabled="isLoading"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+              </div>
 
-          <div class="mb-3">
-            <label for="attachment" class="form-label">Attachment (Optional)</label>
-            <input 
-              id="attachment" 
-              type="file" 
-              class="form-control" 
-              @change="handleFileUpload"
-              :disabled="isLoading"
-              accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif"
-            />
-            <div class="form-text">
-              Supported formats: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF (Max 5MB)
-            </div>
-            <div v-if="formData.attachment" class="mt-2">
-              <div class="alert alert-info d-flex justify-content-between align-items-center">
-                <span>
+              <div class="form-group">
+                <label for="subject" class="form-label">
+                  <i class="fas fa-tag me-2"></i>
+                  Subject *
+                </label>
+                <select 
+                  id="subject" 
+                  class="form-select" 
+                  v-model="formData.subject" 
+                  required 
+                  :disabled="isLoading"
+                >
+                  <option value="">Select a subject</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Technical Support">Technical Support</option>
+                  <option value="Feature Request">Feature Request</option>
+                  <option value="Bug Report">Bug Report</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">
+                  <i class="fas fa-comment me-2"></i>
+                  Message *
+                </label>
+                <textarea 
+                  id="message" 
+                  class="form-control" 
+                  rows="6" 
+                  v-model.trim="formData.message" 
+                  required 
+                  :disabled="isLoading"
+                  placeholder="Please describe your inquiry in detail (minimum 10 characters)..."
+                ></textarea>
+                <div class="form-text">
+                  {{ formData.message.length }}/1000 characters
+                  <span v-if="formData.message.length > 0 && formData.message.length < 10" class="text-danger">
+                    (Minimum 10 characters required)
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="attachment" class="form-label">
                   <i class="fas fa-paperclip me-2"></i>
-                  {{ formData.attachment.name }} ({{ formatFileSize(formData.attachment.size) }})
-                </span>
-                <button type="button" class="btn btn-sm btn-outline-danger" @click="removeAttachment">
-                  <i class="fas fa-times"></i>
+                  Attachment (Optional)
+                </label>
+                <input 
+                  id="attachment" 
+                  type="file" 
+                  class="form-control" 
+                  @change="handleFileUpload"
+                  :disabled="isLoading"
+                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif"
+                />
+                <div class="form-text">
+                  Supported formats: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF (Max 5MB)
+                </div>
+                <div v-if="formData.attachment" class="mt-2">
+                  <div class="alert alert-info d-flex justify-content-between align-items-center">
+                    <span>
+                      <i class="fas fa-paperclip me-2"></i>
+                      {{ formData.attachment.name }} ({{ formatFileSize(formData.attachment.size) }})
+                    </span>
+                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeAttachment">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="form-check">
+                  <input 
+                    id="newsletter" 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    v-model="formData.subscribeNewsletter"
+                    :disabled="isLoading"
+                  />
+                  <label class="form-check-label" for="newsletter">
+                    <i class="fas fa-bell me-2"></i>
+                    Subscribe to our newsletter for updates and health tips
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-outline-secondary" @click="resetForm" :disabled="isLoading">
+                  <i class="fas fa-refresh me-2"></i>
+                  Reset
+                </button>
+                <button type="submit" class="btn btn-primary" :disabled="isLoading || !isFormValid">
+                  <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <i v-else class="fas fa-paper-plane me-2"></i>
+                  {{ isLoading ? 'Sending...' : 'Send Message' }}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
 
-          <div class="mb-3">
-            <div class="form-check">
-              <input 
-                id="newsletter" 
-                class="form-check-input" 
-                type="checkbox" 
-                v-model="formData.subscribeNewsletter"
-                :disabled="isLoading"
-              />
-              <label class="form-check-label" for="newsletter">
-                Subscribe to our newsletter for updates and health tips
-              </label>
-            </div>
-          </div>
+          <div class="contact-info-wrapper">
+            <div class="info-card">
+              <div class="info-header">
+                <h3 class="info-title">
+                  <i class="fas fa-info-circle me-2"></i>
+                  Get in Touch
+                </h3>
+                <p class="info-subtitle">We're here to help you succeed</p>
+              </div>
+              
+              <div class="info-content">
+                <div class="info-item">
+                  <div class="info-icon">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="info-details">
+                    <h6 class="info-label">Email</h6>
+                    <p class="info-text">jackyw123y@gmail.com</p>
+                  </div>
+                </div>
+                
+                <div class="info-item">
+                  <div class="info-icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="info-details">
+                    <h6 class="info-label">Response Time</h6>
+                    <p class="info-text">We typically respond within 24-48 hours</p>
+                  </div>
+                </div>
+                
+                <div class="info-item">
+                  <div class="info-icon">
+                    <i class="fas fa-calendar"></i>
+                  </div>
+                  <div class="info-details">
+                    <h6 class="info-label">Business Hours</h6>
+                    <p class="info-text">Monday - Friday<br>9:00 AM - 6:00 PM</p>
+                  </div>
+                </div>
 
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-outline-secondary" @click="resetForm" :disabled="isLoading">
-              Reset
-            </button>
-            <button type="submit" class="btn btn-primary" :disabled="isLoading || !isFormValid">
-              <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              <i v-else class="fas fa-paper-plane me-2"></i>
-              {{ isLoading ? 'Sending...' : 'Send Message' }}
-            </button>
-          </div>
-        </form>
-      </div>
+                <div class="info-divider"></div>
 
-      <div class="col-lg-4">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title mb-0">Get in Touch</h5>
-          </div>
-          <div class="card-body">
-            <div class="mb-3">
-              <h6 class="fw-bold">Email</h6>
-              <p class="mb-0">jackyw123y@gmail.com</p>
-            </div>
-            
-            <div class="mb-3">
-              <h6 class="fw-bold">Response Time</h6>
-              <p class="mb-0">We typically respond within 24-48 hours</p>
-            </div>
-            
-            <div class="mb-3">
-              <h6 class="fw-bold">Business Hours</h6>
-              <p class="mb-0">Monday - Friday<br>9:00 AM - 6:00 PM</p>
-            </div>
-
-            <hr>
-
-            <div class="mb-3">
-              <h6 class="fw-bold">Quick Links</h6>
-              <ul class="list-unstyled">
-                <li><RouterLink to="/resources" class="text-decoration-none">Health Resources</RouterLink></li>
-                <li><RouterLink to="/join" class="text-decoration-none">Join Community</RouterLink></li>
-                <li><RouterLink to="/" class="text-decoration-none">Home</RouterLink></li>
-              </ul>
+                <div class="quick-links">
+                  <h6 class="quick-links-title">Quick Links</h6>
+                  <div class="quick-links-list">
+                    <RouterLink to="/resources" class="quick-link">
+                      <i class="fas fa-book me-2"></i>
+                      Health Resources
+                    </RouterLink>
+                    <RouterLink to="/join" class="quick-link">
+                      <i class="fas fa-users me-2"></i>
+                      Join Community
+                    </RouterLink>
+                    <RouterLink to="/" class="quick-link">
+                      <i class="fas fa-home me-2"></i>
+                      Home
+                    </RouterLink>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script setup>
@@ -330,17 +401,335 @@ function resetForm() {
 </script>
 
 <style scoped>
+.contact-page {
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  overflow: hidden;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #ffffff, #f0f8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 4rem 0;
+  background: var(--gray-50);
+}
+
+.contact-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-form-wrapper {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-control, .form-select {
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
 .form-text {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
 }
 
-.card {
-  border: 1px solid #dee2e6;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.list-unstyled li {
+.form-check-input {
+  margin: 0;
+}
+
+.form-check-label {
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* Contact Info Card */
+.contact-info-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.info-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.info-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-900);
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-subtitle {
+  color: var(--gray-600);
+  font-size: 0.95rem;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon i {
+  font-size: 1rem;
+  color: white;
+}
+
+.info-details {
+  flex: 1;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.info-text {
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.info-divider {
+  height: 1px;
+  background: var(--gray-200);
+  margin: 1rem 0;
+}
+
+.quick-links-title {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.quick-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--gray-700);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--gray-200);
+}
+
+.quick-link:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateX(5px);
+  text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contact-form-wrapper,
+  .info-card {
+    padding: 2rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .info-card {
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .contact-form-wrapper,
+  .info-card {
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
 }
 </style>

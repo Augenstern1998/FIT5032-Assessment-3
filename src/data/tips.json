@@ -1,5 +1,38 @@
 [
-  { "id": 1, "text": "Walk 20 minutes today." },
-  { "id": 2, "text": "Drink water before coffee." },
-  { "id": 3, "text": "Stand up every 45 minutes." }
+  { 
+    "id": 1, 
+    "text": "Walk 20 minutes today.", 
+    "title": "Daily Exercise",
+    "category": "Physical Health"
+  },
+  { 
+    "id": 2, 
+    "text": "Drink water before coffee.", 
+    "title": "Hydration First",
+    "category": "Nutrition"
+  },
+  { 
+    "id": 3, 
+    "text": "Stand up every 45 minutes.", 
+    "title": "Movement Break",
+    "category": "Workplace Health"
+  },
+  { 
+    "id": 4, 
+    "text": "Get 7-8 hours of quality sleep tonight.", 
+    "title": "Sleep Quality",
+    "category": "Mental Health"
+  },
+  { 
+    "id": 5, 
+    "text": "Take 5 minutes for deep breathing exercises.", 
+    "title": "Stress Relief",
+    "category": "Mental Health"
+  },
+  { 
+    "id": 6, 
+    "text": "Eat at least one serving of vegetables today.", 
+    "title": "Healthy Eating",
+    "category": "Nutrition"
+  }
 ]
