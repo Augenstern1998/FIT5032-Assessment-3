@@ -120,32 +120,22 @@ onBeforeUnmount(() => {
 });
 
 async function onLogout() {
-  console.log('Starting logout process...');
   try {
     await logout();
-    console.log('Logout completed');
+    user.value = null;
+    
+    // 触发认证状态变化事件
+    window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
+    window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
+    
+    // 跳转到首页
+    router.push('/');
   } catch (error) {
     console.error('Logout error:', error);
-  }
-  
-  // 强制清除用户状态
-  user.value = null;
-  console.log('User state cleared');
-  
-  // 触发认证状态变化事件
-  window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
-  window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
-  
-  // 立即更新 UI
-  setTimeout(() => {
-    router.push('/');
-  }, 50);
-  
-  // 再次确保状态清除
-  setTimeout(() => {
+    // 即使出错也要清除本地状态
     user.value = null;
-    console.log('Final user state check:', user.value);
-  }, 200);
+    router.push('/');
+  }
 }
 </script>
 
