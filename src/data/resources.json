@@ -1,8 +1,543 @@
 [
-     { "id": 1, "title": "Managing Stress at Work", "summary": "Practical tips to reduce stress.", "tag": "mental", "rating": 4.5 },
-     { "id": 2, "title": "Heart Health Basics", "summary": "Know your numbers: BP, LDL, BMI.", "tag": "cardio", "rating": 4.3 },
-     { "id": 3, "title": "Beginner Strength Routine", "summary": "A 20-minute plan for busy men.", "tag": "fitness", "rating": 4.2 },
-     { "id": 4, "title": "Healthy Sleep Habits", "summary": "Simple habits for better sleep.", "tag": "sleep", "rating": 4.4 },
-     { "id": 5, "title": "Diabetes: Food Choices", "summary": "Low-GI staples and swaps.", "tag": "nutrition", "rating": 4.1 },
-     { "id": 6, "title": "Work–Life Balance", "summary": "Small boundaries, big impact.", "tag": "mental", "rating": 4.0 }
+  {
+    "id": 1,
+    "title": "Managing Stress at Work",
+    "summary": "Practical tips to reduce stress.",
+    "tag": "mental",
+    "rating": 4.5,
+    "content": {
+      "overview": "Work stress is a major health concern for men. Learn evidence-based strategies to manage workplace pressure and maintain mental wellbeing.",
+      "keyStrategies": [
+        {
+          "title": "Time Management Techniques",
+          "description": "Break large tasks into smaller, manageable chunks. Use the Pomodoro Technique: 25 minutes of focused work followed by a 5-minute break.",
+          "actionSteps": [
+            "Create a daily task list and prioritize using the Eisenhower Matrix",
+            "Set realistic deadlines and communicate them clearly",
+            "Use calendar blocking to protect time for important tasks",
+            "Take regular breaks every 90 minutes to maintain focus"
+          ]
+        },
+        {
+          "title": "Breathing and Relaxation",
+          "description": "Simple breathing exercises can activate your parasympathetic nervous system, reducing stress hormones.",
+          "actionSteps": [
+            "Practice 4-7-8 breathing: Inhale for 4, hold for 7, exhale for 8",
+            "Try box breathing: 4 counts in, 4 hold, 4 out, 4 hold",
+            "Use progressive muscle relaxation during breaks",
+            "Practice mindfulness meditation for 5-10 minutes daily"
+          ]
+        },
+        {
+          "title": "Workplace Boundaries",
+          "description": "Setting clear boundaries protects your mental health and improves work-life balance.",
+          "actionSteps": [
+            "Define your working hours and stick to them",
+            "Learn to say 'no' to non-essential requests",
+            "Turn off work notifications after hours",
+            "Create a dedicated workspace if working from home"
+          ]
+        }
+      ],
+      "warningSigns": [
+        "Persistent headaches or muscle tension",
+        "Difficulty sleeping or concentrating",
+        "Irritability or mood swings",
+        "Physical symptoms like chest pain or rapid heartbeat"
+      ],
+      "whenToSeekHelp": "If stress persists for more than 2 weeks or significantly impacts your daily functioning, consider speaking with a mental health professional."
+    }
+  },
+  {
+    "id": 2,
+    "title": "Heart Health Basics",
+    "summary": "Know your numbers: BP, LDL, BMI.",
+    "tag": "cardio",
+    "rating": 4.3,
+    "content": {
+      "overview": "Cardiovascular disease is the leading cause of death in men. Understanding and monitoring key health metrics can help prevent heart problems.",
+      "keyMetrics": [
+        {
+          "title": "Blood Pressure",
+          "description": "Optimal: <120/80 mmHg. High blood pressure is a silent killer that damages arteries over time.",
+          "actionSteps": [
+            "Check your blood pressure monthly at home or pharmacy",
+            "Limit sodium intake to <2,300mg daily (1 teaspoon salt)",
+            "Exercise regularly: 150 minutes moderate activity weekly",
+            "Manage stress through relaxation techniques"
+          ]
+        },
+        {
+          "title": "Cholesterol Levels",
+          "description": "LDL (bad cholesterol) should be <100mg/dL. HDL (good cholesterol) should be >40mg/dL.",
+          "actionSteps": [
+            "Get cholesterol checked every 4-6 years starting at age 20",
+            "Eat heart-healthy fats: olive oil, nuts, fatty fish",
+            "Limit saturated fats to <7% of daily calories",
+            "Consider plant sterols if cholesterol is elevated"
+          ]
+        },
+        {
+          "title": "Body Mass Index (BMI)",
+          "description": "Healthy range: 18.5-24.9. BMI >25 increases heart disease risk.",
+          "actionSteps": [
+            "Calculate your BMI: weight(kg) ÷ height(m)²",
+            "Aim for gradual weight loss of 1-2 pounds per week",
+            "Focus on waist circumference: <40 inches for men",
+            "Combine cardio and strength training for best results"
+          ]
+        }
+      ],
+      "lifestyleChanges": [
+        "Quit smoking immediately - benefits start within 20 minutes",
+        "Limit alcohol to 2 drinks per day maximum",
+        "Eat 5-7 servings of fruits and vegetables daily",
+        "Get 7-9 hours of quality sleep nightly"
+      ],
+      "emergencySigns": [
+        "Chest pain or pressure lasting more than 5 minutes",
+        "Pain radiating to arm, jaw, or back",
+        "Shortness of breath with minimal exertion",
+        "Dizziness, nausea, or cold sweats"
+      ],
+      "whenToSeekHelp": "Call emergency services immediately for chest pain. Schedule regular checkups with your doctor for preventive care."
+    }
+  },
+  {
+    "id": 3,
+    "title": "Beginner Strength Routine",
+    "summary": "A 20-minute plan for busy men.",
+    "tag": "fitness",
+    "rating": 4.2,
+    "content": {
+      "overview": "Strength training builds muscle, boosts metabolism, and improves bone density. This beginner-friendly routine requires minimal equipment and time.",
+      "warmUp": {
+        "title": "5-Minute Warm-up",
+        "exercises": [
+          "Arm circles: 30 seconds forward, 30 seconds backward",
+          "Leg swings: 10 each leg",
+          "Bodyweight squats: 10 reps",
+          "Push-ups (knee or wall): 5-10 reps"
+        ]
+      },
+      "mainWorkout": {
+        "title": "15-Minute Strength Circuit",
+        "exercises": [
+          {
+            "name": "Bodyweight Squats",
+            "sets": "3 sets of 12-15 reps",
+            "form": "Feet shoulder-width apart, lower as if sitting in chair, keep chest up",
+            "progression": "Add 5-10 pounds when 15 reps feels easy"
+          },
+          {
+            "name": "Push-ups",
+            "sets": "3 sets of 8-12 reps",
+            "form": "Start on knees or against wall if needed, keep body straight",
+            "progression": "Move to standard push-ups, then elevated feet"
+          },
+          {
+            "name": "Plank",
+            "sets": "3 sets of 30-60 seconds",
+            "form": "Forearms on ground, body straight from head to heels",
+            "progression": "Increase hold time by 10 seconds weekly"
+          },
+          {
+            "name": "Lunges",
+            "sets": "3 sets of 8-10 each leg",
+            "form": "Step forward, lower back knee toward ground, push back up",
+            "progression": "Add dumbbells when form is perfect"
+          }
+        ]
+      },
+      "coolDown": {
+        "title": "5-Minute Cool-down",
+        "exercises": [
+          "Shoulder rolls: 10 forward, 10 backward",
+          "Neck stretches: gentle circles",
+          "Hamstring stretch: 30 seconds each leg",
+          "Deep breathing: 2 minutes"
+        ]
+      },
+      "progressionTips": [
+        "Start with 2-3 sessions per week",
+        "Increase weight or reps by 5-10% weekly",
+        "Focus on form over speed or weight",
+        "Rest 60-90 seconds between sets"
+      ],
+      "safetyNotes": [
+        "Stop if you feel sharp pain",
+        "Breathe out during exertion, in during relaxation",
+        "Keep core engaged during all exercises",
+        "Consult doctor before starting if you have health concerns"
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "title": "Healthy Sleep Habits",
+    "summary": "Simple habits for better sleep.",
+    "tag": "sleep",
+    "rating": 4.4,
+    "content": {
+      "overview": "Quality sleep is essential for physical recovery, mental clarity, and immune function. These evidence-based strategies can improve your sleep quality.",
+      "bedtimeRoutine": {
+        "title": "1-Hour Before Bed Routine",
+        "steps": [
+          "Turn off screens 1 hour before bed (blue light disrupts melatonin)",
+          "Dim lights throughout your home",
+          "Do a relaxing activity: reading, gentle stretching, or meditation",
+          "Set bedroom temperature to 65-68°F (18-20°C)",
+          "Use blackout curtains or eye mask if needed"
+        ]
+      },
+      "sleepEnvironment": {
+        "title": "Optimize Your Sleep Environment",
+        "elements": [
+          {
+            "factor": "Mattress and Pillows",
+            "description": "Replace mattress every 7-10 years. Choose pillows that support your sleeping position."
+          },
+          {
+            "factor": "Noise Control",
+            "description": "Use earplugs, white noise machine, or fan to block disruptive sounds."
+          },
+          {
+            "factor": "Light Management",
+            "description": "Remove all light sources including LED indicators. Consider a sleep mask."
+          },
+          {
+            "factor": "Air Quality",
+            "description": "Keep bedroom well-ventilated. Consider air purifier if you have allergies."
+          }
+        ]
+      },
+      "dailyHabits": {
+        "title": "Daytime Habits for Better Sleep",
+        "practices": [
+          {
+            "time": "Morning",
+            "activities": [
+              "Get sunlight exposure within 1 hour of waking",
+              "Avoid caffeine for first 90 minutes after waking",
+              "Eat breakfast to regulate circadian rhythm"
+            ]
+          },
+          {
+            "time": "Afternoon",
+            "activities": [
+              "Limit caffeine after 2 PM",
+              "Avoid naps longer than 20 minutes",
+              "Get regular exercise but not within 3 hours of bedtime"
+            ]
+          },
+          {
+            "time": "Evening",
+            "activities": [
+              "Finish eating 3 hours before bed",
+              "Limit alcohol (disrupts REM sleep)",
+              "Create consistent sleep schedule (even weekends)"
+            ]
+          }
+        ]
+      },
+      "commonProblems": [
+        {
+          "issue": "Trouble Falling Asleep",
+          "solutions": [
+            "Try 4-7-8 breathing technique",
+            "Progressive muscle relaxation",
+            "Write down worries in a journal",
+            "Get up if not asleep within 20 minutes"
+          ]
+        },
+        {
+          "issue": "Waking Up Frequently",
+          "solutions": [
+            "Limit fluids 2 hours before bed",
+            "Check for sleep apnea symptoms",
+            "Ensure comfortable room temperature",
+            "Address stress and anxiety"
+          ]
+        },
+        {
+          "issue": "Feeling Tired Upon Waking",
+          "solutions": [
+            "Maintain consistent wake time",
+            "Get 7-9 hours of sleep",
+            "Avoid snooze button",
+            "Get morning light exposure"
+          ]
+        }
+      ],
+      "whenToSeekHelp": "Consult a sleep specialist if you have persistent insomnia, loud snoring, or excessive daytime sleepiness."
+    }
+  },
+  {
+    "id": 5,
+    "title": "Diabetes: Food Choices",
+    "summary": "Low-GI staples and swaps.",
+    "tag": "nutrition",
+    "rating": 4.1,
+    "content": {
+      "overview": "Managing blood sugar through diet is crucial for diabetes prevention and control. Learn which foods help stabilize glucose levels.",
+      "lowGIFoods": {
+        "title": "Low Glycemic Index Foods (GI <55)",
+        "categories": [
+          {
+            "category": "Vegetables",
+            "foods": [
+              "Leafy greens (spinach, kale, lettuce)",
+              "Cruciferous vegetables (broccoli, cauliflower, Brussels sprouts)",
+              "Bell peppers, tomatoes, cucumbers",
+              "Zucchini, eggplant, asparagus"
+            ],
+            "servingSize": "Unlimited - aim for 5-7 servings daily"
+          },
+          {
+            "category": "Proteins",
+            "foods": [
+              "Lean meats (chicken breast, turkey, fish)",
+              "Eggs and egg whites",
+              "Greek yogurt (unsweetened)",
+              "Nuts and seeds (almonds, walnuts, chia seeds)"
+            ],
+            "servingSize": "3-6 ounces per meal"
+          },
+          {
+            "category": "Complex Carbohydrates",
+            "foods": [
+              "Quinoa, brown rice, steel-cut oats",
+              "Sweet potatoes, legumes (lentils, chickpeas)",
+              "Berries (blueberries, strawberries, raspberries)",
+              "Apples, pears, citrus fruits"
+            ],
+            "servingSize": "1/2 to 1 cup per meal"
+          }
+        ]
+      },
+      "foodSwaps": {
+        "title": "Smart Food Swaps",
+        "swaps": [
+          {
+            "insteadOf": "White rice",
+            "choose": "Brown rice or quinoa",
+            "benefit": "Higher fiber, slower glucose release"
+          },
+          {
+            "insteadOf": "White bread",
+            "choose": "Whole grain or sprouted bread",
+            "benefit": "More nutrients, better blood sugar control"
+          },
+          {
+            "insteadOf": "Regular pasta",
+            "choose": "Whole wheat or legume pasta",
+            "benefit": "Higher protein and fiber content"
+          },
+          {
+            "insteadOf": "Sugary drinks",
+            "choose": "Water, herbal tea, or sparkling water",
+            "benefit": "No added sugars, better hydration"
+          },
+          {
+            "insteadOf": "Candy or sweets",
+            "choose": "Fresh berries with nuts",
+            "benefit": "Natural sugars with fiber and protein"
+          }
+        ]
+      },
+      "mealTiming": {
+        "title": "Optimal Meal Timing",
+        "strategies": [
+          "Eat every 3-4 hours to maintain stable blood sugar",
+          "Include protein with every meal and snack",
+          "Eat carbohydrates with fiber, fat, or protein",
+          "Avoid large meals that cause blood sugar spikes",
+          "Consider intermittent fasting under medical supervision"
+        ]
+      },
+      "portionControl": {
+        "title": "Portion Control Methods",
+        "techniques": [
+          {
+            "method": "Plate Method",
+            "description": "Fill 1/2 plate with non-starchy vegetables, 1/4 with protein, 1/4 with complex carbs"
+          },
+          {
+            "method": "Hand Measurements",
+            "description": "Protein = palm size, Carbs = cupped hand, Fats = thumb size"
+          },
+          {
+            "method": "Food Scale",
+            "description": "Weigh foods for accurate portion control, especially for carbs"
+          }
+        ]
+      },
+      "bloodSugarMonitoring": [
+        "Check blood sugar before and 2 hours after meals",
+        "Keep a food diary to identify patterns",
+        "Aim for blood glucose 80-130 mg/dL before meals",
+        "Target <180 mg/dL 2 hours after eating",
+        "Work with healthcare team to adjust medications as needed"
+      ],
+      "emergencySigns": [
+        "Blood sugar >300 mg/dL",
+        "Ketones in urine",
+        "Excessive thirst and urination",
+        "Blurred vision or confusion"
+      ],
+      "whenToSeekHelp": "Contact your healthcare provider immediately for high blood sugar or ketones. Regular checkups every 3-6 months are essential."
+    }
+  },
+  {
+    "id": 6,
+    "title": "Work–Life Balance",
+    "summary": "Small boundaries, big impact.",
+    "tag": "mental",
+    "rating": 4.0,
+    "content": {
+      "overview": "Achieving work-life balance is crucial for mental health, relationships, and overall wellbeing. Small changes can create significant improvements.",
+      "boundarySetting": {
+        "title": "Setting Healthy Boundaries",
+        "strategies": [
+          {
+            "boundary": "Time Boundaries",
+            "description": "Define clear work hours and stick to them",
+            "actions": [
+              "Set specific start and end times for work",
+              "Block calendar for personal time",
+              "Turn off work notifications after hours",
+              "Use commute time as transition between work and home"
+            ]
+          },
+          {
+            "boundary": "Communication Boundaries",
+            "description": "Control how and when you're available",
+            "actions": [
+              "Set auto-reply for after-hours emails",
+              "Use 'Do Not Disturb' mode on phone",
+              "Create separate work and personal email accounts",
+              "Establish response time expectations with colleagues"
+            ]
+          },
+          {
+            "boundary": "Physical Boundaries",
+            "description": "Separate work and personal spaces",
+            "actions": [
+              "Create dedicated workspace if working from home",
+              "Pack up work materials at end of day",
+              "Change clothes to signal work-to-home transition",
+              "Avoid working in bed or personal spaces"
+            ]
+          }
+        ]
+      },
+      "timeManagement": {
+        "title": "Effective Time Management",
+        "techniques": [
+          {
+            "technique": "Time Blocking",
+            "description": "Schedule specific time slots for different activities",
+            "implementation": [
+              "Block time for deep work (2-3 hour chunks)",
+              "Schedule regular breaks and meals",
+              "Reserve time for family and personal activities",
+              "Include buffer time between tasks"
+            ]
+          },
+          {
+            "technique": "Priority Matrix",
+            "description": "Categorize tasks by urgency and importance",
+            "implementation": [
+              "Focus on important, non-urgent tasks first",
+              "Delegate urgent, non-important tasks when possible",
+              "Eliminate or minimize unimportant tasks",
+              "Review and adjust priorities weekly"
+            ]
+          },
+          {
+            "technique": "Batching Similar Tasks",
+            "description": "Group similar activities together",
+            "implementation": [
+              "Check emails only 2-3 times per day",
+              "Batch phone calls and meetings",
+              "Do all errands in one trip",
+              "Schedule administrative tasks together"
+            ]
+          }
+        ]
+      },
+      "stressReduction": {
+        "title": "Daily Stress Reduction",
+        "practices": [
+          {
+            "practice": "Morning Routine",
+            "activities": [
+              "Wake up 30 minutes earlier for personal time",
+              "Practice gratitude journaling",
+              "Do light exercise or stretching",
+              "Eat breakfast mindfully"
+            ]
+          },
+          {
+            "practice": "Workday Breaks",
+            "activities": [
+              "Take 5-minute breaks every hour",
+              "Practice deep breathing exercises",
+              "Go for short walks during lunch",
+              "Listen to music or podcasts during commute"
+            ]
+          },
+          {
+            "practice": "Evening Wind-down",
+            "activities": [
+              "Create transition ritual from work to home",
+              "Practice meditation or mindfulness",
+              "Engage in hobbies or creative activities",
+              "Spend quality time with family or friends"
+            ]
+          }
+        ]
+      },
+      "relationshipMaintenance": {
+        "title": "Nurturing Relationships",
+        "strategies": [
+          {
+            "relationship": "Family",
+            "actions": [
+              "Schedule regular family time (weekly date nights, family dinners)",
+              "Be fully present during family activities",
+              "Share household responsibilities equitably",
+              "Communicate openly about work stress and needs"
+            ]
+          },
+          {
+            "relationship": "Friends",
+            "actions": [
+              "Schedule regular friend meetups or calls",
+              "Join clubs or groups with shared interests",
+              "Be supportive during friends' difficult times",
+              "Maintain friendships through regular contact"
+            ]
+          },
+          {
+            "relationship": "Self",
+            "actions": [
+              "Schedule regular 'me time' for personal interests",
+              "Practice self-compassion and self-care",
+              "Pursue hobbies and personal development",
+              "Reflect on personal values and goals regularly"
+            ]
+          }
+        ]
+      },
+      "warningSigns": [
+        "Feeling constantly overwhelmed or anxious",
+        "Neglecting personal relationships",
+        "Physical symptoms (headaches, insomnia, fatigue)",
+        "Loss of interest in activities you once enjoyed",
+        "Difficulty concentrating or making decisions"
+      ],
+      "whenToSeekHelp": "Consider professional help if work-life imbalance persists despite efforts, or if you experience persistent stress, anxiety, or depression."
+    }
+  }
    ]
