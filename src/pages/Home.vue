@@ -7,23 +7,23 @@
       <div class="container">
         <div class="hero-content">
           <h1 class="hero-title">
-            <span class="gradient-text">Welcome to Men's Health</span>
+            <span class="gradient-text">Men's Health Platform</span>
           </h1>
           <p class="hero-subtitle">
-            Practical tools and trusted resources for every stage of life
+            Empowering men with personalized health assessments, interactive maps, and comprehensive resources for better health outcomes
           </p>
           <div class="hero-stats">
             <div class="stat-item">
-              <span class="stat-number">{{ tips.length }}</span>
-              <span class="stat-label">Daily Tips</span>
+              <span class="stat-number">20+</span>
+              <span class="stat-label">Health Questions</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">24/7</span>
-              <span class="stat-label">Support</span>
+              <span class="stat-number">Interactive</span>
+              <span class="stat-label">Health Maps</span>
             </div>
             <div class="stat-item">
               <span class="stat-number">100%</span>
-              <span class="stat-label">Free</span>
+              <span class="stat-label">Free & Private</span>
             </div>
           </div>
           
@@ -36,7 +36,58 @@
       </div>
     </section>
 
-    <!-- Daily Tips Section -->
+    <!-- Key Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-star me-3"></i>
+            Key Features
+          </h2>
+          <p class="section-subtitle">Comprehensive health tools designed specifically for men</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h4>Personalized Health Assessment</h4>
+            <p>Complete 20+ health questions across mental, physical, cardiovascular, and diabetes categories to get personalized risk analysis and recommendations.</p>
+            <router-link to="/health-services" class="feature-link">Start Assessment <i class="fas fa-arrow-right"></i></router-link>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h4>Interactive Health Maps</h4>
+            <p>Find nearby health services with our interactive map. Search by location, filter by service type, and get directions to healthcare providers.</p>
+            <router-link to="/health-services" class="feature-link">Explore Map <i class="fas fa-arrow-right"></i></router-link>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h4>Comprehensive Resources</h4>
+            <p>Access detailed health resources covering stress management, sleep optimization, nutrition, exercise, and mental health strategies.</p>
+            <router-link to="/resources" class="feature-link">Browse Resources <i class="fas fa-arrow-right"></i></router-link>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <h4>Download Health Reports</h4>
+            <p>Generate and download your personalized health assessment reports in multiple formats (HTML, PDF, CSV) for your records.</p>
+            <router-link to="/health-services" class="feature-link">Get Reports <i class="fas fa-arrow-right"></i></router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Health Tips Section -->
     <section class="tips-section">
       <div class="container">
         <div class="section-header">
@@ -62,12 +113,12 @@
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
+    <!-- Why Choose Section -->
+    <section class="why-choose-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Why Choose Men's Health?</h2>
-          <p class="section-subtitle">Your journey to better health starts here</p>
+          <h2 class="section-title">Why Choose Our Platform?</h2>
+          <p class="section-subtitle">Designed specifically for men's health needs</p>
         </div>
         
         <div class="features-grid">
@@ -75,24 +126,24 @@
             <div class="feature-icon">
               <i class="fas fa-user-md"></i>
             </div>
-            <h4>Expert Guidance</h4>
-            <p>Evidence-based health advice from medical professionals</p>
+            <h4>Evidence-Based</h4>
+            <p>Health assessments and recommendations based on medical research and best practices</p>
           </div>
           
           <div class="feature-card">
             <div class="feature-icon">
               <i class="fas fa-mobile-alt"></i>
             </div>
-            <h4>Mobile Friendly</h4>
-            <p>Access your health resources anywhere, anytime</p>
+            <h4>Accessible Design</h4>
+            <p>WCAG 2.1 AA compliant with accessibility features for all users</p>
           </div>
           
           <div class="feature-card">
             <div class="feature-icon">
-              <i class="fas fa-users"></i>
+              <i class="fas fa-map-marker-alt"></i>
             </div>
-            <h4>Community Support</h4>
-            <p>Connect with others on similar health journeys</p>
+            <h4>Local Services</h4>
+            <p>Find nearby health services in Melbourne with real addresses and contact information</p>
           </div>
           
           <div class="feature-card">
@@ -100,7 +151,7 @@
               <i class="fas fa-shield-alt"></i>
             </div>
             <h4>Privacy First</h4>
-            <p>Your health data is secure and private</p>
+            <p>Your health data is secure, private, and never shared without your consent</p>
           </div>
         </div>
       </div>
@@ -111,11 +162,11 @@
       <div class="container">
         <div class="cta-content">
           <h2>Ready to Take Control of Your Health?</h2>
-          <p>Join thousands of men who are already improving their health with our platform</p>
+          <p>Start your personalized health journey with our comprehensive assessment and interactive tools</p>
           <div class="cta-buttons">
-            <router-link to="/join-community" class="btn btn-primary btn-lg">
-              <i class="fas fa-users me-2"></i>
-              Join Community
+            <router-link to="/health-services" class="btn btn-primary btn-lg">
+              <i class="fas fa-clipboard-check me-2"></i>
+              Start Health Assessment
             </router-link>
             <router-link to="/resources" class="btn btn-outline-primary btn-lg">
               <i class="fas fa-book me-2"></i>
@@ -362,6 +413,11 @@ const getTipIcon = (index) => {
   background: white;
 }
 
+.why-choose-section {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -374,10 +430,13 @@ const getTipIcon = (index) => {
   padding: 2rem;
   border-radius: 15px;
   transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .feature-icon {
@@ -406,6 +465,22 @@ const getTipIcon = (index) => {
 .feature-card p {
   color: #6c757d;
   line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.feature-link:hover {
+  color: #764ba2;
+  transform: translateX(5px);
 }
 
 /* CTA Section */
