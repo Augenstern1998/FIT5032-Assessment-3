@@ -120,10 +120,17 @@ export async function loginUser({ email, password }) {
   }
 }
 
-// Login with Google (Popup method)
+// Login with Google (Popup method with COOP fallback)
 export async function loginWithGoogle() {
+  // If page is in crossOriginIsolated (affected by COOP/COEP), use redirect
+  if (window.crossOriginIsolated) {
+    console.log('Page is crossOriginIsolated, using redirect method...');
+    await signInWithRedirect(auth, googleProvider);
+    return;
+  }
+
   try {
-    console.log('Starting Google login...');
+    console.log('Starting Google login with popup...');
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
     console.log('Google login successful:', user);
@@ -168,10 +175,24 @@ export async function loginWithGoogle() {
       emailVerified: user.emailVerified
     };
   } catch (error) {
-    console.error('Google login error:', error);
+    console.error('Google popup login error:', error);
     console.error('Error code:', error.code);
     console.error('Error message:', error.message);
-    throw new Error(getAuthErrorMessage(error.code));
+    
+    // Check if it's a COOP-related error
+    const msg = String(error?.message || '');
+    if (error?.code?.startsWith('auth/') || msg.includes('window.closed') || msg.includes('Cross-Origin-Opener-Policy')) {
+      console.log('COOP-related error detected, falling back to redirect...');
+      try {
+        await signInWithRedirect(auth, googleProvider);
+        return;
+      } catch (redirectError) {
+        console.error('Redirect fallback also failed:', redirectError);
+        throw new Error(getAuthErrorMessage(redirectError.code));
+      }
+    } else {
+      throw new Error(getAuthErrorMessage(error.code));
+    }
   }
 }
 

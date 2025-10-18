@@ -75,70 +75,16 @@
           
           <button 
             class="btn btn-info btn-sm"
-            @click="showRoutePlanner = !showRoutePlanner"
-            :aria-label="'Toggle route planner'"
+            @click="showAllServices"
+            :aria-label="'Show all health services'"
           >
-            <i class="fas fa-route"></i>
-            Route Planner
+            <i class="fas fa-eye"></i>
+            Show All Services
           </button>
-        </div>
-        
-        <!-- Debug Info -->
-        <div class="debug-info mt-3 p-2 bg-light rounded">
-          <small class="text-muted">
-            <strong>Debug:</strong> 
-            Services: {{ healthServices.length }} | 
-            Selected: {{ selectedService ? selectedService.name : 'None' }} |
-            User Location: {{ userLocation ? 'Set' : 'Not set' }}
-          </small>
-          <div class="mt-2">
-            <button class="btn btn-warning btn-sm me-2" @click="testMarkers">
-              <i class="fas fa-bug"></i> Test Markers
-            </button>
-            <button class="btn btn-info btn-sm" @click="showAllServices">
-              <i class="fas fa-eye"></i> Show All
-            </button>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Route Planner Modal -->
-    <div v-if="showRoutePlanner" class="route-planner-modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Health Service Route Planner</h5>
-          <button @click="showRoutePlanner = false" class="btn-close" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">From:</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              v-model="routeFrom"
-              placeholder="Starting location"
-            >
-          </div>
-          <div class="mb-3">
-            <label class="form-label">To:</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              v-model="routeTo"
-              placeholder="Destination"
-            >
-          </div>
-          <button 
-            class="btn btn-primary"
-            @click="calculateRoute"
-            :disabled="!routeFrom || !routeTo"
-          >
-            Calculate Route
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Map Container -->
     <div 
@@ -247,10 +193,7 @@ const isSearching = ref(false);
 const isGettingLocation = ref(false);
 const selectedCategory = ref('all');
 const selectedService = ref(null);
-const showRoutePlanner = ref(false);
 const showRiskAssessment = ref(false);
-const routeFrom = ref('');
-const routeTo = ref('');
 const userLocation = ref(null);
 const searchSuggestions = ref([]);
 const showSuggestions = ref(false);
@@ -268,8 +211,9 @@ const healthCategories = ref([
   { id: 'emergency', name: 'Emergency', icon: 'fas fa-ambulance' }
 ]);
 
-// Sample health services data
+// Sample health services data - Melbourne Metro area
 const healthServices = ref([
+  // CBD Area
   {
     id: 1,
     name: 'Melbourne Men\'s Health Clinic',
@@ -294,28 +238,6 @@ const healthServices = ref([
   },
   {
     id: 3,
-    name: 'Diabetes Care Center',
-    category: 'diabetes',
-    address: '789 Swanston St, Melbourne VIC 3000',
-    phone: '(03) 3456 7890',
-    hours: 'Mon-Fri: 9AM-5PM',
-    services: ['Diabetes Management', 'Blood Sugar Monitoring', 'Nutrition Counseling'],
-    coordinates: [144.9645, -37.8156],
-    description: 'Specialized diabetes care and education'
-  },
-  {
-    id: 4,
-    name: 'Melbourne General Practice',
-    category: 'general',
-    address: '321 Flinders St, Melbourne VIC 3000',
-    phone: '(03) 4567 8901',
-    hours: 'Mon-Fri: 8AM-6PM, Sat: 9AM-1PM',
-    services: ['General Health Checkups', 'Preventive Care', 'Health Screenings'],
-    coordinates: [144.9652, -37.8166],
-    description: 'Comprehensive primary healthcare services'
-  },
-  {
-    id: 5,
     name: 'Emergency Medical Center',
     category: 'emergency',
     address: '654 Elizabeth St, Melbourne VIC 3000',
@@ -325,53 +247,150 @@ const healthServices = ref([
     coordinates: [144.9659, -37.8176],
     description: '24/7 emergency medical services'
   },
-  // Additional services for better coverage
+  
+  // Eastern Suburbs
   {
-    id: 6,
-    name: 'Mental Health Support Center',
+    id: 4,
+    name: 'Box Hill Mental Health Clinic',
     category: 'mental',
-    address: '100 Lonsdale St, Melbourne VIC 3000',
-    phone: '(03) 6789 0123',
+    address: '789 Whitehorse Rd, Box Hill VIC 3128',
+    phone: '(03) 9898 1234',
     hours: 'Mon-Fri: 9AM-5PM',
-    services: ['Crisis Support', 'Group Therapy', 'Individual Counseling'],
-    coordinates: [144.9666, -37.8186],
-    description: 'Mental health support and counseling services'
+    services: ['Mental Health Support', 'Group Therapy', 'Individual Counseling'],
+    coordinates: [145.1234, -37.8196],
+    description: 'Mental health services in eastern suburbs'
   },
   {
-    id: 7,
-    name: 'Cardiology Specialist Clinic',
+    id: 5,
+    name: 'Ringwood Cardiology Center',
     category: 'cardio',
-    address: '200 Exhibition St, Melbourne VIC 3000',
-    phone: '(03) 7890 1234',
+    address: '456 Maroondah Hwy, Ringwood VIC 3134',
+    phone: '(03) 9876 5432',
     hours: 'Mon-Fri: 8AM-6PM',
     services: ['Heart Surgery', 'Cardiac Rehabilitation', 'Stress Testing'],
-    coordinates: [144.9673, -37.8196],
-    description: 'Specialized cardiology services'
+    coordinates: [145.2345, -37.8123],
+    description: 'Cardiology services in eastern suburbs'
+  },
+  {
+    id: 6,
+    name: 'Glen Waverley Medical Center',
+    category: 'general',
+    address: '123 Springvale Rd, Glen Waverley VIC 3150',
+    phone: '(03) 9560 1234',
+    hours: 'Mon-Fri: 7AM-7PM, Sat: 8AM-2PM',
+    services: ['General Health Checkups', 'Preventive Care', 'Health Screenings'],
+    coordinates: [145.1678, -37.8789],
+    description: 'General practice in eastern suburbs'
+  },
+  
+  // Northern Suburbs
+  {
+    id: 7,
+    name: 'Preston Diabetes Clinic',
+    category: 'diabetes',
+    address: '789 High St, Preston VIC 3072',
+    phone: '(03) 9470 5678',
+    hours: 'Mon-Fri: 8AM-5PM',
+    services: ['Diabetes Management', 'Blood Sugar Monitoring', 'Nutrition Counseling'],
+    coordinates: [145.0123, -37.7456],
+    description: 'Diabetes care in northern suburbs'
   },
   {
     id: 8,
-    name: 'Diabetes Management Clinic',
-    category: 'diabetes',
-    address: '300 Little Collins St, Melbourne VIC 3000',
-    phone: '(03) 8901 2345',
-    hours: 'Mon-Fri: 8AM-5PM',
-    services: ['Insulin Management', 'Dietary Counseling', 'Foot Care'],
-    coordinates: [144.9680, -37.8206],
-    description: 'Comprehensive diabetes care'
+    name: 'Bundoora Emergency Care',
+    category: 'emergency',
+    address: '456 Plenty Rd, Bundoora VIC 3083',
+    phone: '(03) 9479 2000',
+    hours: '24/7',
+    services: ['Emergency Care', 'Trauma Treatment', 'Urgent Medical Services'],
+    coordinates: [145.0567, -37.7123],
+    description: 'Emergency services in northern suburbs'
   },
   {
     id: 9,
-    name: 'Family Medical Practice',
-    category: 'general',
-    address: '400 Spencer St, Melbourne VIC 3000',
-    phone: '(03) 9012 3456',
-    hours: 'Mon-Fri: 7AM-7PM, Sat: 8AM-2PM',
-    services: ['Family Medicine', 'Pediatrics', 'Women\'s Health'],
-    coordinates: [144.9687, -37.8216],
-    description: 'Family-focused healthcare services'
+    name: 'Epping Mental Health Support',
+    category: 'mental',
+    address: '123 High St, Epping VIC 3076',
+    phone: '(03) 9401 2345',
+    hours: 'Mon-Fri: 9AM-5PM',
+    services: ['Crisis Support', 'Group Therapy', 'Individual Counseling'],
+    coordinates: [145.0345, -37.6789],
+    description: 'Mental health support in northern suburbs'
   },
+  
+  // Western Suburbs
   {
     id: 10,
+    name: 'Footscray General Practice',
+    category: 'general',
+    address: '456 Nicholson St, Footscray VIC 3011',
+    phone: '(03) 9689 1234',
+    hours: 'Mon-Fri: 8AM-6PM, Sat: 9AM-1PM',
+    services: ['General Health Checkups', 'Preventive Care', 'Health Screenings'],
+    coordinates: [144.9012, -37.8012],
+    description: 'General practice in western suburbs'
+  },
+  {
+    id: 11,
+    name: 'Sunshine Heart Clinic',
+    category: 'cardio',
+    address: '789 Hampshire Rd, Sunshine VIC 3020',
+    phone: '(03) 9312 3456',
+    hours: 'Mon-Fri: 8AM-6PM',
+    services: ['Cardiac Assessment', 'Heart Disease Prevention', 'Exercise Programs'],
+    coordinates: [144.8345, -37.7890],
+    description: 'Cardiology services in western suburbs'
+  },
+  {
+    id: 12,
+    name: 'Werribee Diabetes Center',
+    category: 'diabetes',
+    address: '123 Watton St, Werribee VIC 3030',
+    phone: '(03) 9741 2345',
+    hours: 'Mon-Fri: 8AM-5PM',
+    services: ['Insulin Management', 'Dietary Counseling', 'Foot Care'],
+    coordinates: [144.6678, -37.9012],
+    description: 'Diabetes care in western suburbs'
+  },
+  
+  // Southern Suburbs
+  {
+    id: 13,
+    name: 'St Kilda Mental Health Clinic',
+    category: 'mental',
+    address: '456 Acland St, St Kilda VIC 3182',
+    phone: '(03) 9534 5678',
+    hours: 'Mon-Fri: 9AM-5PM',
+    services: ['Mental Health Support', 'Group Therapy', 'Individual Counseling'],
+    coordinates: [144.9789, -37.8567],
+    description: 'Mental health services in southern suburbs'
+  },
+  {
+    id: 14,
+    name: 'Frankston Emergency Hospital',
+    category: 'emergency',
+    address: '123 Hastings Rd, Frankston VIC 3199',
+    phone: '(03) 9784 7000',
+    hours: '24/7',
+    services: ['Emergency Department', 'Trauma Center', 'Intensive Care'],
+    coordinates: [145.1234, -38.1456],
+    description: 'Emergency services in southern suburbs'
+  },
+  {
+    id: 15,
+    name: 'Cheltenham Medical Center',
+    category: 'general',
+    address: '789 Charman Rd, Cheltenham VIC 3192',
+    phone: '(03) 9553 1234',
+    hours: 'Mon-Fri: 7AM-7PM, Sat: 8AM-2PM',
+    services: ['General Health Checkups', 'Preventive Care', 'Health Screenings'],
+    coordinates: [145.0456, -37.9678],
+    description: 'General practice in southern suburbs'
+  },
+  
+  // Major Hospitals
+  {
+    id: 16,
     name: 'Royal Melbourne Hospital',
     category: 'emergency',
     address: '300 Grattan St, Parkville VIC 3052',
@@ -380,6 +399,17 @@ const healthServices = ref([
     services: ['Emergency Department', 'Trauma Center', 'Intensive Care'],
     coordinates: [144.9694, -37.8226],
     description: 'Major teaching hospital with emergency services'
+  },
+  {
+    id: 17,
+    name: 'Alfred Hospital',
+    category: 'emergency',
+    address: '55 Commercial Rd, Melbourne VIC 3004',
+    phone: '(03) 9076 2000',
+    hours: '24/7',
+    services: ['Emergency Department', 'Trauma Center', 'Intensive Care'],
+    coordinates: [144.9789, -37.8567],
+    description: 'Major hospital with emergency services'
   }
 ]);
 
@@ -423,7 +453,7 @@ const initializeMap = async () => {
       container: 'health-map',
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [144.9631, -37.8136], // Melbourne CBD
-      zoom: 12
+      zoom: 10 // Zoomed out to show more of Melbourne metro area
     });
 
     // Wait for map to load
@@ -545,7 +575,7 @@ const addHealthServiceMarkers = () => {
   console.log('Adding health service markers:', healthServices.value.length);
 
   healthServices.value.forEach(service => {
-    // Create marker element with inner wrapper
+    // Create marker element - let Mapbox handle all positioning
     const el = document.createElement('div');
     el.className = 'health-marker';
     el.setAttribute('data-service-id', service.id);
@@ -555,7 +585,7 @@ const addHealthServiceMarkers = () => {
     innerEl.className = 'marker-inner';
     innerEl.innerHTML = `<i class="fas ${getCategoryIcon(service.category)}"></i>`;
     
-    // Style the outer container (don't add transform here!)
+    // Don't set any positioning styles on the outer element
     el.style.cssText = `
       width: 30px;
       height: 30px;
@@ -604,10 +634,19 @@ const addHealthServiceMarkers = () => {
       selectedService.value = service;
     });
 
-    // Create marker
+    // Create marker - let Mapbox handle all positioning
     const marker = new mapboxgl.Marker(el)
       .setLngLat(service.coordinates)
       .addTo(map.value);
+
+    // Debug: Check if marker is in correct container
+    setTimeout(() => {
+      const markerContainer = document.querySelector('.mapboxgl-marker-container');
+      const ourMarker = document.querySelector(`[data-service-id="${service.id}"]`);
+      if (markerContainer && ourMarker) {
+        console.log(`Marker ${service.name} is in Mapbox container:`, markerContainer.contains(ourMarker));
+      }
+    }, 100);
 
     console.log(`Added marker for ${service.name} at ${service.coordinates}`);
   });
@@ -708,9 +747,11 @@ const showNearbyHealthServices = (lng, lat) => {
   nearbyServices.forEach(service => {
     const marker = document.querySelector(`[data-service-id="${service.id}"]`);
     if (marker) {
-      marker.style.transform = 'scale(1.2)';
-      marker.style.zIndex = '1000';
-      marker.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+      const innerEl = marker.querySelector('.marker-inner');
+      if (innerEl) {
+        innerEl.style.transform = 'scale(1.2)';
+        innerEl.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+      }
     }
   });
 };
@@ -832,7 +873,7 @@ const filterServicesNearLocation = (lng, lat) => {
     innerEl.className = 'marker-inner';
     innerEl.innerHTML = `<i class="fas ${getCategoryIcon(service.category)}"></i>`;
     
-    // Style the outer container (don't add transform here!)
+    // Don't set any positioning styles on the outer element
     el.style.cssText = `
       width: 35px;
       height: 35px;
@@ -926,24 +967,40 @@ const filterByCategory = (categoryId) => {
   
   // Add filtered markers
   filteredServices.forEach(service => {
+    // Create marker element with inner wrapper
     const el = document.createElement('div');
     el.className = 'health-marker';
     el.setAttribute('data-service-id', service.id);
-    el.innerHTML = `<i class="fas ${getCategoryIcon(service.category)}"></i>`;
+    
+    // Create inner element for animations
+    const innerEl = document.createElement('div');
+    innerEl.className = 'marker-inner';
+    innerEl.innerHTML = `<i class="fas ${getCategoryIcon(service.category)}"></i>`;
+    
+    // Don't set any positioning styles on the outer element
     el.style.cssText = `
       width: 30px;
       height: 30px;
+      cursor: pointer;
+    `;
+    
+    // Style the inner element (this is where we add animations)
+    innerEl.style.cssText = `
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       background: ${getCategoryColor(service.category)};
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       border: 2px solid white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       transition: all 0.3s ease;
+      transform-origin: center center;
     `;
+    
+    el.appendChild(innerEl);
     
     const marker = new mapboxgl.Marker(el)
       .setLngLat(service.coordinates)
@@ -954,15 +1011,15 @@ const filterByCategory = (categoryId) => {
       console.log('Service selected:', service);
     });
     
-    // Add hover effect
+    // Add hover effect (on inner element)
     el.addEventListener('mouseenter', () => {
-      el.style.transform = 'scale(1.1)';
-      el.style.zIndex = '1000';
+      innerEl.style.transform = 'scale(1.1)';
+      innerEl.style.boxShadow = '0 4px 8px rgba(0,0,0,0.4)';
     });
     
     el.addEventListener('mouseleave', () => {
-      el.style.transform = 'scale(1)';
-      el.style.zIndex = 'auto';
+      innerEl.style.transform = 'scale(1)';
+      innerEl.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
     });
   });
   
@@ -1066,34 +1123,18 @@ const callService = (service) => {
   window.open(`tel:${service.phone}`, '_self');
 };
 
-// Test markers function
-const testMarkers = () => {
-  console.log('Testing markers...');
-  console.log('Health services:', healthServices.value);
-  console.log('Map instance:', map.value);
-  
-  // Force add all markers
-  addHealthServiceMarkers();
-  
-  // Test selecting first service
-  if (healthServices.value.length > 0) {
-    selectedService.value = healthServices.value[0];
-    console.log('Selected service:', selectedService.value);
-  }
-};
-
 // Show all services
 const showAllServices = () => {
   console.log('Showing all services...');
   addHealthServiceMarkers();
   
-  // Fit map to show all services
+  // Fit map to show all services in Melbourne metro area
   if (healthServices.value.length > 0) {
     const bounds = new mapboxgl.LngLatBounds();
     healthServices.value.forEach(service => {
       bounds.extend(service.coordinates);
     });
-    map.value.fitBounds(bounds, { padding: 50 });
+    map.value.fitBounds(bounds, { padding: 100 }); // Increased padding to show more area
   }
 };
 
@@ -1104,24 +1145,19 @@ const showServicePopup = (service, markerElement) => {
     window.servicePopup.remove();
   }
   
-  // Create popup content
+  // Create popup content - only show name and category
   const popupContent = `
     <div class="service-popup">
-      <h6 class="popup-title">${service.name}</h6>
-      <p class="popup-address"><i class="fas fa-map-marker-alt"></i> ${service.address}</p>
-      <p class="popup-phone"><i class="fas fa-phone"></i> ${service.phone}</p>
-      <p class="popup-hours"><i class="fas fa-clock"></i> ${service.hours}</p>
-      <div class="popup-actions">
-        <button class="btn btn-primary btn-sm" onclick="window.open('https://www.google.com/maps/search/?api=1&query=${service.coordinates[1]},${service.coordinates[0]}', '_blank')">
-          <i class="fas fa-directions"></i> View on Google Maps
-        </button>
+      <div class="popup-category">
+        <span class="badge ${getCategoryBadgeClass(service.category)}">${getCategoryDisplayName(service.category)}</span>
       </div>
+      <h6 class="popup-title">${service.name}</h6>
     </div>
   `;
   
   // Create popup
   window.servicePopup = new mapboxgl.Popup({
-    offset: 25,
+    offset: 15,
     closeButton: false,
     closeOnClick: false,
     className: 'service-hover-popup'
@@ -1139,13 +1175,6 @@ const hideServicePopup = () => {
   }
 };
 
-// Calculate route
-const calculateRoute = () => {
-  if (routeFrom.value && routeTo.value) {
-    const directionsUrl = `https://www.google.com/maps/dir/${routeFrom.value}/${routeTo.value}`;
-    window.open(directionsUrl, '_blank');
-  }
-};
 
 // Lifecycle hooks
 onMounted(async () => {
@@ -1260,35 +1289,6 @@ onBeforeUnmount(() => {
   z-index: 1000;
 }
 
-.route-planner-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 2000;
-  width: 400px;
-}
-
-.modal-content {
-  padding: 20px;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
 
 .risk-factors ul {
   list-style: none;
@@ -1443,15 +1443,15 @@ onBeforeUnmount(() => {
   min-width: 80px;
 }
 
-/* Enhanced markers - Fixed positioning */
-/* Don't apply transforms to the root marker elements! */
+/* Enhanced markers - Let Mapbox handle all positioning */
 .health-marker,
 .user-location-marker,
 .nearby-service {
-  /* Only basic positioning, no transforms */
+  /* Don't interfere with Mapbox positioning */
+  display: block;
 }
 
-/* Apply animations to inner elements instead */
+/* Apply animations only to inner elements */
 .marker-inner {
   transform-origin: center center;
   transition: all 0.3s ease;
@@ -1479,53 +1479,71 @@ onBeforeUnmount(() => {
 
 /* Service Hover Popup */
 .service-hover-popup .mapboxgl-popup-content {
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   background: white;
   border: none;
-  min-width: 250px;
+  min-width: 150px;
+  max-width: 200px;
 }
 
 .service-popup {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+.popup-category {
+  margin-bottom: 6px;
+}
+
 .popup-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #2c3e50;
-  margin-bottom: 8px;
-  margin-top: 0;
+  margin: 0;
+  line-height: 1.3;
 }
 
-.popup-address,
-.popup-phone,
-.popup-hours {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin-bottom: 4px;
-  margin-top: 0;
-  display: flex;
-  align-items: center;
-}
-
-.popup-address i,
-.popup-phone i,
-.popup-hours i {
-  width: 12px;
-  margin-right: 6px;
-  color: #007bff;
-}
-
-.popup-actions {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.popup-actions .btn {
-  font-size: 0.8rem;
+/* Popup badge styles - ensure proper contrast */
+.service-hover-popup .badge {
+  color: white !important;
+  font-weight: 600;
+  font-size: 0.7rem;
   padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Force specific colors for each category */
+.service-hover-popup .bg-purple {
+  background-color: #6f42c1 !important;
+  color: white !important;
+}
+
+.service-hover-popup .bg-danger {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.service-hover-popup .bg-warning {
+  background-color: #fd7e14 !important;
+  color: white !important;
+}
+
+.service-hover-popup .bg-success {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+
+.service-hover-popup .bg-secondary {
+  background-color: #6c757d !important;
+  color: white !important;
+}
+
+/* Additional specificity to override any conflicting styles */
+.service-hover-popup .popup-category .badge {
+  color: white !important;
+  background-color: inherit !important;
 }
 
 /* Responsive design */
@@ -1557,10 +1575,6 @@ onBeforeUnmount(() => {
     margin-top: 10px;
   }
   
-  .route-planner-modal {
-    width: 90%;
-    max-width: 400px;
-  }
   
   .suggestions-dropdown {
     position: relative;
