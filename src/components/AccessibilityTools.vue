@@ -93,18 +93,7 @@
           </div>
         </div>
 
-        <!-- Screen Reader Announcements -->
-        <div class="control-group">
-          <h6>Screen Reader</h6>
-          <button 
-            class="btn btn-sm btn-primary"
-            @click="announcePageContent"
-            :aria-label="'Announce page content to screen reader'"
-          >
-            <i class="fas fa-volume-up"></i>
-            Announce Content
-          </button>
-        </div>
+        <!-- Screen Reader Announcements - Removed as not needed -->
 
         <!-- Motion Reduction -->
         <div class="control-group">
@@ -543,14 +532,16 @@ const handleKeyboardNavigation = (event) => {
 }
 
 .shortcut-item kbd {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
   border-radius: 4px;
   padding: 4px 8px;
   font-family: monospace;
   font-size: 0.9rem;
   min-width: 40px;
   text-align: center;
+  font-weight: bold;
 }
 
 .skip-links {

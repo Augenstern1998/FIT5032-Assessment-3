@@ -31,7 +31,7 @@
   top: 0;
 }
 
-/* High contrast mode */
+/* High contrast mode - Fixed for better visibility */
 .high-contrast {
   --bs-primary: #0000ff;
   --bs-secondary: #808080;
@@ -41,6 +41,11 @@
   --bs-info: #00ffff;
   --bs-light: #ffffff;
   --bs-dark: #000000;
+}
+
+.high-contrast {
+  background-color: white !important;
+  color: black !important;
 }
 
 .high-contrast * {
@@ -60,11 +65,71 @@
   border: 2px solid black !important;
 }
 
-/* Enhanced focus indicators */
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+}
+
+.high-contrast .form-control {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+}
+
+.high-contrast .btn {
+  background-color: #0000ff !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.high-contrast .card {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+}
+
+.high-contrast .modal {
+  background-color: white !important;
+  color: black !important;
+}
+
+.high-contrast .modal-content {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+}
+
+/* Enhanced focus indicators - More visible */
 .enhanced-focus *:focus {
-  outline: 3px solid #ffc107 !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.5) !important;
+  outline: 4px solid #ff0000 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+}
+
+.enhanced-focus button:focus,
+.enhanced-focus .btn:focus {
+  outline: 4px solid #ff0000 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 3px solid #ff0000 !important;
+}
+
+.enhanced-focus input:focus,
+.enhanced-focus select:focus,
+.enhanced-focus textarea:focus {
+  outline: 4px solid #ff0000 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 3px solid #ff0000 !important;
 }
 
 /* Motion reduction */
