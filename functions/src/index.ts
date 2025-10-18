@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import cors from 'cors';
+import { sendContactEmail } from './emailService';
 
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -37,15 +38,32 @@ export const sendEmail = functions.https.onRequest((req, res) => {
         return;
       }
 
-      // Simulate successful email sending
       console.log('Email request received:', { type, data });
 
-      res.status(200).json({
-        success: true,
-        message: 'Email sent successfully via cloud function',
-        id: `email_${Date.now()}`,
-        type: type
-      });
+      // Handle different email types
+      if (type === 'contact') {
+        const result = await sendContactEmail(data);
+        if (result.success) {
+          res.status(200).json({
+            success: true,
+            message: 'Contact email sent successfully',
+            id: result.id
+          });
+        } else {
+          res.status(500).json({
+            success: false,
+            error: result.error || 'Failed to send email'
+          });
+        }
+      } else {
+        // For other email types, simulate success
+        res.status(200).json({
+          success: true,
+          message: 'Email sent successfully via cloud function',
+          id: `email_${Date.now()}`,
+          type: type
+        });
+      }
     } catch (error) {
       console.error('Email function error:', error);
       res.status(500).json({
