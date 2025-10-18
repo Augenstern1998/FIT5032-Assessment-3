@@ -76,22 +76,7 @@
           </select>
         </div>
 
-        <!-- Focus Indicators -->
-        <div class="control-group">
-          <h6>Focus Indicators</h6>
-          <div class="form-check form-switch">
-            <input 
-              class="form-check-input" 
-              type="checkbox" 
-              id="enhancedFocus"
-              v-model="enhancedFocus"
-              @change="toggleEnhancedFocus"
-            >
-            <label class="form-check-label" for="enhancedFocus">
-              Enhanced Focus
-            </label>
-          </div>
-        </div>
+        <!-- Focus Indicators - Removed as not useful -->
 
         <!-- Screen Reader Announcements - Removed as not needed -->
 
@@ -206,7 +191,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 const isExpanded = ref(false);
 const highContrast = ref(false);
 const colorBlindMode = ref('normal');
-const enhancedFocus = ref(false);
+// Enhanced focus removed as not useful
 const showKeyboardHelp = ref(false);
 const textSize = ref(100);
 const reduceMotion = ref(false);
@@ -232,7 +217,7 @@ const loadAccessibilityPreferences = () => {
   const savedTextSize = localStorage.getItem('accessibility-text-size');
   const savedHighContrast = localStorage.getItem('accessibility-high-contrast');
   const savedColorBlindMode = localStorage.getItem('accessibility-color-blind');
-  const savedEnhancedFocus = localStorage.getItem('accessibility-enhanced-focus');
+  // Enhanced focus removed
   const savedReduceMotion = localStorage.getItem('accessibility-reduce-motion');
   
   if (savedTextSize) {
@@ -250,10 +235,7 @@ const loadAccessibilityPreferences = () => {
     applyColorBlindMode();
   }
   
-  if (savedEnhancedFocus === 'true') {
-    enhancedFocus.value = true;
-    toggleEnhancedFocus();
-  }
+  // Enhanced focus removed
   
   if (savedReduceMotion === 'true') {
     reduceMotion.value = true;
@@ -317,17 +299,7 @@ const applyColorBlindMode = () => {
   announceToScreenReader(`Color vision mode changed to ${colorBlindMode.value}`);
 };
 
-// Enhanced focus toggle
-const toggleEnhancedFocus = () => {
-  if (enhancedFocus.value) {
-    document.body.classList.add('enhanced-focus');
-    announceToScreenReader('Enhanced focus indicators enabled');
-  } else {
-    document.body.classList.remove('enhanced-focus');
-    announceToScreenReader('Enhanced focus indicators disabled');
-  }
-  localStorage.setItem('accessibility-enhanced-focus', enhancedFocus.value.toString());
-};
+// Enhanced focus removed as not useful
 
 // Motion reduction toggle
 const toggleReduceMotion = () => {

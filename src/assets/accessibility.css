@@ -102,35 +102,7 @@
   border: 2px solid black !important;
 }
 
-/* Enhanced focus indicators - More visible */
-.enhanced-focus *:focus {
-  outline: 4px solid #ff0000 !important;
-  outline-offset: 3px !important;
-  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
-  background-color: #ffff00 !important;
-  color: #000000 !important;
-}
-
-.enhanced-focus button:focus,
-.enhanced-focus .btn:focus {
-  outline: 4px solid #ff0000 !important;
-  outline-offset: 3px !important;
-  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
-  background-color: #ffff00 !important;
-  color: #000000 !important;
-  border: 3px solid #ff0000 !important;
-}
-
-.enhanced-focus input:focus,
-.enhanced-focus select:focus,
-.enhanced-focus textarea:focus {
-  outline: 4px solid #ff0000 !important;
-  outline-offset: 3px !important;
-  box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.8) !important;
-  background-color: #ffff00 !important;
-  color: #000000 !important;
-  border: 3px solid #ff0000 !important;
-}
+/* Enhanced focus indicators removed as not useful */
 
 /* Motion reduction */
 .reduce-motion * {
