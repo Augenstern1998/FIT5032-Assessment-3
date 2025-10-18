@@ -283,7 +283,7 @@ async function onSubmit() {
       email: sanitizeInput(formData.value.email, 'email'),
       subject: sanitizeInput(formData.value.subject, 'text'),
       message: sanitizeInput(formData.value.message, 'text'),
-      attachment: formData.value.attachment ? await fileToBase64(formData.value.attachment) : null,
+      attachment: formData.value.attachment, // File object doesn't need sanitization
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
@@ -379,24 +379,6 @@ function formatFileSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-// Convert file to base64 for email attachment
-async function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
-      const base64 = reader.result.split(',')[1];
-      resolve({
-        filename: file.name,
-        content: base64,
-        contentType: file.type
-      });
-    };
-    reader.onerror = error => reject(error);
-  });
 }
 
 function resetForm() {
