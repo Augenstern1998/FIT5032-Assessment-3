@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../pages/Home.vue';
 import Resources from '../pages/Resources.vue';
+import HealthServices from '../pages/HealthServices.vue';
+import DataExport from '../pages/DataExport.vue';
 import JoinCommunity from '../pages/JoinCommunity.vue';
 import Contact from '../pages/Contact.vue';
 import Login from '../pages/Login.vue';
@@ -12,6 +14,8 @@ import { getCurrentUser } from '../utils/auth.js';
 const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/resources', name: 'resources', component: Resources },
+  { path: '/health-services', name: 'health-services', component: HealthServices },
+  { path: '/data-export', name: 'data-export', component: DataExport, meta: { requiresAuth: true } },
   { path: '/contact', name: 'contact', component: Contact },
   { path: '/join', name: 'join', component: JoinCommunity, meta: { requiresAuth: true } },
   { path: '/admin', name: 'admin', component: () => import('../pages/AdminDashboard.vue'), meta: { requiresAuth: true, roles: ['admin'] } },

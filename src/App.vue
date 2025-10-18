@@ -1,11 +1,14 @@
 <!-- Main application layout component -->
 <template>
   <div>
+    <!-- Accessibility Tools -->
+    <AccessibilityTools />
+    
     <!-- Navigation bar component -->
     <NavBar />
     
     <!-- Main content area with router view -->
-    <main class="container py-4">
+    <main id="main-content" class="container py-4" tabindex="-1">
       <router-view />
     </main>
     
@@ -17,6 +20,7 @@
 </template>
 
 <script setup>
-// Import navigation bar component
+// Import components
 import NavBar from './components/NavBar.vue';
+import AccessibilityTools from './components/AccessibilityTools.vue';
 </script>

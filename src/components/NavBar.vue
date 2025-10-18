@@ -1,37 +1,42 @@
 <!-- NavBar.vue -->
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <nav id="navigation" class="navbar navbar-expand-lg navbar-light bg-light border-bottom" role="navigation" aria-label="Main navigation">
     <div class="container">
-      <RouterLink class="navbar-brand fw-semibold" to="/">Men's Health</RouterLink>
+      <RouterLink class="navbar-brand fw-semibold" to="/" aria-label="Men's Health - Home">
+        <i class="fas fa-heartbeat me-2" aria-hidden="true"></i>
+        Men's Health
+      </RouterLink>
 
       <button class="navbar-toggler" type="button"
               data-bs-toggle="collapse" data-bs-target="#nav"
               aria-controls="nav" aria-expanded="false"
-              aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span> 
+              aria-label="Toggle navigation menu">
+        <span class="navbar-toggler-icon" aria-hidden="true"></span> 
       </button>
 
       <div class="collapse navbar-collapse" id="nav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-              <li class="nav-item"><RouterLink class="nav-link" to="/">Home</RouterLink></li>
-              <li class="nav-item"><RouterLink class="nav-link" to="/resources">Resources</RouterLink></li>
-              <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
-              <li class="nav-item"><RouterLink class="nav-link" to="/join">Join Community</RouterLink></li>
-          <li class="nav-item dropdown" v-if="user && user.role === 'admin'">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">Admin</a>
-            <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" to="/admin">Dashboard</RouterLink></li>
-              <li><RouterLink class="dropdown-item" to="/admin/resources">Resource Management</RouterLink></li>
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2" role="menubar">
+              <li class="nav-item" role="none"><RouterLink class="nav-link" to="/" role="menuitem" aria-label="Go to home page">Home</RouterLink></li>
+              <li class="nav-item" role="none"><RouterLink class="nav-link" to="/resources" role="menuitem" aria-label="View health resources">Resources</RouterLink></li>
+              <li class="nav-item" role="none"><RouterLink class="nav-link" to="/health-services" role="menuitem" aria-label="Find health services near you">Health Services</RouterLink></li>
+              <li class="nav-item" role="none" v-if="user"><RouterLink class="nav-link" to="/data-export" role="menuitem" aria-label="Export data and reports">Data Export</RouterLink></li>
+              <li class="nav-item" role="none"><RouterLink class="nav-link" to="/contact" role="menuitem" aria-label="Contact us">Contact</RouterLink></li>
+              <li class="nav-item" role="none"><RouterLink class="nav-link" to="/join" role="menuitem" aria-label="Join our community">Join Community</RouterLink></li>
+          <li class="nav-item dropdown" v-if="user && user.role === 'admin'" role="none">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" aria-label="Admin menu">Admin</a>
+            <ul class="dropdown-menu" role="menu" aria-label="Admin menu">
+              <li role="none"><RouterLink class="dropdown-item" to="/admin" role="menuitem" aria-label="Go to admin dashboard">Dashboard</RouterLink></li>
+              <li role="none"><RouterLink class="dropdown-item" to="/admin/resources" role="menuitem" aria-label="Manage resources">Resource Management</RouterLink></li>
             </ul>
           </li>
-          <li class="nav-item" v-if="!user"><RouterLink class="btn btn-sm btn-outline-primary" to="/login">Login</RouterLink></li>
-          <li class="nav-item" v-if="!user"><RouterLink class="btn btn-sm btn-primary" to="/register">Register</RouterLink></li>
-          <li class="nav-item dropdown" v-if="user">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{ user.name }}</a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><span class="dropdown-item-text">Role: {{ user.role }}</span></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><button class="dropdown-item" @click="onLogout">Logout</button></li>
+          <li class="nav-item" v-if="!user" role="none"><RouterLink class="btn btn-sm btn-outline-primary" to="/login" role="menuitem" aria-label="Sign in to your account">Login</RouterLink></li>
+          <li class="nav-item" v-if="!user" role="none"><RouterLink class="btn btn-sm btn-primary" to="/register" role="menuitem" aria-label="Create a new account">Register</RouterLink></li>
+          <li class="nav-item dropdown" v-if="user" role="none">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" :aria-label="`User menu for ${user.name}`">{{ user.name }}</a>
+            <ul class="dropdown-menu dropdown-menu-end" role="menu" :aria-label="`User menu for ${user.name}`">
+              <li role="none"><span class="dropdown-item-text" role="menuitem" aria-label="User role">{{ user.role }}</span></li>
+              <li><hr class="dropdown-divider" role="separator" /></li>
+              <li role="none"><button class="dropdown-item" @click="onLogout" type="button" role="menuitem" aria-label="Sign out of your account">Logout</button></li>
             </ul>
           </li>
         </ul>
@@ -52,8 +57,18 @@ const user = ref(null);
 
 async function load() {
   try {
-    user.value = await getCurrentUser();
-    console.log('User loaded:', user.value);
+    const currentUser = await getCurrentUser();
+    console.log('User loaded:', currentUser);
+    
+    // Check if user has valid data
+    if (currentUser && currentUser.name && currentUser.email) {
+      user.value = currentUser;
+    } else {
+      console.log('Invalid user data, clearing...');
+      user.value = null;
+      // Clear invalid session data
+      localStorage.removeItem('mh_session');
+    }
   } catch (error) {
     console.error('Failed to load user:', error);
     user.value = null;
@@ -61,6 +76,21 @@ async function load() {
 }
 
 onMounted(() => {
+  // Clear any invalid session data on mount
+  const sessionData = localStorage.getItem('mh_session');
+  if (sessionData) {
+    try {
+      const parsed = JSON.parse(sessionData);
+      if (!parsed.name || !parsed.email) {
+        console.log('Invalid session data found, clearing...');
+        localStorage.removeItem('mh_session');
+      }
+    } catch (error) {
+      console.log('Corrupted session data found, clearing...');
+      localStorage.removeItem('mh_session');
+    }
+  }
+  
   load();
   
   // Listen to both local and Firebase auth changes
@@ -120,12 +150,26 @@ onBeforeUnmount(() => {
 });
 
 async function onLogout() {
+  console.log('onLogout function called!');
   console.log('Starting logout...');
+  console.log('Current user before logout:', user.value);
   
   try {
+    // Close any open dropdowns
+    const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+    dropdowns.forEach(dropdown => {
+      dropdown.classList.remove('show');
+    });
+    console.log('Dropdowns closed');
+    
     // Clear local state first
     user.value = null;
     console.log('Local state cleared');
+    
+    // Clear all session data
+    localStorage.removeItem('mh_session');
+    localStorage.removeItem('mh_users');
+    console.log('Local storage cleared');
     
     // Call logout function
     await logout();
@@ -145,6 +189,8 @@ async function onLogout() {
     
     // Clear local state even if error occurs
     user.value = null;
+    localStorage.removeItem('mh_session');
+    localStorage.removeItem('mh_users');
     
     // Trigger authentication state change event
     window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
