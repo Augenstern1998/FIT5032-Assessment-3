@@ -106,6 +106,36 @@
           </button>
         </div>
 
+        <!-- Motion Reduction -->
+        <div class="control-group">
+          <h6>Motion</h6>
+          <div class="form-check form-switch">
+            <input 
+              class="form-check-input" 
+              type="checkbox" 
+              id="reduceMotion"
+              v-model="reduceMotion"
+              @change="toggleReduceMotion"
+            >
+            <label class="form-check-label" for="reduceMotion">
+              Reduce Motion
+            </label>
+          </div>
+        </div>
+
+        <!-- Focus Management -->
+        <div class="control-group">
+          <h6>Focus Management</h6>
+          <button 
+            class="btn btn-sm btn-secondary"
+            @click="focusMainContent"
+            :aria-label="'Focus on main content'"
+          >
+            <i class="fas fa-crosshairs"></i>
+            Focus Main
+          </button>
+        </div>
+
         <!-- Keyboard Navigation Help -->
         <div class="control-group">
           <h6>Keyboard Navigation</h6>
@@ -190,6 +220,7 @@ const colorBlindMode = ref('normal');
 const enhancedFocus = ref(false);
 const showKeyboardHelp = ref(false);
 const textSize = ref(100);
+const reduceMotion = ref(false);
 
 // Initialize accessibility features
 onMounted(() => {
@@ -213,6 +244,7 @@ const loadAccessibilityPreferences = () => {
   const savedHighContrast = localStorage.getItem('accessibility-high-contrast');
   const savedColorBlindMode = localStorage.getItem('accessibility-color-blind');
   const savedEnhancedFocus = localStorage.getItem('accessibility-enhanced-focus');
+  const savedReduceMotion = localStorage.getItem('accessibility-reduce-motion');
   
   if (savedTextSize) {
     textSize.value = parseInt(savedTextSize);
@@ -232,6 +264,11 @@ const loadAccessibilityPreferences = () => {
   if (savedEnhancedFocus === 'true') {
     enhancedFocus.value = true;
     toggleEnhancedFocus();
+  }
+  
+  if (savedReduceMotion === 'true') {
+    reduceMotion.value = true;
+    toggleReduceMotion();
   }
 };
 
@@ -301,6 +338,28 @@ const toggleEnhancedFocus = () => {
     announceToScreenReader('Enhanced focus indicators disabled');
   }
   localStorage.setItem('accessibility-enhanced-focus', enhancedFocus.value.toString());
+};
+
+// Motion reduction toggle
+const toggleReduceMotion = () => {
+  if (reduceMotion.value) {
+    document.body.classList.add('reduce-motion');
+    announceToScreenReader('Motion reduction enabled');
+  } else {
+    document.body.classList.remove('reduce-motion');
+    announceToScreenReader('Motion reduction disabled');
+  }
+  localStorage.setItem('accessibility-reduce-motion', reduceMotion.value.toString());
+};
+
+// Focus management
+const focusMainContent = () => {
+  const mainContent = document.querySelector('main');
+  if (mainContent) {
+    mainContent.focus();
+    mainContent.scrollIntoView({ behavior: 'smooth' });
+    announceToScreenReader('Focused on main content');
+  }
 };
 
 // Screen reader announcements
@@ -585,6 +644,21 @@ const handleKeyboardNavigation = (event) => {
 /* Text size support */
 :global(html) {
   font-size: var(--accessibility-text-size, 100%);
+}
+
+/* Motion reduction support */
+:global(.reduce-motion) * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+:global(.reduce-motion) *:before,
+:global(.reduce-motion) *:after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
 
 /* Responsive design */

@@ -8,6 +8,8 @@ import router from './router/index.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Import custom CSS styles
 import './assets/main.css';
+// Import accessibility styles
+import './assets/accessibility.css';
 
 // Import Bootstrap JavaScript for interactive components (modals, dropdowns, etc.)
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';

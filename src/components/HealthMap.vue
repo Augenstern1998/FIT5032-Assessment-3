@@ -1,8 +1,8 @@
 <!-- HealthMap.vue - Interactive health services map for men's health platform -->
 <template>
-  <div class="health-map-container">
+  <div class="health-map-container" role="application" aria-label="Interactive health services map">
     <!-- Map Controls - Floating Panel -->
-    <div class="map-controls-floating">
+    <div class="map-controls-floating" role="toolbar" aria-label="Map controls">
       <div class="search-section">
         <div class="search-container">
           <div class="input-group mb-3">
@@ -14,7 +14,8 @@
               @input="handleSearchInput"
               @keyup.enter="searchHealthServices"
               @focus="showSuggestions = true"
-              :aria-label="'Search for locations'"
+              :aria-label="'Search for health service locations'"
+              :aria-describedby="'search-help'"
               ref="searchInput"
             >
             <button 
@@ -26,6 +27,11 @@
               <i class="fas fa-search" v-if="!isSearching"></i>
               <i class="fas fa-spinner fa-spin" v-else></i>
             </button>
+          </div>
+          
+          <!-- Search Help Text -->
+          <div id="search-help" class="form-text">
+            <small>Type to search for health services, hospitals, or addresses. Use arrow keys to navigate suggestions.</small>
           </div>
           
           <!-- Search Suggestions Dropdown -->
@@ -92,8 +98,17 @@
       class="health-map"
       :style="{ height: mapHeight }"
       role="img"
-      :aria-label="'Interactive map showing health services'"
+      :aria-label="'Interactive map showing health services in Melbourne area'"
+      :aria-describedby="'map-instructions'"
+      tabindex="0"
+      @keydown="handleMapKeyboard"
     ></div>
+    
+    <!-- Map Instructions -->
+    <div id="map-instructions" class="sr-only">
+      <p>Interactive map showing health services. Use mouse to pan and zoom, or use keyboard navigation.</p>
+      <p>Health services are marked with colored icons: Blue for general practice, Red for emergency, Purple for mental health, Green for cardiology.</p>
+    </div>
 
     <!-- Health Service Info Panel -->
     <div v-if="selectedService" class="service-info-panel">
@@ -1176,6 +1191,50 @@ const hideServicePopup = () => {
 };
 
 
+// Handle keyboard navigation for map
+const handleMapKeyboard = (event) => {
+  if (!map.value) return;
+  
+  const key = event.key;
+  const center = map.value.getCenter();
+  const zoom = map.value.getZoom();
+  
+  switch (key) {
+    case 'ArrowUp':
+      event.preventDefault();
+      map.value.panTo([center.lng, center.lat + 0.01]);
+      break;
+    case 'ArrowDown':
+      event.preventDefault();
+      map.value.panTo([center.lng, center.lat - 0.01]);
+      break;
+    case 'ArrowLeft':
+      event.preventDefault();
+      map.value.panTo([center.lng - 0.01, center.lat]);
+      break;
+    case 'ArrowRight':
+      event.preventDefault();
+      map.value.panTo([center.lng + 0.01, center.lat]);
+      break;
+    case '+':
+    case '=':
+      event.preventDefault();
+      map.value.zoomTo(zoom + 1);
+      break;
+    case '-':
+      event.preventDefault();
+      map.value.zoomTo(zoom - 1);
+      break;
+    case 'Home':
+      event.preventDefault();
+      map.value.fitBounds([
+        [144.5, -38.0], // Southwest
+        [145.5, -37.5]  // Northeast
+      ]);
+      break;
+  }
+};
+
 // Lifecycle hooks
 onMounted(async () => {
   await nextTick();
@@ -1544,6 +1603,19 @@ onBeforeUnmount(() => {
 .service-hover-popup .popup-category .badge {
   color: white !important;
   background-color: inherit !important;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Responsive design */

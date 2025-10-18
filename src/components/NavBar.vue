@@ -19,7 +19,6 @@
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/" role="menuitem" aria-label="Go to home page">Home</RouterLink></li>
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/resources" role="menuitem" aria-label="View health resources">Resources</RouterLink></li>
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/health-services" role="menuitem" aria-label="Find health services near you">Health Services</RouterLink></li>
-              <li class="nav-item" role="none" v-if="user"><RouterLink class="nav-link" to="/data-export" role="menuitem" aria-label="Export data and reports">Data Export</RouterLink></li>
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/contact" role="menuitem" aria-label="Contact us">Contact</RouterLink></li>
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/join" role="menuitem" aria-label="Join our community">Join Community</RouterLink></li>
           <li class="nav-item dropdown" v-if="user && user.role === 'admin'" role="none">

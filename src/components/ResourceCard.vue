@@ -63,8 +63,10 @@
         View Details
       </button>
     </div>
+  </div>
 
-    <!-- Details Modal -->
+  <!-- Details Modal - Using Teleport to avoid hover conflicts -->
+  <Teleport to="body">
     <div v-if="showDetails" class="modal show d-block" tabindex="-1" role="dialog" @click.self="showDetails = false">
       <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -240,8 +242,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showDetails" class="modal-backdrop show"></div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -321,6 +322,12 @@ function rateResource(rating) {
 /* Modal styles */
 .modal {
   z-index: 1055;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-backdrop {
@@ -484,5 +491,23 @@ function rateResource(rating) {
 .seek-help p {
   margin-bottom: 0;
   color: #0c5460;
+}
+
+/* Prevent hover conflicts */
+.card {
+  position: relative;
+}
+
+.modal {
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  pointer-events: auto;
+}
+
+/* Ensure modal content doesn't interfere with card hover */
+.modal-content {
+  pointer-events: auto;
 }
 </style>
