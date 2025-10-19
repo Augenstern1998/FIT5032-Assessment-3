@@ -6,7 +6,8 @@ A comprehensive web application built with Vue 3 and Firebase, designed to provi
 
 - **Firebase Hosting**: https://mens-health-app-b7749.web.app
 - **Cloudflare Pages**: https://fit5032-assessment-3.pages.dev
-- **Cloud Functions**: https://us-central1-mens-health-app-b7749.cloudfunctions.net
+- **Cloud Functions**: [https://us-central1-mens-health-app-b7749.cloudfunctions.net](https://console.firebase.google.com/project/mens-health-app-b7749/functions)
+  
 
 ## ✨ Features
 
