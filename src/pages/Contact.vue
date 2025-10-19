@@ -118,15 +118,21 @@
                   <i class="fas fa-paperclip me-2"></i>
                   Attachment (Optional)
                 </label>
-                <input 
-                  id="attachment" 
-                  name="attachment"
-                  type="file" 
-                  class="form-control" 
-                  @change="handleFileUpload"
-                  :disabled="isLoading"
-                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.zip,.rar,.xlsx,.xls,.ppt,.pptx"
-                />
+                <div class="custom-file-upload">
+                  <input 
+                    id="attachment" 
+                    name="attachment"
+                    type="file" 
+                    class="file-input" 
+                    @change="handleFileUpload"
+                    :disabled="isLoading"
+                    accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.zip,.rar,.xlsx,.xls,.ppt,.pptx"
+                  />
+                  <label for="attachment" class="file-label">
+                    <i class="fas fa-cloud-upload-alt me-2"></i>
+                    <span class="file-text">{{ formData.attachment ? formData.attachment.name : 'Choose File' }}</span>
+                  </label>
+                </div>
                 <div class="form-text">
                   Supported formats: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF, ZIP, RAR, XLSX, XLS, PPT, PPTX (Max 5MB)
                 </div>
@@ -698,6 +704,64 @@ function resetForm() {
   color: white;
   transform: translateX(5px);
   text-decoration: none;
+}
+
+/* Custom File Upload */
+.custom-file-upload {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: white;
+  color: var(--gray-700);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 48px;
+}
+
+.file-label:hover {
+  border-color: var(--primary-color);
+  background: var(--gray-50);
+}
+
+.file-label:active {
+  transform: translateY(1px);
+}
+
+.file-text {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-input:disabled + .file-label {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--gray-100);
+}
+
+.file-input:focus + .file-label {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* Responsive Design */
