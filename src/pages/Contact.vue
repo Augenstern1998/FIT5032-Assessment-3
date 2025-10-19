@@ -31,7 +31,7 @@
 
             <div v-if="notice" class="alert" :class="noticeClass" role="alert">{{ notice }}</div>
 
-            <form @submit.prevent="onSubmit" novalidate class="contact-form">
+            <form ref="contactForm" @submit.prevent="onSubmit" novalidate class="contact-form" enctype="multipart/form-data">
               <div class="form-row">
                 <div class="form-group">
                   <label for="name" class="form-label">
@@ -40,6 +40,7 @@
                   </label>
                   <input 
                     id="name" 
+                    name="user_name"
                     type="text" 
                     class="form-control" 
                     v-model.trim="formData.name" 
@@ -55,6 +56,7 @@
                   </label>
                   <input 
                     id="email" 
+                    name="user_email"
                     type="email" 
                     class="form-control" 
                     v-model.trim="formData.email" 
@@ -72,6 +74,7 @@
                 </label>
                 <select 
                   id="subject" 
+                  name="subject"
                   class="form-select" 
                   v-model="formData.subject" 
                   required 
@@ -94,6 +97,7 @@
                 </label>
                 <textarea 
                   id="message" 
+                  name="message"
                   class="form-control" 
                   rows="6" 
                   v-model.trim="formData.message" 
@@ -116,14 +120,15 @@
                 </label>
                 <input 
                   id="attachment" 
+                  name="attachment"
                   type="file" 
                   class="form-control" 
                   @change="handleFileUpload"
                   :disabled="isLoading"
-                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif"
+                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.zip,.rar,.xlsx,.xls,.ppt,.pptx"
                 />
                 <div class="form-text">
-                  Supported formats: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF (Max 5MB)
+                  Supported formats: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF, ZIP, RAR, XLSX, XLS, PPT, PPTX (Max 5MB)
                 </div>
                 <div v-if="formData.attachment" class="mt-2">
                   <div class="alert alert-info d-flex justify-content-between align-items-center">
@@ -241,9 +246,10 @@
 import { ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { validateEmail, sanitizeInput } from '../utils/security.js';
-import { sendContactEmail, sendSimpleContactEmail } from '../utils/emailService.js';
+import { sendContactEmail, sendSimpleContactEmail, sendContactEmailWithForm } from '../utils/emailService.js';
 import cloudFunctionService from '../services/cloudFunctions.js';
 
+const contactForm = ref(null);
 const formData = ref({
   name: '',
   email: '',
@@ -287,23 +293,23 @@ async function onSubmit() {
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // Send contact email using EmailJS
+    // Send contact email using EmailJS sendForm (supports file attachments)
     let emailSent = false;
     try {
-      console.log('Sending email via EmailJS...');
-      emailSent = await sendSimpleContactEmail(cleanData);
+      console.log('Sending email with attachments via EmailJS sendForm...');
+      emailSent = await sendContactEmailWithForm(contactForm.value);
       if (emailSent) {
-        console.log('Email sent successfully via EmailJS');
+        console.log('Email with attachments sent successfully via EmailJS');
       } else {
-        throw new Error('EmailJS failed');
+        throw new Error('EmailJS sendForm failed');
       }
     } catch (emailJSError) {
-      console.error('EmailJS failed, trying full version:', emailJSError);
-      // Try full EmailJS as fallback
+      console.error('EmailJS sendForm failed, trying simple version:', emailJSError);
+      // Try simple EmailJS as fallback (without attachments)
       try {
-        emailSent = await sendContactEmail(cleanData);
+        emailSent = await sendSimpleContactEmail(cleanData);
         if (emailSent) {
-          console.log('Email sent successfully via EmailJS (full version)');
+          console.log('Email sent successfully via EmailJS (simple version)');
         }
       } catch (finalError) {
         console.error('All EmailJS methods failed:', finalError);
@@ -350,12 +356,18 @@ function handleFileUpload(event) {
     'image/jpeg',
     'image/jpg',
     'image/png',
-    'image/gif'
+    'image/gif',
+    'application/zip',
+    'application/x-rar-compressed',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/vnd.ms-powerpoint'
   ];
 
   if (!allowedTypes.includes(file.type)) {
     noticeClass.value = 'alert-danger';
-    notice.value = 'File type not supported. Please upload PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, or GIF files.';
+    notice.value = 'File type not supported. Please upload PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF, ZIP, RAR, XLSX, XLS, PPT, or PPTX files.';
     event.target.value = ''; // Clear file input
     return;
   }

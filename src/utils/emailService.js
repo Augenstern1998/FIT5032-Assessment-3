@@ -1,6 +1,35 @@
 import emailjs, { EMAILJS_CONFIG } from '../config/emailjs.js';
 
 /**
+ * Send contact email using sendForm method (supports file attachments)
+ * @param {HTMLFormElement} formElement - Form element containing all data
+ * @returns {Promise<boolean>} - Whether sending was successful
+ */
+export async function sendContactEmailWithForm(formElement) {
+  try {
+    console.log('Sending contact email with form and attachments...');
+    
+    const result = await emailjs.sendForm(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templates.contact,
+      formElement
+    );
+
+    console.log('Contact email with attachments sent successfully:', result);
+    return true;
+  } catch (error) {
+    console.error('Failed to send contact email with form:', error);
+    console.error('Error details:', {
+      code: error.code,
+      message: error.message,
+      status: error.status,
+      text: error.text
+    });
+    return false;
+  }
+}
+
+/**
  * Send contact email to developer
  * @param {Object} contactData - Contact form data
  * @param {string} contactData.name - User name
