@@ -22,7 +22,7 @@
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/contact" role="menuitem" aria-label="Contact us">Contact</RouterLink></li>
               <li class="nav-item" role="none"><RouterLink class="nav-link" to="/join" role="menuitem" aria-label="Join our community">Join Community</RouterLink></li>
           <li class="nav-item dropdown" v-if="user && user.role === 'admin'" role="none">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" aria-label="Admin menu">Admin</a>
+            <button class="nav-link dropdown-toggle btn btn-link p-0 border-0" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" aria-label="Admin menu">Admin</button>
             <ul class="dropdown-menu" role="menu" aria-label="Admin menu">
               <li role="none"><RouterLink class="dropdown-item" to="/admin" role="menuitem" aria-label="Go to admin dashboard">Dashboard</RouterLink></li>
               <li role="none"><RouterLink class="dropdown-item" to="/admin/resources" role="menuitem" aria-label="Manage resources">Resource Management</RouterLink></li>
@@ -31,7 +31,7 @@
           <li class="nav-item" v-if="!user" role="none"><RouterLink class="btn btn-sm btn-outline-primary" to="/login" role="menuitem" aria-label="Sign in to your account">Login</RouterLink></li>
           <li class="nav-item" v-if="!user" role="none"><RouterLink class="btn btn-sm btn-primary" to="/register" role="menuitem" aria-label="Create a new account">Register</RouterLink></li>
           <li class="nav-item dropdown" v-if="user" role="none">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" :aria-label="`User menu for ${user.name}`">{{ user.name }}</a>
+            <button class="nav-link dropdown-toggle btn btn-link p-0 border-0" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" :aria-label="`User menu for ${user.name}`">{{ user.name }}</button>
             <ul class="dropdown-menu dropdown-menu-end" role="menu" :aria-label="`User menu for ${user.name}`">
               <li role="none"><span class="dropdown-item-text" role="menuitem" aria-label="User role">{{ user.role }}</span></li>
               <li><hr class="dropdown-divider" role="separator" /></li>
