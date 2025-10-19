@@ -24,18 +24,18 @@ function emitAuthChanged() {
 
 function setSession(session) {
   if (session) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    // Start idle timer for session security
-    import('./session.js').then(({ startIdleTimer }) => {
+    // ✅ 使用新的会话管理逻辑
+    import('./session.js').then(({ setSession: setAppSession, startIdleTimer }) => {
+      setAppSession(session.uid || session.id, 12); // 12小时有效期
       startIdleTimer(() => {
         logout();
         emitAuthChanged();
       });
     });
   } else {
-    localStorage.removeItem(SESSION_KEY);
-    // Stop idle timer
-    import('./session.js').then(({ stopIdleTimer }) => {
+    // ✅ 清理会话
+    import('./session.js').then(({ clearSession, stopIdleTimer }) => {
+      clearSession();
       stopIdleTimer();
     });
   }

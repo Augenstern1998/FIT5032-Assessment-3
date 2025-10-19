@@ -9,6 +9,9 @@ import Register from '../pages/Register.vue';
 import ForgotPassword from '../pages/ForgotPassword.vue';
 import AuthTest from '../pages/AuthTest.vue';
 import { getCurrentUser } from '../utils/auth.js';
+import { auth } from '../config/firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { isSessionValid } from '../utils/session.js';
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -30,40 +33,70 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 });
 
+// ✅ 等待 Firebase 初始化完成
+let authReady = null;
+function waitAuthReady() {
+  if (!authReady) {
+    authReady = new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, () => {
+        unsubscribe();
+        resolve();
+      });
+    });
+  }
+  return authReady;
+}
+
 router.beforeEach(async (to) => {
+  console.log('Route guard: Navigating to', to.path);
+  
+  // ✅ 如果不需要认证，直接放行
+  if (!to.meta?.requiresAuth) {
+    console.log('Route guard: No auth required, access granted');
+    return true;
+  }
+  
   try {
-    // Add a small delay to ensure auth state is fully loaded
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // ✅ 等待 Firebase 完成初始化
+    await waitAuthReady();
+    console.log('Route guard: Firebase auth ready');
     
     const user = await getCurrentUser();
+    console.log('Route guard: Current user', user ? 'authenticated' : 'not authenticated');
     
-    // Check authentication
-    if (to.meta?.requiresAuth && !user) {
+    // ✅ 检查 Firebase 用户和本地会话
+    if (!user) {
+      console.log('Route guard: No Firebase user, redirecting to login');
+      return { name: 'login', query: { redirect: to.fullPath } };
+    }
+    
+    // ✅ 检查本地会话有效性
+    const sessionValid = isSessionValid();
+    console.log('Route guard: Session valid', sessionValid);
+    
+    if (!sessionValid) {
+      console.log('Route guard: Session invalid, redirecting to login');
       return { name: 'login', query: { redirect: to.fullPath } };
     }
     
     // Check role-based authorization
-    if (to.meta?.roles && user) {
+    if (to.meta?.roles) {
       const userRoles = Array.isArray(user.role) ? user.role : [user.role];
       const requiredRoles = to.meta.roles;
       const hasRequiredRole = requiredRoles.some(role => userRoles.includes(role));
       
       if (!hasRequiredRole) {
-        // Redirect to home with error message for unauthorized access
+        console.log('Route guard: Redirecting to home (insufficient role)');
         return { name: 'home', query: { error: 'unauthorized' } };
       }
     }
     
+    console.log('Route guard: Access granted');
     return true;
   } catch (error) {
     console.error('Route guard error:', error);
-    
-    // If there's an error and the route requires auth, redirect to login
-    if (to.meta?.requiresAuth) {
-      return { name: 'login', query: { redirect: to.fullPath } };
-    }
-    
-    return true;
+    console.log('Route guard: Redirecting to login (error occurred)');
+    return { name: 'login', query: { redirect: to.fullPath } };
   }
 });
 

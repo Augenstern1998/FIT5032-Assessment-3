@@ -10,7 +10,9 @@ import {
   onAuthStateChanged,
   updateProfile,
   sendPasswordResetEmail,
-  sendEmailVerification
+  sendEmailVerification,
+  setPersistence,
+  browserLocalPersistence
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase.js';
@@ -94,49 +96,66 @@ export async function registerUser({ name, email, password, role = 'member' }) {
 // Login user with email and password
 export async function loginUser({ email, password }) {
   try {
+    console.log('Firebase Auth: Starting signInWithEmailAndPassword...');
+    console.log('Firebase Auth: Email:', email);
+    console.log('Firebase Auth: Password provided:', !!password);
+    
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+    console.log('Firebase Auth: Sign in successful, user:', user.uid);
 
     // Update last login time in Firestore
+    console.log('Firebase Auth: Updating last login time...');
     await updateDoc(doc(db, 'users', user.uid), {
       lastLoginAt: new Date().toISOString()
     });
 
     // Get user data from Firestore
+    console.log('Firebase Auth: Getting user data from Firestore...');
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     const userData = userDoc.data();
+    console.log('Firebase Auth: User data:', userData);
 
+    console.log('Firebase Auth: Emitting auth changed event...');
     emitAuthChanged();
-    return {
+    
+    const result = {
       uid: user.uid,
       name: user.displayName || userData?.name || 'User',
       email: user.email,
       role: userData?.role || 'member',
       emailVerified: user.emailVerified
     };
+    
+    console.log('Firebase Auth: Returning user result:', result);
+    
+    // ✅ 立即写入会话，避免竞态条件
+    import('./session.js').then(({ setSession }) => {
+      setSession(user.uid, 12); // 12小时有效期
+    });
+    
+    return result;
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Firebase Auth: Login error:', error);
+    console.error('Firebase Auth: Error code:', error.code);
+    console.error('Firebase Auth: Error message:', error.message);
     throw new Error(getAuthErrorMessage(error.code));
   }
 }
 
 // Login with Google (Popup method with COOP fallback)
 export async function loginWithGoogle() {
-  // Check for COOP/COEP issues first
+  console.log('Starting Google login process...');
+  
+  // ✅ 设置持久化
+  await setPersistence(auth, browserLocalPersistence);
+  
+  // ✅ 如果页面被 COOP/COEP 隔离，直接走重定向更稳
   if (window.crossOriginIsolated) {
     console.log('Page is crossOriginIsolated, using redirect method...');
     await signInWithRedirect(auth, googleProvider);
     return;
   }
-
-  // Check if popup is likely to be blocked
-  const testPopup = window.open('', '_blank', 'width=1,height=1');
-  if (!testPopup || testPopup.closed) {
-    console.log('Popup blocked, using redirect method...');
-    await signInWithRedirect(auth, googleProvider);
-    return;
-  }
-  testPopup.close();
 
   try {
     console.log('Starting Google login with popup...');
@@ -168,6 +187,11 @@ export async function loginWithGoogle() {
       });
     }
 
+    // ✅ 立即写入会话，避免竞态条件
+    import('./session.js').then(({ setSession }) => {
+      setSession(user.uid, 12); // 12小时有效期
+    });
+
     const userData = userDoc.exists() ? userDoc.data() : {
       name: user.displayName,
       email: user.email,
@@ -188,17 +212,15 @@ export async function loginWithGoogle() {
     console.error('Error code:', error.code);
     console.error('Error message:', error.message);
     
-    // Check if it's a COOP-related error or popup blocked
-    const msg = String(error?.message || '');
-    const isCOOPError = error?.code?.startsWith('auth/') || 
-                       msg.includes('window.closed') || 
-                       msg.includes('Cross-Origin-Opener-Policy') ||
-                       msg.includes('popup') ||
-                       error?.code === 'auth/popup-closed-by-user' ||
-                       error?.code === 'auth/cancelled-popup-request';
-    
-    if (isCOOPError) {
-      console.log('COOP-related error or popup blocked, falling back to redirect...');
+    // ✅ 检查典型场景：被拦/关闭/并发弹窗 → 自动降级为 Redirect
+    const code = String(error?.code || '');
+    if (
+      code === 'auth/popup-blocked' ||
+      code === 'auth/popup-closed-by-user' ||
+      code === 'auth/cancelled-popup-request' ||
+      code === 'auth/unauthorized-domain'
+    ) {
+      console.log('Popup blocked/closed/unauthorized domain, falling back to redirect...');
       try {
         await signInWithRedirect(auth, googleProvider);
         return;
@@ -216,6 +238,12 @@ export async function loginWithGoogle() {
 export async function logout() {
   try {
     console.log('Firebase logout: Starting signOut...');
+    
+    // ✅ 先清理本地会话
+    import('./session.js').then(({ clearSession }) => {
+      clearSession();
+    });
+    
     await signOut(auth);
     console.log('Firebase logout: signOut completed');
     emitAuthChanged();
@@ -336,6 +364,7 @@ export async function loginWithGoogleRedirect() {
 // Handle redirect result
 export async function handleRedirectResult() {
   try {
+    console.log('Checking for redirect result...');
     const result = await getRedirectResult(auth);
     if (result) {
       const user = result.user;
@@ -356,14 +385,18 @@ export async function handleRedirectResult() {
           lastLoginAt: new Date().toISOString(),
           provider: 'google'
         });
+        console.log('Created new user document');
       } else {
         // Update last login time
         await updateDoc(doc(db, 'users', user.uid), {
           lastLoginAt: new Date().toISOString()
         });
+        console.log('Updated existing user document');
       }
 
       emitAuthChanged();
+      console.log('Auth changed event emitted');
+      
       return {
         uid: user.uid,
         name: user.displayName,
@@ -372,10 +405,12 @@ export async function handleRedirectResult() {
         emailVerified: user.emailVerified
       };
     }
+    console.log('No redirect result found');
     return null;
   } catch (error) {
     console.error('Handle redirect result error:', error);
-    throw new Error(getAuthErrorMessage(error.code));
+    // Don't throw error, just return null to allow app to continue
+    return null;
   }
 }
 

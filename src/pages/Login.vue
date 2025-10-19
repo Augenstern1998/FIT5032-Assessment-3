@@ -109,10 +109,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { RouterLink } from 'vue-router';
-import { loginUser, loginWithGoogle, AUTH_CHANGED_EVENT } from '../utils/auth.js';
+import { loginUser, loginWithGoogle, AUTH_CHANGED_EVENT, getCurrentUser } from '../utils/auth.js';
 import { validateEmail, sanitizeInput } from '../utils/security.js';
 
 const router = useRouter();
@@ -156,18 +156,30 @@ async function onSubmit() {
   }
   
   try {
-    await loginUser({ email: sanitizedEmail, password: password.value });
+    console.log('Login: Starting login process...');
+    console.log('Login: Email:', sanitizedEmail);
+    console.log('Login: Password length:', password.value.length);
+    
+    const user = await loginUser({ email: sanitizedEmail, password: password.value });
+    console.log('Login: Login successful, user:', user);
+    
     noticeClass.value = 'alert-success';
     notice.value = 'Login successful! Redirecting...';
     loginAttempts.value = 0; // Reset attempts on success
     
     // Force auth state update
+    console.log('Login: Emitting auth changed events...');
     window.dispatchEvent(new CustomEvent(AUTH_CHANGED_EVENT));
     window.dispatchEvent(new CustomEvent('firebase_auth_changed'));
     
     const redirect = route.query.redirect || '/';
-    setTimeout(() => router.push(String(redirect)), 300);
+    console.log('Login: Redirecting to:', redirect);
+    setTimeout(() => {
+      console.log('Login: Executing redirect...');
+      router.push(String(redirect));
+    }, 300);
   } catch (e) {
+    console.error('Login: Login failed:', e);
     noticeClass.value = 'alert-danger';
     notice.value = e?.message || 'Login failed.';
     loginAttempts.value++;
@@ -181,6 +193,7 @@ async function onSubmit() {
       }, 30000); // 30 second cooldown
     }
   } finally {
+    console.log('Login: Setting isLoading to false');
     isLoading.value = false;
   }
 }
@@ -202,6 +215,20 @@ async function onGoogleLogin() {
     isLoading.value = false;
   }
 }
+
+// Check if user is already logged in on page load
+onMounted(async () => {
+  try {
+    const user = await getCurrentUser();
+    if (user) {
+      console.log('User already logged in, redirecting...');
+      const redirect = route.query.redirect || '/';
+      router.push(String(redirect));
+    }
+  } catch (error) {
+    console.log('No user logged in');
+  }
+});
 </script>
 
 <style scoped>
