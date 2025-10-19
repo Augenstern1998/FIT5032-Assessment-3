@@ -229,6 +229,478 @@
                 </ul>
               </div>
 
+              <!-- Mental Health First Aid - Recognition Skills -->
+              <div v-if="item.content.recognitionSkills" class="strategy-card">
+                <h6 class="text-primary">🔍 {{ item.content.recognitionSkills.title }}</h6>
+                <div v-for="sign in item.content.recognitionSkills.signs" :key="sign.category" class="mb-3">
+                  <h6 class="text-dark">{{ sign.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="indicator in sign.indicators" :key="indicator" class="mb-1">
+                      <i class="fas fa-exclamation-circle text-warning me-2"></i>
+                      {{ indicator }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Mental Health First Aid - Response Strategies -->
+              <div v-if="item.content.responseStrategies" class="strategy-card">
+                <h6 class="text-primary">🤝 {{ item.content.responseStrategies.title }}</h6>
+                <div v-for="step in item.content.responseStrategies.steps" :key="step.step" class="mb-3">
+                  <h6 class="text-dark">{{ step.step }}</h6>
+                  <ul v-if="step.actions" class="list-unstyled">
+                    <li v-for="action in step.actions" :key="action" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ action }}
+                    </li>
+                  </ul>
+                  <ul v-if="step.questions" class="list-unstyled">
+                    <li v-for="question in step.questions" :key="question" class="mb-1">
+                      <i class="fas fa-question-circle text-info me-2"></i>
+                      {{ question }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Mental Health First Aid - Crisis Intervention -->
+              <div v-if="item.content.crisisIntervention" class="strategy-card">
+                <h6 class="text-primary">🚨 {{ item.content.crisisIntervention.title }}</h6>
+                <div v-for="scenario in item.content.crisisIntervention.scenarios" :key="scenario.situation" class="mb-3">
+                  <h6 class="text-dark">{{ scenario.situation }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="response in scenario.response" :key="response" class="mb-1">
+                      <i class="fas fa-arrow-right text-danger me-2"></i>
+                      {{ response }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Mental Health First Aid - Resources -->
+              <div v-if="item.content.resources" class="strategy-card">
+                <h6 class="text-primary">📞 {{ item.content.resources.title }}</h6>
+                <div v-for="contact in item.content.resources.contacts" :key="contact.service" class="mb-2 p-2 border rounded">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>{{ contact.service }}</strong>
+                      <br>
+                      <small class="text-muted">{{ contact.description }}</small>
+                    </div>
+                    <div class="text-end">
+                      <span class="badge bg-primary fs-6">{{ contact.number }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mental Health First Aid - Self Care -->
+              <div v-if="item.content.selfCare" class="strategy-card">
+                <h6 class="text-primary">💚 {{ item.content.selfCare.title }}</h6>
+                <ul class="list-unstyled">
+                  <li v-for="practice in item.content.selfCare.practices" :key="practice" class="mb-1">
+                    <i class="fas fa-heart text-success me-2"></i>
+                    {{ practice }}
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Prostate Health - Basics -->
+              <div v-if="item.content.prostateBasics" class="strategy-card">
+                <h6 class="text-primary">🔬 {{ item.content.prostateBasics.title }}</h6>
+                <div v-for="info in item.content.prostateBasics.information" :key="info.fact" class="mb-3">
+                  <h6 class="text-dark">{{ info.fact }}</h6>
+                  <p class="text-muted">{{ info.description }}</p>
+                </div>
+              </div>
+
+              <!-- Prostate Health - Risk Factors -->
+              <div v-if="item.content.riskFactors" class="strategy-card">
+                <h6 class="text-primary">⚠️ {{ item.content.riskFactors.title }}</h6>
+                <div v-for="factor in item.content.riskFactors.factors" :key="factor.category" class="mb-3">
+                  <h6 class="text-dark">{{ factor.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="risk in factor.factors" :key="risk" class="mb-1">
+                      <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                      {{ risk }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Prostate Health - Symptoms -->
+              <div v-if="item.content.symptoms" class="strategy-card">
+                <h6 class="text-primary">🩺 {{ item.content.symptoms.title }}</h6>
+                <div v-for="symptom in item.content.symptoms.symptoms" :key="symptom.category" class="mb-3">
+                  <h6 class="text-dark">{{ symptom.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="sign in symptom.signs" :key="sign" class="mb-1">
+                      <i class="fas fa-arrow-right text-info me-2"></i>
+                      {{ sign }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Prostate Health - Screening -->
+              <div v-if="item.content.screening" class="strategy-card">
+                <h6 class="text-primary">🔍 {{ item.content.screening.title }}</h6>
+                <div v-for="test in item.content.screening.tests" :key="test.test" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ test.test }}</h6>
+                  <p class="text-muted mb-1">{{ test.description }}</p>
+                  <small class="text-info"><strong>Frequency:</strong> {{ test.frequency }}</small>
+                </div>
+              </div>
+
+              <!-- Prostate Health - Prevention -->
+              <div v-if="item.content.prevention" class="strategy-card">
+                <h6 class="text-primary">🛡️ {{ item.content.prevention.title }}</h6>
+                <div v-for="strategy in item.content.prevention.strategies" :key="strategy.category" class="mb-3">
+                  <h6 class="text-dark">{{ strategy.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="recommendation in strategy.recommendations" :key="recommendation" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ recommendation }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Prostate Health - Treatment Options -->
+              <div v-if="item.content.treatmentOptions" class="strategy-card">
+                <h6 class="text-primary">💊 {{ item.content.treatmentOptions.title }}</h6>
+                <div v-for="treatment in item.content.treatmentOptions.treatments" :key="treatment.condition" class="mb-3">
+                  <h6 class="text-dark">{{ treatment.condition }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="option in treatment.options" :key="option" class="mb-1">
+                      <i class="fas fa-arrow-right text-primary me-2"></i>
+                      {{ option }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Testosterone - Basics -->
+              <div v-if="item.content.testosteroneBasics" class="strategy-card">
+                <h6 class="text-primary">🧬 {{ item.content.testosteroneBasics.title }}</h6>
+                <div v-for="info in item.content.testosteroneBasics.information" :key="info.fact" class="mb-3">
+                  <h6 class="text-dark">{{ info.fact }}</h6>
+                  <p class="text-muted">{{ info.description }}</p>
+                </div>
+              </div>
+
+              <!-- Testosterone - Symptoms -->
+              <div v-if="item.content.symptoms" class="strategy-card">
+                <h6 class="text-primary">📊 {{ item.content.symptoms.title }}</h6>
+                <div v-for="symptom in item.content.symptoms.symptoms" :key="symptom.category" class="mb-3">
+                  <h6 class="text-dark">{{ symptom.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="sign in symptom.signs" :key="sign" class="mb-1">
+                      <i class="fas fa-arrow-right text-info me-2"></i>
+                      {{ sign }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Testosterone - Testing -->
+              <div v-if="item.content.testing" class="strategy-card">
+                <h6 class="text-primary">🧪 {{ item.content.testing.title }}</h6>
+                <div v-for="test in item.content.testing.information" :key="test.test" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ test.test }}</h6>
+                  <p class="text-muted mb-1">{{ test.description }}</p>
+                  <small class="text-info" v-if="test.timing"><strong>Timing:</strong> {{ test.timing }}</small>
+                  <small class="text-info" v-if="test.note"><br><strong>Note:</strong> {{ test.note }}</small>
+                </div>
+              </div>
+
+              <!-- Testosterone - Natural Boosting -->
+              <div v-if="item.content.naturalBoosting" class="strategy-card">
+                <h6 class="text-primary">🌱 {{ item.content.naturalBoosting.title }}</h6>
+                <div v-for="strategy in item.content.naturalBoosting.strategies" :key="strategy.category" class="mb-3">
+                  <h6 class="text-dark">{{ strategy.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="method in strategy.methods" :key="method" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ method }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Testosterone - Medical Treatment -->
+              <div v-if="item.content.medicalTreatment" class="strategy-card">
+                <h6 class="text-primary">💉 {{ item.content.medicalTreatment.title }}</h6>
+                <div v-for="treatment in item.content.medicalTreatment.treatments" :key="treatment.treatment" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ treatment.treatment }}</h6>
+                  <p class="text-muted mb-1">{{ treatment.description }}</p>
+                  <div v-if="treatment.forms">
+                    <strong>Forms:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="form in treatment.forms" :key="form" class="mb-1">
+                        <i class="fas fa-arrow-right text-primary me-2"></i>
+                        {{ form }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="treatment.benefits">
+                    <strong>Benefits:</strong> {{ treatment.benefits }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Testosterone - Risks and Benefits -->
+              <div v-if="item.content.risksAndBenefits" class="strategy-card">
+                <h6 class="text-primary">⚖️ {{ item.content.risksAndBenefits.title }}</h6>
+                <div v-for="info in item.content.risksAndBenefits.information" :key="info.category" class="mb-3">
+                  <h6 class="text-dark">{{ info.category }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="item in info.items" :key="item" class="mb-1">
+                      <i class="fas fa-arrow-right text-primary me-2"></i>
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Nutrition - Macronutrients -->
+              <div v-if="item.content.macronutrients" class="strategy-card">
+                <h6 class="text-primary">🥗 {{ item.content.macronutrients.title }}</h6>
+                <div v-for="nutrient in item.content.macronutrients.nutrients" :key="nutrient.nutrient" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ nutrient.nutrient }}</h6>
+                  <p class="text-muted mb-1"><strong>Function:</strong> {{ nutrient.function }}</p>
+                  <p class="text-muted mb-1"><strong>Recommendation:</strong> {{ nutrient.recommendation }}</p>
+                  <div>
+                    <strong>Sources:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="source in nutrient.sources" :key="source" class="mb-1">
+                        <i class="fas fa-arrow-right text-success me-2"></i>
+                        {{ source }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nutrition - Meal Timing -->
+              <div v-if="item.content.mealTiming" class="strategy-card">
+                <h6 class="text-primary">⏰ {{ item.content.mealTiming.title }}</h6>
+                <div v-for="strategy in item.content.mealTiming.strategies" :key="strategy.timing" class="mb-3">
+                  <h6 class="text-dark">{{ strategy.timing }}</h6>
+                  <ul v-if="strategy.foods" class="list-unstyled">
+                    <li v-for="food in strategy.foods" :key="food" class="mb-1">
+                      <i class="fas fa-utensils text-success me-2"></i>
+                      {{ food }}
+                    </li>
+                  </ul>
+                  <ul v-if="strategy.guidelines" class="list-unstyled">
+                    <li v-for="guideline in strategy.guidelines" :key="guideline" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ guideline }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Nutrition - Hydration -->
+              <div v-if="item.content.hydration" class="strategy-card">
+                <h6 class="text-primary">💧 {{ item.content.hydration.title }}</h6>
+                <div v-for="guideline in item.content.hydration.guidelines" :key="guideline.timing" class="mb-3">
+                  <h6 class="text-dark">{{ guideline.timing }}</h6>
+                  <ul class="list-unstyled">
+                    <li v-for="recommendation in guideline.recommendations" :key="recommendation" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ recommendation }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Nutrition - Supplements -->
+              <div v-if="item.content.supplements" class="strategy-card">
+                <h6 class="text-primary">💊 {{ item.content.supplements.title }}</h6>
+                <div v-for="supplement in item.content.supplements.supplements" :key="supplement.supplement" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ supplement.supplement }}</h6>
+                  <p class="text-muted mb-1"><strong>Benefits:</strong> {{ supplement.benefits }}</p>
+                  <p class="text-muted mb-1"><strong>Timing:</strong> {{ supplement.timing }}</p>
+                  <p class="text-muted mb-1"><strong>Dosage:</strong> {{ supplement.dosage }}</p>
+                  <small class="text-info" v-if="supplement.loading"><strong>Loading:</strong> {{ supplement.loading }}</small>
+                </div>
+              </div>
+
+              <!-- Nutrition - Meal Planning -->
+              <div v-if="item.content.mealPlanning" class="strategy-card">
+                <h6 class="text-primary">📅 {{ item.content.mealPlanning.title }}</h6>
+                <div v-for="strategy in item.content.mealPlanning.strategies" :key="strategy.strategy" class="mb-3">
+                  <h6 class="text-dark">{{ strategy.strategy }}</h6>
+                  <p class="text-muted mb-1">{{ strategy.description }}</p>
+                  <ul class="list-unstyled">
+                    <li v-for="example in strategy.examples" :key="example" class="mb-1">
+                      <i class="fas fa-arrow-right text-success me-2"></i>
+                      {{ example }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Nutrition - Common Mistakes -->
+              <div v-if="item.content.commonMistakes" class="strategy-card">
+                <h6 class="text-primary">❌ {{ item.content.commonMistakes.title }}</h6>
+                <div v-for="mistake in item.content.commonMistakes.mistakes" :key="mistake.mistake" class="mb-2 p-2 border rounded">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <strong class="text-danger">{{ mistake.mistake }}</strong>
+                    </div>
+                  </div>
+                  <small class="text-muted">{{ mistake.solution }}</small>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Budgeting -->
+              <div v-if="item.content.budgeting" class="strategy-card">
+                <h6 class="text-primary">💰 {{ item.content.budgeting.title }}</h6>
+                <div v-for="strategy in item.content.budgeting.strategies" :key="strategy.method" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ strategy.method }}</h6>
+                  <p class="text-muted mb-1">{{ strategy.description }}</p>
+                  <ul class="list-unstyled">
+                    <li v-for="step in strategy.implementation" :key="step" class="mb-1">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      {{ step }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Debt Management -->
+              <div v-if="item.content.debtManagement" class="strategy-card">
+                <h6 class="text-primary">💳 {{ item.content.debtManagement.title }}</h6>
+                <div v-for="method in item.content.debtManagement.methods" :key="method.method" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ method.method }}</h6>
+                  <p class="text-muted mb-1">{{ method.description }}</p>
+                  <ul class="list-unstyled">
+                    <li v-for="step in method.steps" :key="step" class="mb-1">
+                      <i class="fas fa-arrow-right text-primary me-2"></i>
+                      {{ step }}
+                    </li>
+                  </ul>
+                  <div v-if="method.considerations">
+                    <strong>Considerations:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="consideration in method.considerations" :key="consideration" class="mb-1">
+                        <i class="fas fa-exclamation-circle text-warning me-2"></i>
+                        {{ consideration }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Saving Strategies -->
+              <div v-if="item.content.savingStrategies" class="strategy-card">
+                <h6 class="text-primary">🏦 {{ item.content.savingStrategies.title }}</h6>
+                <div v-for="strategy in item.content.savingStrategies.strategies" :key="strategy.goal" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ strategy.goal }}</h6>
+                  <p class="text-muted mb-1"><strong>Amount:</strong> {{ strategy.amount }}</p>
+                  <ul class="list-unstyled">
+                    <li v-for="tip in strategy.tips" :key="tip" class="mb-1">
+                      <i class="fas fa-lightbulb text-warning me-2"></i>
+                      {{ tip }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Investing -->
+              <div v-if="item.content.investing" class="strategy-card">
+                <h6 class="text-primary">📈 {{ item.content.investing.title }}</h6>
+                <div v-for="concept in item.content.investing.concepts" :key="concept.concept" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ concept.concept }}</h6>
+                  <p class="text-muted mb-1">{{ concept.description }}</p>
+                  <div v-if="concept.guidelines">
+                    <strong>Guidelines:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="guideline in concept.guidelines" :key="guideline" class="mb-1">
+                        <i class="fas fa-arrow-right text-success me-2"></i>
+                        {{ guideline }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="concept.benefits">
+                    <strong>Benefits:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="benefit in concept.benefits" :key="benefit" class="mb-1">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        {{ benefit }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="concept.options">
+                    <strong>Options:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="option in concept.options" :key="option" class="mb-1">
+                        <i class="fas fa-arrow-right text-primary me-2"></i>
+                        {{ option }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Insurance -->
+              <div v-if="item.content.insurance" class="strategy-card">
+                <h6 class="text-primary">🛡️ {{ item.content.insurance.title }}</h6>
+                <div v-for="type in item.content.insurance.types" :key="type.type" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ type.type }}</h6>
+                  <p class="text-muted mb-1"><strong>Purpose:</strong> {{ type.purpose }}</p>
+                  <ul class="list-unstyled">
+                    <li v-for="consideration in type.considerations" :key="consideration" class="mb-1">
+                      <i class="fas fa-exclamation-circle text-info me-2"></i>
+                      {{ consideration }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Estate Planning -->
+              <div v-if="item.content.estatePlanning" class="strategy-card">
+                <h6 class="text-primary">📋 {{ item.content.estatePlanning.title }}</h6>
+                <div v-for="document in item.content.estatePlanning.documents" :key="document.document" class="mb-3 p-3 border rounded">
+                  <h6 class="text-dark">{{ document.document }}</h6>
+                  <p class="text-muted mb-1"><strong>Purpose:</strong> {{ document.purpose }}</p>
+                  <div v-if="document.considerations">
+                    <strong>Considerations:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="consideration in document.considerations" :key="consideration" class="mb-1">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        {{ consideration }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="document.types">
+                    <strong>Types:</strong>
+                    <ul class="list-unstyled mt-1">
+                      <li v-for="type in document.types" :key="type" class="mb-1">
+                        <i class="fas fa-arrow-right text-primary me-2"></i>
+                        {{ type }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Financial Wellness - Common Mistakes -->
+              <div v-if="item.content.commonMistakes" class="strategy-card">
+                <h6 class="text-primary">❌ {{ item.content.commonMistakes.title }}</h6>
+                <div v-for="mistake in item.content.commonMistakes.mistakes" :key="mistake.mistake" class="mb-2 p-2 border rounded">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <strong class="text-danger">{{ mistake.mistake }}</strong>
+                    </div>
+                  </div>
+                  <small class="text-muted">{{ mistake.solution }}</small>
+                </div>
+              </div>
+
               <!-- When to Seek Help -->
               <div v-if="item.content.whenToSeekHelp" class="seek-help">
                 <h6 class="text-info">🆘 When to Seek Help</h6>

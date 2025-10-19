@@ -539,5 +539,942 @@
       ],
       "whenToSeekHelp": "Consider professional help if work-life imbalance persists despite efforts, or if you experience persistent stress, anxiety, or depression."
     }
+  },
+  {
+    "id": 7,
+    "title": "Mental Health First Aid",
+    "summary": "Recognize and respond to mental health crises.",
+    "tag": "mental",
+    "rating": 4.6,
+    "content": {
+      "overview": "Mental health first aid teaches you how to identify, understand, and respond to signs of mental health and substance use challenges. This knowledge can save lives.",
+      "recognitionSkills": {
+        "title": "Recognizing Warning Signs",
+        "signs": [
+          {
+            "category": "Behavioral Changes",
+            "indicators": [
+              "Withdrawal from friends, family, and activities",
+              "Significant changes in sleep or appetite",
+              "Increased use of alcohol or drugs",
+              "Giving away prized possessions",
+              "Sudden mood changes or irritability"
+            ]
+          },
+          {
+            "category": "Verbal Cues",
+            "indicators": [
+              "Talking about feeling hopeless or worthless",
+              "Expressing thoughts of death or suicide",
+              "Saying goodbye to people",
+              "Talking about being a burden to others",
+              "Expressing feelings of being trapped"
+            ]
+          },
+          {
+            "category": "Physical Signs",
+            "indicators": [
+              "Neglecting personal hygiene",
+              "Unexplained injuries or self-harm",
+              "Extreme fatigue or restlessness",
+              "Changes in weight or appearance",
+              "Physical complaints without medical cause"
+            ]
+          }
+        ]
+      },
+      "responseStrategies": {
+        "title": "How to Respond",
+        "steps": [
+          {
+            "step": "1. Approach with Care",
+            "actions": [
+              "Choose a private, comfortable setting",
+              "Use a calm, non-judgmental tone",
+              "Express genuine concern",
+              "Listen without interrupting",
+              "Avoid giving advice or trying to 'fix' the problem"
+            ]
+          },
+          {
+            "step": "2. Ask Direct Questions",
+            "questions": [
+              "Are you thinking about hurting yourself?",
+              "Do you have a plan for how you would do it?",
+              "Do you have access to means to carry out your plan?",
+              "Have you felt this way before?",
+              "What has helped you cope in the past?"
+            ]
+          },
+          {
+            "step": "3. Provide Support",
+            "actions": [
+              "Stay with the person if they're in immediate danger",
+              "Remove any means of self-harm if safe to do so",
+              "Encourage professional help",
+              "Offer to accompany them to get help",
+              "Follow up regularly to check on their wellbeing"
+            ]
+          }
+        ]
+      },
+      "crisisIntervention": {
+        "title": "Crisis Situations",
+        "scenarios": [
+          {
+            "situation": "Suicidal Thoughts",
+            "response": [
+              "Take all threats seriously",
+              "Stay calm and don't leave them alone",
+              "Call emergency services (000) immediately",
+              "Remove any weapons or harmful objects",
+              "Contact their support network if appropriate"
+            ]
+          },
+          {
+            "situation": "Panic Attack",
+            "response": [
+              "Stay calm and present",
+              "Guide them through breathing exercises",
+              "Speak in a calm, reassuring voice",
+              "Remove them from overwhelming situations",
+              "Stay with them until the attack passes"
+            ]
+          },
+          {
+            "situation": "Substance Overdose",
+            "response": [
+              "Call emergency services immediately",
+              "Stay with the person",
+              "Keep them awake if possible",
+              "Do not leave them alone",
+              "Provide information about substances taken"
+            ]
+          }
+        ]
+      },
+      "resources": {
+        "title": "Professional Resources",
+        "contacts": [
+          {
+            "service": "Emergency Services",
+            "number": "000",
+            "description": "For immediate life-threatening situations"
+          },
+          {
+            "service": "Lifeline",
+            "number": "13 11 14",
+            "description": "24/7 crisis support and suicide prevention"
+          },
+          {
+            "service": "Beyond Blue",
+            "number": "1300 22 4636",
+            "description": "Mental health support and information"
+          },
+          {
+            "service": "MensLine Australia",
+            "number": "1300 78 99 78",
+            "description": "Specialized support for men"
+          }
+        ]
+      },
+      "selfCare": {
+        "title": "Caring for Yourself",
+        "practices": [
+          "Set boundaries to protect your own mental health",
+          "Seek support from friends, family, or professionals",
+          "Practice stress management techniques",
+          "Don't take responsibility for someone else's recovery",
+          "Know your limits and when to step back"
+        ]
+      },
+      "whenToSeekHelp": "If someone is in immediate danger, call 000. For ongoing support, encourage them to see a mental health professional or GP."
+    }
+  },
+  {
+    "id": 8,
+    "title": "Prostate Health Awareness",
+    "summary": "Understanding prostate health and screening.",
+    "tag": "health",
+    "rating": 4.3,
+    "content": {
+      "overview": "Prostate health is crucial for men's wellbeing. Understanding risk factors, symptoms, and screening options can help with early detection and prevention.",
+      "prostateBasics": {
+        "title": "Understanding the Prostate",
+        "information": [
+          {
+            "fact": "What is the Prostate?",
+            "description": "A walnut-sized gland that produces seminal fluid. Located below the bladder and in front of the rectum."
+          },
+          {
+            "fact": "Common Conditions",
+            "description": "Benign Prostatic Hyperplasia (BPH), Prostatitis, and Prostate Cancer are the most common prostate conditions."
+          },
+          {
+            "fact": "Age-Related Changes",
+            "description": "Prostate naturally grows with age. Most men experience some prostate enlargement after 50."
+          }
+        ]
+      },
+      "riskFactors": {
+        "title": "Risk Factors for Prostate Problems",
+        "factors": [
+          {
+            "category": "Non-Modifiable",
+            "factors": [
+              "Age (risk increases after 50)",
+              "Family history of prostate cancer",
+              "African American ethnicity",
+              "Genetic mutations (BRCA1, BRCA2)"
+            ]
+          },
+          {
+            "category": "Modifiable",
+            "factors": [
+              "Diet high in red meat and dairy",
+              "Obesity and sedentary lifestyle",
+              "Smoking and excessive alcohol",
+              "Exposure to certain chemicals"
+            ]
+          }
+        ]
+      },
+      "symptoms": {
+        "title": "Warning Signs to Watch For",
+        "symptoms": [
+          {
+            "category": "Urinary Symptoms",
+            "signs": [
+              "Frequent urination, especially at night",
+              "Difficulty starting or stopping urination",
+              "Weak or interrupted urine stream",
+              "Pain or burning during urination",
+              "Blood in urine or semen"
+            ]
+          },
+          {
+            "category": "Other Symptoms",
+            "signs": [
+              "Pain in pelvis, hips, or back",
+              "Erectile dysfunction",
+              "Blood in semen",
+              "Unexplained weight loss",
+              "Persistent bone pain"
+            ]
+          }
+        ]
+      },
+      "screening": {
+        "title": "Screening and Testing",
+        "tests": [
+          {
+            "test": "Digital Rectal Exam (DRE)",
+            "description": "Doctor feels the prostate through the rectum to check for abnormalities",
+            "frequency": "Annually for men over 50, or earlier if high risk"
+          },
+          {
+            "test": "PSA Blood Test",
+            "description": "Measures Prostate-Specific Antigen levels in blood",
+            "frequency": "Discuss with doctor based on age and risk factors"
+          },
+          {
+            "test": "Prostate Biopsy",
+            "description": "Tissue sample taken if other tests suggest problems",
+            "frequency": "Only if recommended by doctor"
+          }
+        ]
+      },
+      "prevention": {
+        "title": "Prevention Strategies",
+        "strategies": [
+          {
+            "category": "Diet and Nutrition",
+            "recommendations": [
+              "Eat plenty of fruits and vegetables",
+              "Choose lean proteins over red meat",
+              "Include healthy fats (olive oil, nuts, fish)",
+              "Limit processed foods and sugar",
+              "Stay hydrated with water"
+            ]
+          },
+          {
+            "category": "Lifestyle",
+            "recommendations": [
+              "Exercise regularly (150 minutes/week)",
+              "Maintain healthy weight",
+              "Don't smoke and limit alcohol",
+              "Manage stress effectively",
+              "Get adequate sleep"
+            ]
+          },
+          {
+            "category": "Supplements",
+            "recommendations": [
+              "Consider saw palmetto for BPH symptoms",
+              "Zinc and selenium may support prostate health",
+              "Vitamin D and E have shown some benefits",
+              "Always consult doctor before taking supplements"
+            ]
+          }
+        ]
+      },
+      "treatmentOptions": {
+        "title": "Treatment Approaches",
+        "treatments": [
+          {
+            "condition": "Benign Prostatic Hyperplasia (BPH)",
+            "options": [
+              "Watchful waiting for mild symptoms",
+              "Medications (alpha-blockers, 5-alpha reductase inhibitors)",
+              "Minimally invasive procedures",
+              "Surgery for severe cases"
+            ]
+          },
+          {
+            "condition": "Prostate Cancer",
+            "options": [
+              "Active surveillance for low-risk cases",
+              "Surgery (prostatectomy)",
+              "Radiation therapy",
+              "Hormone therapy",
+              "Chemotherapy for advanced cases"
+            ]
+          }
+        ]
+      },
+      "whenToSeekHelp": "See a doctor immediately for blood in urine, severe pain, or inability to urinate. Schedule regular checkups starting at age 50, or earlier if you have risk factors."
+    }
+  },
+  {
+    "id": 9,
+    "title": "Testosterone and Men's Health",
+    "summary": "Understanding testosterone's role in men's health.",
+    "tag": "health",
+    "rating": 4.2,
+    "content": {
+      "overview": "Testosterone plays a crucial role in men's physical and mental health. Understanding its functions, natural decline, and management strategies is essential for overall wellbeing.",
+      "testosteroneBasics": {
+        "title": "What is Testosterone?",
+        "information": [
+          {
+            "fact": "Primary Male Hormone",
+            "description": "Produced mainly in the testes, responsible for male characteristics and many body functions."
+          },
+          {
+            "fact": "Key Functions",
+            "description": "Muscle mass, bone density, sex drive, mood, energy, cognitive function, and red blood cell production."
+          },
+          {
+            "fact": "Natural Decline",
+            "description": "Testosterone levels naturally decrease by about 1% per year after age 30."
+          }
+        ]
+      },
+      "symptoms": {
+        "title": "Signs of Low Testosterone",
+        "symptoms": [
+          {
+            "category": "Physical Symptoms",
+            "signs": [
+              "Decreased muscle mass and strength",
+              "Increased body fat, especially around waist",
+              "Reduced bone density",
+              "Decreased facial and body hair",
+              "Hot flashes or night sweats"
+            ]
+          },
+          {
+            "category": "Sexual Symptoms",
+            "signs": [
+              "Reduced libido (sex drive)",
+              "Erectile dysfunction",
+              "Reduced semen volume",
+              "Difficulty achieving orgasm",
+              "Decreased morning erections"
+            ]
+          },
+          {
+            "category": "Mental/Emotional Symptoms",
+            "signs": [
+              "Fatigue and low energy",
+              "Depression or mood swings",
+              "Irritability or anxiety",
+              "Difficulty concentrating",
+              "Reduced motivation"
+            ]
+          }
+        ]
+      },
+      "testing": {
+        "title": "Getting Tested",
+        "information": [
+          {
+            "test": "Blood Tests",
+            "description": "Total testosterone, free testosterone, and other hormone levels",
+            "timing": "Best done in morning (8-10 AM) when levels are highest"
+          },
+          {
+            "test": "Normal Ranges",
+            "description": "Total testosterone: 300-1000 ng/dL (varies by lab)",
+            "note": "Ranges vary by age, lab, and individual factors"
+          },
+          {
+            "test": "Additional Tests",
+            "description": "May include LH, FSH, SHBG, estradiol, and thyroid function",
+            "purpose": "To identify underlying causes of low testosterone"
+          }
+        ]
+      },
+      "naturalBoosting": {
+        "title": "Natural Ways to Support Testosterone",
+        "strategies": [
+          {
+            "category": "Exercise",
+            "methods": [
+              "Resistance training (weightlifting)",
+              "High-intensity interval training (HIIT)",
+              "Compound movements (squats, deadlifts, bench press)",
+              "Avoid overtraining and excessive cardio"
+            ]
+          },
+          {
+            "category": "Nutrition",
+            "methods": [
+              "Adequate protein intake (0.8-1g per lb body weight)",
+              "Healthy fats (olive oil, nuts, fatty fish)",
+              "Zinc-rich foods (oysters, beef, pumpkin seeds)",
+              "Vitamin D (sunlight, fatty fish, supplements)",
+              "Limit sugar and processed foods"
+            ]
+          },
+          {
+            "category": "Lifestyle",
+            "methods": [
+              "Get 7-9 hours of quality sleep",
+              "Manage stress (cortisol blocks testosterone)",
+              "Maintain healthy weight",
+              "Limit alcohol consumption",
+              "Avoid smoking and drugs"
+            ]
+          }
+        ]
+      },
+      "medicalTreatment": {
+        "title": "Medical Treatment Options",
+        "treatments": [
+          {
+            "treatment": "Testosterone Replacement Therapy (TRT)",
+            "description": "Prescription testosterone in various forms",
+            "forms": [
+              "Injections (weekly or bi-weekly)",
+              "Gels (daily application)",
+              "Patches (daily wear)",
+              "Pellets (implanted every 3-6 months)"
+            ]
+          },
+          {
+            "treatment": "Clomiphene Citrate",
+            "description": "Stimulates natural testosterone production",
+            "benefits": "Maintains fertility, fewer side effects"
+          },
+          {
+            "treatment": "Human Chorionic Gonadotropin (HCG)",
+            "description": "Mimics LH to stimulate testosterone production",
+            "use": "Often used with TRT to maintain testicular function"
+          }
+        ]
+      },
+      "risksAndBenefits": {
+        "title": "Risks and Benefits of TRT",
+        "information": [
+          {
+            "category": "Benefits",
+            "items": [
+              "Increased muscle mass and strength",
+              "Improved bone density",
+              "Enhanced libido and sexual function",
+              "Better mood and energy",
+              "Improved cognitive function"
+            ]
+          },
+          {
+            "category": "Potential Risks",
+            "items": [
+              "Acne and oily skin",
+              "Increased red blood cell count",
+              "Sleep apnea (if already present)",
+              "Prostate enlargement",
+              "Infertility (usually reversible)"
+            ]
+          },
+          {
+            "category": "Monitoring",
+            "items": [
+              "Regular blood tests every 3-6 months",
+              "Prostate exams and PSA testing",
+              "Red blood cell count monitoring",
+              "Blood pressure and cholesterol checks"
+            ]
+          }
+        ]
+      },
+      "whenToSeekHelp": "Consider testing if you have multiple symptoms of low testosterone. Start with your GP who can order initial tests and refer to an endocrinologist if needed."
+    }
+  },
+  {
+    "id": 10,
+    "title": "Nutrition for Active Men",
+    "summary": "Fuel your body for peak performance.",
+    "tag": "nutrition",
+    "rating": 4.4,
+    "content": {
+      "overview": "Proper nutrition is essential for men who lead active lifestyles. Learn how to fuel your body for optimal performance, recovery, and long-term health.",
+      "macronutrients": {
+        "title": "Understanding Macronutrients",
+        "nutrients": [
+          {
+            "nutrient": "Protein",
+            "function": "Muscle building, repair, and maintenance",
+            "sources": [
+              "Lean meats (chicken, turkey, fish)",
+              "Eggs and dairy products",
+              "Legumes and beans",
+              "Nuts and seeds",
+              "Protein powders (whey, casein, plant-based)"
+            ],
+            "recommendation": "1.6-2.2g per kg body weight for active men"
+          },
+          {
+            "nutrient": "Carbohydrates",
+            "function": "Primary energy source for muscles and brain",
+            "sources": [
+              "Whole grains (brown rice, quinoa, oats)",
+              "Fruits and vegetables",
+              "Sweet potatoes and other starchy vegetables",
+              "Legumes and beans",
+              "Dairy products"
+            ],
+            "recommendation": "3-7g per kg body weight depending on activity level"
+          },
+          {
+            "nutrient": "Fats",
+            "function": "Hormone production, nutrient absorption, energy",
+            "sources": [
+              "Olive oil and avocados",
+              "Nuts and seeds",
+              "Fatty fish (salmon, mackerel, sardines)",
+              "Coconut oil and butter",
+              "Dark chocolate (85%+ cocoa)"
+            ],
+            "recommendation": "0.5-1g per kg body weight"
+          }
+        ]
+      },
+      "mealTiming": {
+        "title": "Optimal Meal Timing",
+        "strategies": [
+          {
+            "timing": "Pre-Workout (1-3 hours before)",
+            "foods": [
+              "Complex carbohydrates for sustained energy",
+              "Moderate protein",
+              "Low fiber to avoid digestive issues",
+              "Examples: Oatmeal with banana, Greek yogurt with berries"
+            ]
+          },
+          {
+            "timing": "Post-Workout (within 30-60 minutes)",
+            "foods": [
+              "Fast-digesting protein for muscle repair",
+              "Simple carbohydrates to replenish glycogen",
+              "Examples: Protein shake with fruit, chicken with rice"
+            ]
+          },
+          {
+            "timing": "Daily Meals",
+            "guidelines": [
+              "Eat every 3-4 hours to maintain energy",
+              "Include protein with every meal",
+              "Focus on whole, unprocessed foods",
+              "Stay hydrated throughout the day"
+            ]
+          }
+        ]
+      },
+      "hydration": {
+        "title": "Proper Hydration",
+        "guidelines": [
+          {
+            "timing": "Daily Hydration",
+            "recommendations": [
+              "Drink 3-4 liters of water daily",
+              "Start each day with 500ml of water",
+              "Drink before you feel thirsty",
+              "Monitor urine color (pale yellow is ideal)"
+            ]
+          },
+          {
+            "timing": "Exercise Hydration",
+            "recommendations": [
+              "Drink 500ml 2-3 hours before exercise",
+              "150-250ml every 15-20 minutes during exercise",
+              "Replace fluids lost through sweat",
+              "Consider electrolyte drinks for sessions >1 hour"
+            ]
+          },
+          {
+            "timing": "Recovery Hydration",
+            "recommendations": [
+              "Drink 150% of fluid lost during exercise",
+              "Include electrolytes for proper balance",
+              "Monitor weight before and after exercise",
+              "Continue hydrating throughout the day"
+            ]
+          }
+        ]
+      },
+      "supplements": {
+        "title": "Key Supplements for Active Men",
+        "supplements": [
+          {
+            "supplement": "Protein Powder",
+            "benefits": "Convenient protein source, muscle recovery",
+            "timing": "Post-workout or between meals",
+            "dosage": "20-40g per serving"
+          },
+          {
+            "supplement": "Creatine Monohydrate",
+            "benefits": "Increased strength, power, muscle mass",
+            "timing": "3-5g daily, timing not critical",
+            "loading": "Optional 20g daily for first week"
+          },
+          {
+            "supplement": "Omega-3 Fatty Acids",
+            "benefits": "Anti-inflammatory, heart health, brain function",
+            "timing": "With meals containing fat",
+            "dosage": "1-3g daily"
+          },
+          {
+            "supplement": "Vitamin D",
+            "benefits": "Bone health, immune function, testosterone support",
+            "timing": "With fat-containing meals",
+            "dosage": "1000-4000 IU daily"
+          },
+          {
+            "supplement": "Magnesium",
+            "benefits": "Muscle function, sleep quality, stress management",
+            "timing": "Before bed",
+            "dosage": "200-400mg daily"
+          }
+        ]
+      },
+      "mealPlanning": {
+        "title": "Practical Meal Planning",
+        "strategies": [
+          {
+            "strategy": "Batch Cooking",
+            "description": "Prepare large quantities of staple foods",
+            "examples": [
+              "Cook 2-3 pounds of chicken breast",
+              "Prepare 2-3 cups of brown rice or quinoa",
+              "Wash and chop vegetables for the week",
+              "Hard-boil a dozen eggs"
+            ]
+          },
+          {
+            "strategy": "Meal Prep Containers",
+            "description": "Pre-portion meals for easy grab-and-go",
+            "examples": [
+              "Protein + carb + vegetable combinations",
+              "Overnight oats for breakfast",
+              "Pre-made salads with protein",
+              "Smoothie ingredients in freezer bags"
+            ]
+          },
+          {
+            "strategy": "Smart Snacking",
+            "description": "Keep healthy snacks readily available",
+            "examples": [
+              "Nuts and seeds",
+              "Greek yogurt",
+              "Fresh fruit",
+              "Protein bars (check ingredients)"
+            ]
+          }
+        ]
+      },
+      "commonMistakes": {
+        "title": "Common Nutrition Mistakes",
+        "mistakes": [
+          {
+            "mistake": "Not Eating Enough",
+            "solution": "Track calories to ensure adequate intake for your activity level"
+          },
+          {
+            "mistake": "Skipping Post-Workout Nutrition",
+            "solution": "Eat within 30-60 minutes after training for optimal recovery"
+          },
+          {
+            "mistake": "Over-relying on Supplements",
+            "solution": "Focus on whole foods first, use supplements to fill gaps"
+          },
+          {
+            "mistake": "Inconsistent Hydration",
+            "solution": "Set reminders to drink water throughout the day"
+          },
+          {
+            "mistake": "Ignoring Micronutrients",
+            "solution": "Eat a variety of colorful fruits and vegetables daily"
+          }
+        ]
+      },
+      "whenToSeekHelp": "Consult a sports nutritionist or registered dietitian for personalized nutrition plans, especially if you have specific performance goals or dietary restrictions."
+    }
+  },
+  {
+    "id": 11,
+    "title": "Financial Wellness for Men",
+    "summary": "Building wealth and financial security.",
+    "tag": "lifestyle",
+    "rating": 4.1,
+    "content": {
+      "overview": "Financial wellness is a crucial aspect of men's overall health and wellbeing. Building wealth, managing debt, and planning for the future reduces stress and improves quality of life.",
+      "budgeting": {
+        "title": "Creating a Solid Budget",
+        "strategies": [
+          {
+            "method": "50/30/20 Rule",
+            "description": "Allocate 50% to needs, 30% to wants, 20% to savings",
+            "implementation": [
+              "Track all expenses for one month",
+              "Categorize spending into needs, wants, and savings",
+              "Adjust percentages based on your situation",
+              "Review and adjust monthly"
+            ]
+          },
+          {
+            "method": "Zero-Based Budgeting",
+            "description": "Every dollar has a purpose before the month begins",
+            "implementation": [
+              "List all income sources",
+              "Assign every dollar to a category",
+              "Track spending throughout the month",
+              "Adjust categories as needed"
+            ]
+          },
+          {
+            "method": "Envelope System",
+            "description": "Use cash for variable expenses to control spending",
+            "implementation": [
+              "Withdraw cash for categories like groceries, entertainment",
+              "When envelope is empty, stop spending in that category",
+              "Use digital envelopes for online spending",
+              "Adjust amounts based on actual needs"
+            ]
+          }
+        ]
+      },
+      "debtManagement": {
+        "title": "Strategies for Debt Elimination",
+        "methods": [
+          {
+            "method": "Debt Snowball",
+            "description": "Pay minimums on all debts, extra on smallest balance",
+            "steps": [
+              "List all debts from smallest to largest balance",
+              "Pay minimum on all except the smallest",
+              "Put extra money toward smallest debt",
+              "Repeat until all debts are paid"
+            ]
+          },
+          {
+            "method": "Debt Avalanche",
+            "description": "Pay minimums on all debts, extra on highest interest rate",
+            "steps": [
+              "List all debts by interest rate (highest first)",
+              "Pay minimum on all except highest rate",
+              "Put extra money toward highest interest debt",
+              "Continue until all debts are eliminated"
+            ]
+          },
+          {
+            "method": "Debt Consolidation",
+            "description": "Combine multiple debts into one lower-rate loan",
+            "considerations": [
+              "Compare interest rates and terms",
+              "Consider balance transfer credit cards",
+              "Look into personal loans",
+              "Ensure you won't accumulate new debt"
+            ]
+          }
+        ]
+      },
+      "savingStrategies": {
+        "title": "Building Your Savings",
+        "strategies": [
+          {
+            "goal": "Emergency Fund",
+            "amount": "3-6 months of expenses",
+            "tips": [
+              "Start with $1,000 as a mini emergency fund",
+              "Build to 1 month, then 3 months, then 6 months",
+              "Keep in high-yield savings account",
+              "Only use for true emergencies"
+            ]
+          },
+          {
+            "goal": "Retirement Savings",
+            "amount": "15-20% of income",
+            "tips": [
+              "Contribute to employer 401(k) match first",
+              "Maximize Roth IRA contributions",
+              "Consider additional retirement accounts",
+              "Increase contributions with raises"
+            ]
+          },
+          {
+            "goal": "Short-term Goals",
+            "amount": "Varies by goal",
+            "tips": [
+              "Set specific, measurable goals",
+              "Create separate savings accounts",
+              "Use automatic transfers",
+              "Track progress monthly"
+            ]
+          }
+        ]
+      },
+      "investing": {
+        "title": "Investment Basics",
+        "concepts": [
+          {
+            "concept": "Asset Allocation",
+            "description": "Diversify investments across different asset classes",
+            "guidelines": [
+              "Stocks for growth (age-appropriate percentage)",
+              "Bonds for stability and income",
+              "Real estate for diversification",
+              "International investments for global exposure"
+            ]
+          },
+          {
+            "concept": "Dollar-Cost Averaging",
+            "description": "Invest fixed amounts regularly regardless of market conditions",
+            "benefits": [
+              "Reduces impact of market volatility",
+              "Builds discipline in investing",
+              "Takes emotion out of investing decisions",
+              "Works well with automatic contributions"
+            ]
+          },
+          {
+            "concept": "Tax-Advantaged Accounts",
+            "description": "Use accounts that provide tax benefits",
+            "options": [
+              "401(k) with employer match",
+              "Roth IRA for tax-free growth",
+              "Traditional IRA for tax deduction",
+              "Health Savings Account (HSA) if eligible"
+            ]
+          }
+        ]
+      },
+      "insurance": {
+        "title": "Essential Insurance Coverage",
+        "types": [
+          {
+            "type": "Life Insurance",
+            "purpose": "Protect family if you die unexpectedly",
+            "considerations": [
+              "Term life is usually most cost-effective",
+              "Coverage should be 10-15 times your income",
+              "Consider length of coverage based on dependents",
+              "Review coverage as life circumstances change"
+            ]
+          },
+          {
+            "type": "Disability Insurance",
+            "purpose": "Replace income if you can't work",
+            "considerations": [
+              "Short-term and long-term disability options",
+              "Own-occupation vs. any-occupation coverage",
+              "Elimination period and benefit period",
+              "Group vs. individual policies"
+            ]
+          },
+          {
+            "type": "Health Insurance",
+            "purpose": "Cover medical expenses",
+            "considerations": [
+              "High-deductible plans with HSAs",
+              "Network coverage and out-of-pocket costs",
+              "Prescription drug coverage",
+              "Preventive care coverage"
+            ]
+          }
+        ]
+      },
+      "estatePlanning": {
+        "title": "Planning for the Future",
+        "documents": [
+          {
+            "document": "Will",
+            "purpose": "Specify how assets are distributed after death",
+            "considerations": [
+              "Name executor and beneficiaries",
+              "Specify guardians for minor children",
+              "Update when life circumstances change",
+              "Consider professional help for complex situations"
+            ]
+          },
+          {
+            "document": "Power of Attorney",
+            "purpose": "Allow someone to make decisions if you're incapacitated",
+            "types": [
+              "Financial power of attorney",
+              "Healthcare power of attorney",
+              "Durable vs. non-durable options",
+              "Springing vs. immediate activation"
+            ]
+          },
+          {
+            "document": "Living Will",
+            "purpose": "Specify medical treatment preferences",
+            "considerations": [
+              "End-of-life care preferences",
+              "Life support decisions",
+              "Organ donation wishes",
+              "Regular review and updates"
+            ]
+          }
+        ]
+      },
+      "commonMistakes": {
+        "title": "Common Financial Mistakes to Avoid",
+        "mistakes": [
+          {
+            "mistake": "Not Having an Emergency Fund",
+            "solution": "Build 3-6 months of expenses in liquid savings"
+          },
+          {
+            "mistake": "Carrying High-Interest Debt",
+            "solution": "Prioritize paying off credit cards and personal loans"
+          },
+          {
+            "mistake": "Not Investing for Retirement",
+            "solution": "Start early, even with small amounts, and increase over time"
+          },
+          {
+            "mistake": "Not Having Adequate Insurance",
+            "solution": "Protect against major financial risks with appropriate coverage"
+          },
+          {
+            "mistake": "Lifestyle Inflation",
+            "solution": "Save raises and bonuses instead of increasing spending"
+          }
+        ]
+      },
+      "whenToSeekHelp": "Consider consulting a certified financial planner for complex situations, estate planning, or if you need help creating a comprehensive financial plan."
+    }
   }
-   ]
+]
