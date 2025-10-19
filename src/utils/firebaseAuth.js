@@ -122,12 +122,21 @@ export async function loginUser({ email, password }) {
 
 // Login with Google (Popup method with COOP fallback)
 export async function loginWithGoogle() {
-  // If page is in crossOriginIsolated (affected by COOP/COEP), use redirect
+  // Check for COOP/COEP issues first
   if (window.crossOriginIsolated) {
     console.log('Page is crossOriginIsolated, using redirect method...');
     await signInWithRedirect(auth, googleProvider);
     return;
   }
+
+  // Check if popup is likely to be blocked
+  const testPopup = window.open('', '_blank', 'width=1,height=1');
+  if (!testPopup || testPopup.closed) {
+    console.log('Popup blocked, using redirect method...');
+    await signInWithRedirect(auth, googleProvider);
+    return;
+  }
+  testPopup.close();
 
   try {
     console.log('Starting Google login with popup...');
@@ -179,10 +188,17 @@ export async function loginWithGoogle() {
     console.error('Error code:', error.code);
     console.error('Error message:', error.message);
     
-    // Check if it's a COOP-related error
+    // Check if it's a COOP-related error or popup blocked
     const msg = String(error?.message || '');
-    if (error?.code?.startsWith('auth/') || msg.includes('window.closed') || msg.includes('Cross-Origin-Opener-Policy')) {
-      console.log('COOP-related error detected, falling back to redirect...');
+    const isCOOPError = error?.code?.startsWith('auth/') || 
+                       msg.includes('window.closed') || 
+                       msg.includes('Cross-Origin-Opener-Policy') ||
+                       msg.includes('popup') ||
+                       error?.code === 'auth/popup-closed-by-user' ||
+                       error?.code === 'auth/cancelled-popup-request';
+    
+    if (isCOOPError) {
+      console.log('COOP-related error or popup blocked, falling back to redirect...');
       try {
         await signInWithRedirect(auth, googleProvider);
         return;
