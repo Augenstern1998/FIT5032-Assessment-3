@@ -40,7 +40,7 @@ exports.getResourceStats = exports.getUserStats = exports.processData = exports.
 const functions = __importStar(require("firebase-functions"));
 const admin = __importStar(require("firebase-admin"));
 const cors_1 = __importDefault(require("cors"));
-const emailService_1 = require("./emailService");
+// Email service removed - using EmailJS instead
 // Initialize Firebase Admin
 admin.initializeApp();
 // CORS configuration
@@ -59,7 +59,6 @@ exports.healthCheck = functions.https.onRequest((req, res) => {
 // Email sending cloud function
 exports.sendEmail = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
-        var _a, _b;
         try {
             // Only allow POST requests
             if (req.method !== 'POST') {
@@ -72,46 +71,14 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
                 return;
             }
             console.log('Email request received:', { type, data });
-            // Check if email credentials are available
-            const emailUser = (_a = functions.config().email) === null || _a === void 0 ? void 0 : _a.user;
-            const emailPassword = (_b = functions.config().email) === null || _b === void 0 ? void 0 : _b.password;
-            if (!emailUser || !emailPassword) {
-                console.log('Email credentials not configured, simulating email send');
-                res.status(200).json({
-                    success: true,
-                    message: 'Email simulated successfully (no credentials configured)',
-                    id: `simulated_${Date.now()}`,
-                    type: type
-                });
-                return;
-            }
-            let result;
-            if (type === 'contact') {
-                result = await (0, emailService_1.sendContactEmail)(data);
-            }
-            else if (type === 'passwordReset') {
-                result = await (0, emailService_1.sendPasswordResetEmail)(data.email, data.resetLink);
-            }
-            else if (type === 'welcome') {
-                result = await (0, emailService_1.sendWelcomeEmail)(data.email, data.name);
-            }
-            else {
-                throw new Error(`Unknown email type: ${type}`);
-            }
-            if (result.success) {
-                res.status(200).json({
-                    success: true,
-                    message: 'Email sent successfully via cloud function',
-                    id: result.id,
-                    type: type
-                });
-            }
-            else {
-                res.status(500).json({
-                    success: false,
-                    error: result.error || 'Failed to send email'
-                });
-            }
+            // Email service removed - using EmailJS instead
+            // This endpoint is kept for compatibility but does not send emails
+            res.status(200).json({
+                success: true,
+                message: 'Email service moved to EmailJS - this endpoint is deprecated',
+                id: `deprecated_${Date.now()}`,
+                type: type
+            });
         }
         catch (error) {
             console.error('Email function error:', error);

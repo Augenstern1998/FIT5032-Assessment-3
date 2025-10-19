@@ -287,36 +287,26 @@ async function onSubmit() {
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // Send contact email (prefer Firebase Cloud Functions, fallback to EmailJS)
+    // Send contact email using EmailJS
     let emailSent = false;
     try {
-      // Try to send email using Firebase Cloud Functions first
-      console.log('Attempting to send email via Firebase Cloud Functions...');
-      const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
-      if (cloudResult.success) {
-        emailSent = true;
-        console.log('Email sent successfully via Firebase Cloud Functions');
+      console.log('Sending email via EmailJS...');
+      emailSent = await sendSimpleContactEmail(cleanData);
+      if (emailSent) {
+        console.log('Email sent successfully via EmailJS');
       } else {
-        throw new Error('Cloud function failed');
+        throw new Error('EmailJS failed');
       }
-    } catch (cloudError) {
-      console.warn('Firebase Cloud Functions failed, falling back to EmailJS:', cloudError);
-      // Fallback to EmailJS
+    } catch (emailJSError) {
+      console.error('EmailJS failed, trying full version:', emailJSError);
+      // Try full EmailJS as fallback
       try {
-        emailSent = await sendSimpleContactEmail(cleanData);
+        emailSent = await sendContactEmail(cleanData);
         if (emailSent) {
-          console.log('Email sent successfully via EmailJS');
-        } else {
-          throw new Error('EmailJS failed');
+          console.log('Email sent successfully via EmailJS (full version)');
         }
-      } catch (emailJSError) {
-        console.error('Both Cloud Functions and EmailJS failed:', emailJSError);
-        // Try full EmailJS as last resort
-        try {
-          emailSent = await sendContactEmail(cleanData);
-        } catch (finalError) {
-          console.error('All email methods failed:', finalError);
-        }
+      } catch (finalError) {
+        console.error('All EmailJS methods failed:', finalError);
       }
     }
 
