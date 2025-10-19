@@ -36,7 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processUserData = processUserData;
 const admin = __importStar(require("firebase-admin"));
 /**
- * 处理用户数据操作
+ * Process user data operations
  */
 async function processUserData(operation, data) {
     try {
@@ -69,7 +69,7 @@ async function processUserData(operation, data) {
     }
 }
 /**
- * 创建用户记录
+ * Create user record
  */
 async function createUser(userData) {
     try {
@@ -98,7 +98,7 @@ async function createUser(userData) {
     }
 }
 /**
- * 更新用户信息
+ * Update user information
  */
 async function updateUser(userData) {
     try {
@@ -125,7 +125,7 @@ async function updateUser(userData) {
     }
 }
 /**
- * 获取用户统计信息
+ * Get user statistics
  */
 async function getUserStats(data) {
     try {
@@ -161,7 +161,7 @@ async function getUserStats(data) {
     }
 }
 /**
- * 创建资源记录
+ * Create resource record
  */
 async function createResource(resourceData) {
     try {
@@ -194,7 +194,7 @@ async function createResource(resourceData) {
     }
 }
 /**
- * 更新资源信息
+ * Update resource information
  */
 async function updateResource(resourceData) {
     try {
@@ -230,7 +230,7 @@ async function updateResource(resourceData) {
     }
 }
 /**
- * 获取资源统计信息
+ * Get resource statistics
  */
 async function getResourceStats(data) {
     try {
@@ -249,10 +249,10 @@ async function getResourceStats(data) {
             if (resourceData.isActive) {
                 stats.activeResources++;
             }
-            // 统计分类
+            // Count categories
             const category = resourceData.category || 'uncategorized';
             stats.categories[category] = (stats.categories[category] || 0) + 1;
-            // 统计评分
+            // Count ratings
             if (resourceData.rating && typeof resourceData.rating === 'number') {
                 totalRatingSum += resourceData.rating;
                 ratingCount++;

@@ -38,11 +38,11 @@ exports.sendPasswordResetEmail = sendPasswordResetEmail;
 exports.sendWelcomeEmail = sendWelcomeEmail;
 const nodemailer = __importStar(require("nodemailer"));
 /**
- * 发送联系邮件
+ * Send contact email
  */
 async function sendContactEmail(data) {
     try {
-        // 创建邮件传输器
+        // Create email transporter
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -50,32 +50,32 @@ async function sendContactEmail(data) {
                 pass: process.env.EMAIL_PASSWORD
             }
         });
-        // 邮件内容
+        // Email content
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: process.env.ADMIN_EMAIL || 'admin@example.com',
-            subject: `[网站联系表单] ${data.subject}`,
+            subject: `[Website Contact Form] ${data.subject}`,
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">新的联系表单提交</h2>
+          <h2 style="color: #333;">New Contact Form Submission</h2>
           
           <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #666;">联系信息</h3>
-            <p><strong>姓名:</strong> ${data.name}</p>
-            <p><strong>邮箱:</strong> ${data.email}</p>
-            <p><strong>主题:</strong> ${data.subject}</p>
-            <p><strong>订阅新闻:</strong> ${data.subscribeNewsletter ? '是' : '否'}</p>
+            <h3 style="margin-top: 0; color: #666;">Contact Information</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Subject:</strong> ${data.subject}</p>
+            <p><strong>Newsletter Subscription:</strong> ${data.subscribeNewsletter ? 'Yes' : 'No'}</p>
           </div>
           
           <div style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
-            <h3 style="margin-top: 0; color: #666;">消息内容</h3>
+            <h3 style="margin-top: 0; color: #666;">Message Content</h3>
             <p style="white-space: pre-wrap;">${data.message}</p>
           </div>
           
           <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 5px;">
             <p style="margin: 0; font-size: 12px; color: #666;">
-              提交时间: ${new Date().toLocaleString('zh-CN')}<br>
-              来源页面: FIT5032 Assessment 3 - 联系表单
+              Submission Time: ${new Date().toLocaleString('en-US')}<br>
+              Source Page: FIT5032 Assessment 3 - Contact Form
             </p>
           </div>
         </div>
@@ -86,7 +86,7 @@ async function sendContactEmail(data) {
                     contentType: data.attachment.contentType
                 }] : []
         };
-        // 发送邮件
+        // Send email
         const info = await transporter.sendMail(mailOptions);
         console.log('Contact email sent successfully:', info.messageId);
         return {
@@ -103,7 +103,7 @@ async function sendContactEmail(data) {
     }
 }
 /**
- * 发送密码重置邮件
+ * Send password reset email
  */
 async function sendPasswordResetEmail(userEmail, resetLink) {
     try {
@@ -117,28 +117,28 @@ async function sendPasswordResetEmail(userEmail, resetLink) {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: userEmail,
-            subject: '密码重置请求 - FIT5032 Assessment 3',
+            subject: 'Password Reset Request - FIT5032 Assessment 3',
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">密码重置请求</h2>
+          <h2 style="color: #333;">Password Reset Request</h2>
           
-          <p>您好，</p>
-          <p>我们收到了您的密码重置请求。请点击下面的链接来重置您的密码：</p>
+          <p>Hello,</p>
+          <p>We received your password reset request. Please click the link below to reset your password:</p>
           
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetLink}" 
                style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              重置密码
+              Reset Password
             </a>
           </div>
           
-          <p>如果上面的按钮无法点击，请复制以下链接到浏览器中打开：</p>
+          <p>If the button above doesn't work, please copy and paste the following link into your browser:</p>
           <p style="word-break: break-all; color: #666;">${resetLink}</p>
           
           <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
             <p style="margin: 0; font-size: 12px; color: #666;">
-              此链接将在24小时后失效。<br>
-              如果您没有请求密码重置，请忽略此邮件。
+              This link will expire in 24 hours.<br>
+              If you did not request a password reset, please ignore this email.
             </p>
           </div>
         </div>
@@ -159,7 +159,7 @@ async function sendPasswordResetEmail(userEmail, resetLink) {
     }
 }
 /**
- * 发送欢迎邮件
+ * Send welcome email
  */
 async function sendWelcomeEmail(userEmail, userName) {
     try {
@@ -173,29 +173,29 @@ async function sendWelcomeEmail(userEmail, userName) {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: userEmail,
-            subject: '欢迎加入 FIT5032 Assessment 3！',
+            subject: 'Welcome to FIT5032 Assessment 3!',
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">欢迎，${userName}！</h2>
+          <h2 style="color: #333;">Welcome, ${userName}!</h2>
           
-          <p>感谢您注册我们的应用！我们很高兴您加入我们的社区。</p>
+          <p>Thank you for registering with our application! We are excited to have you join our community.</p>
           
           <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #666;">您可以：</h3>
+            <h3 style="margin-top: 0; color: #666;">You can:</h3>
             <ul>
-              <li>浏览丰富的学习资源</li>
-              <li>使用交互式数据表格</li>
-              <li>查看地图功能</li>
-              <li>联系我们的支持团队</li>
+              <li>Browse rich learning resources</li>
+              <li>Use interactive data tables</li>
+              <li>View map features</li>
+              <li>Contact our support team</li>
             </ul>
           </div>
           
-          <p>如果您有任何问题，请随时联系我们。</p>
+          <p>If you have any questions, please feel free to contact us.</p>
           
           <div style="margin-top: 30px; padding: 15px; background: #e8f4fd; border-radius: 5px;">
             <p style="margin: 0; font-size: 12px; color: #666;">
-              这是自动发送的邮件，请勿回复。<br>
-              FIT5032 Assessment 3 团队
+              This is an automated email, please do not reply.<br>
+              FIT5032 Assessment 3 Team
             </p>
           </div>
         </div>

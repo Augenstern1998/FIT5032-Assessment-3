@@ -40,11 +40,12 @@ exports.getResourceStats = exports.getUserStats = exports.processData = exports.
 const functions = __importStar(require("firebase-functions"));
 const admin = __importStar(require("firebase-admin"));
 const cors_1 = __importDefault(require("cors"));
-// 初始化 Firebase Admin
+const emailService_1 = require("./emailService");
+// Initialize Firebase Admin
 admin.initializeApp();
-// CORS 配置
+// CORS configuration
 const corsHandler = (0, cors_1.default)({ origin: true });
-// 健康检查端点
+// Health check endpoint
 exports.healthCheck = functions.https.onRequest((req, res) => {
     corsHandler(req, res, () => {
         res.status(200).json({
@@ -55,11 +56,11 @@ exports.healthCheck = functions.https.onRequest((req, res) => {
         });
     });
 });
-// 邮件发送云函数
+// Email sending cloud function
 exports.sendEmail = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
         try {
-            // 只允许 POST 请求
+            // Only allow POST requests
             if (req.method !== 'POST') {
                 res.status(405).json({ error: 'Method not allowed' });
                 return;
@@ -69,14 +70,45 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
                 res.status(400).json({ error: 'Missing required fields: type and data' });
                 return;
             }
-            // 模拟邮件发送成功
             console.log('Email request received:', { type, data });
-            res.status(200).json({
-                success: true,
-                message: 'Email sent successfully via cloud function',
-                id: `email_${Date.now()}`,
-                type: type
-            });
+            // Check if email credentials are available
+            if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+                console.log('Email credentials not configured, simulating email send');
+                res.status(200).json({
+                    success: true,
+                    message: 'Email simulated successfully (no credentials configured)',
+                    id: `simulated_${Date.now()}`,
+                    type: type
+                });
+                return;
+            }
+            let result;
+            if (type === 'contact') {
+                result = await (0, emailService_1.sendContactEmail)(data);
+            }
+            else if (type === 'passwordReset') {
+                result = await (0, emailService_1.sendPasswordResetEmail)(data.email, data.resetLink);
+            }
+            else if (type === 'welcome') {
+                result = await (0, emailService_1.sendWelcomeEmail)(data.email, data.name);
+            }
+            else {
+                throw new Error(`Unknown email type: ${type}`);
+            }
+            if (result.success) {
+                res.status(200).json({
+                    success: true,
+                    message: 'Email sent successfully via cloud function',
+                    id: result.id,
+                    type: type
+                });
+            }
+            else {
+                res.status(500).json({
+                    success: false,
+                    error: result.error || 'Failed to send email'
+                });
+            }
         }
         catch (error) {
             console.error('Email function error:', error);
@@ -87,7 +119,7 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
         }
     });
 });
-// 数据处理云函数
+// Data processing cloud function
 exports.processData = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
         try {
@@ -101,7 +133,7 @@ exports.processData = functions.https.onRequest((req, res) => {
                 return;
             }
             console.log('Data processing request:', { operation, data });
-            // 模拟数据处理
+            // Simulate data processing
             const result = {
                 operation,
                 processed: true,
@@ -122,12 +154,12 @@ exports.processData = functions.https.onRequest((req, res) => {
         }
     });
 });
-// 用户统计云函数
+// User statistics cloud function
 exports.getUserStats = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
         try {
             console.log('Getting user stats...');
-            // 模拟用户统计
+            // Simulate user statistics
             const stats = {
                 totalUsers: 150,
                 activeUsers: 120,
@@ -148,12 +180,12 @@ exports.getUserStats = functions.https.onRequest((req, res) => {
         }
     });
 });
-// 资源统计云函数
+// Resource statistics cloud function
 exports.getResourceStats = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
         try {
             console.log('Getting resource stats...');
-            // 模拟资源统计
+            // Simulate resource statistics
             const stats = {
                 totalResources: 45,
                 activeResources: 42,

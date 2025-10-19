@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import cors from 'cors';
+import { sendContactEmail, sendPasswordResetEmail, sendWelcomeEmail } from './emailService';
 
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -37,15 +38,44 @@ export const sendEmail = functions.https.onRequest((req, res) => {
         return;
       }
 
-      // Simulate successful email sending
       console.log('Email request received:', { type, data });
 
-      res.status(200).json({
-        success: true,
-        message: 'Email sent successfully via cloud function',
-        id: `email_${Date.now()}`,
-        type: type
-      });
+      // Check if email credentials are available
+      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        console.log('Email credentials not configured, simulating email send');
+        res.status(200).json({
+          success: true,
+          message: 'Email simulated successfully (no credentials configured)',
+          id: `simulated_${Date.now()}`,
+          type: type
+        });
+        return;
+      }
+
+      let result;
+      if (type === 'contact') {
+        result = await sendContactEmail(data);
+      } else if (type === 'passwordReset') {
+        result = await sendPasswordResetEmail(data.email, data.resetLink);
+      } else if (type === 'welcome') {
+        result = await sendWelcomeEmail(data.email, data.name);
+      } else {
+        throw new Error(`Unknown email type: ${type}`);
+      }
+
+      if (result.success) {
+        res.status(200).json({
+          success: true,
+          message: 'Email sent successfully via cloud function',
+          id: result.id,
+          type: type
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: result.error || 'Failed to send email'
+        });
+      }
     } catch (error) {
       console.error('Email function error:', error);
       res.status(500).json({
