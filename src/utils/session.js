@@ -8,7 +8,7 @@ let idleTimer = null;
 
 // AppSession type definition
 export function setSession(uid, ttlHours = 12) {
-  const expiresAt = Date.now() + ttlHours * 60 * 60 * 1000; // 毫秒时间戳
+  const expiresAt = Date.now() + ttlHours * 60 * 60 * 1000; // milliseconds timestamp
   const session = { uid, expiresAt };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   console.log('Session set:', { uid, expiresAt, ttlHours });
@@ -43,7 +43,7 @@ export function isSessionValid() {
   const session = getSession();
   if (!session) return false;
   
-  const isValid = Date.now() < session.expiresAt; // 毫秒对毫秒比较
+  const isValid = Date.now() < session.expiresAt; // milliseconds comparison
   console.log('Session validation:', { 
     now: Date.now(), 
     expiresAt: session.expiresAt, 

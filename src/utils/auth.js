@@ -24,16 +24,16 @@ function emitAuthChanged() {
 
 function setSession(session) {
   if (session) {
-    // ✅ 使用新的会话管理逻辑
+    // ✅ Use new session management logic
     import('./session.js').then(({ setSession: setAppSession, startIdleTimer }) => {
-      setAppSession(session.uid || session.id, 12); // 12小时有效期
+      setAppSession(session.uid || session.id, 12); // 12 hours validity
       startIdleTimer(() => {
         logout();
         emitAuthChanged();
       });
     });
   } else {
-    // ✅ 清理会话
+    // ✅ Clear session
     import('./session.js').then(({ clearSession, stopIdleTimer }) => {
       clearSession();
       stopIdleTimer();

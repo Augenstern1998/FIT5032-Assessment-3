@@ -1,5 +1,5 @@
-# 单页应用路由配置
+# Single Page Application routing configuration
 /*    /index.html   200
 
-# API 重定向到云函数
+# API redirects to cloud functions
 /api/*    https://us-central1-mens-health-app-b7749.cloudfunctions.net/:splat    200

@@ -129,9 +129,9 @@ export async function loginUser({ email, password }) {
     
     console.log('Firebase Auth: Returning user result:', result);
     
-    // ✅ 立即写入会话，避免竞态条件
+    // ✅ Immediately write session to avoid race conditions
     import('./session.js').then(({ setSession }) => {
-      setSession(user.uid, 12); // 12小时有效期
+      setSession(user.uid, 12); // 12 hours validity
     });
     
     return result;
@@ -147,10 +147,10 @@ export async function loginUser({ email, password }) {
 export async function loginWithGoogle() {
   console.log('Starting Google login process...');
   
-  // ✅ 设置持久化
+  // ✅ Set persistence
   await setPersistence(auth, browserLocalPersistence);
   
-  // ✅ 如果页面被 COOP/COEP 隔离，直接走重定向更稳
+  // ✅ If page is COOP/COEP isolated, use redirect method for stability
   if (window.crossOriginIsolated) {
     console.log('Page is crossOriginIsolated, using redirect method...');
     await signInWithRedirect(auth, googleProvider);
@@ -187,9 +187,9 @@ export async function loginWithGoogle() {
       });
     }
 
-    // ✅ 立即写入会话，避免竞态条件
+    // ✅ Immediately write session to avoid race conditions
     import('./session.js').then(({ setSession }) => {
-      setSession(user.uid, 12); // 12小时有效期
+      setSession(user.uid, 12); // 12 hours validity
     });
 
     const userData = userDoc.exists() ? userDoc.data() : {
@@ -212,7 +212,7 @@ export async function loginWithGoogle() {
     console.error('Error code:', error.code);
     console.error('Error message:', error.message);
     
-    // ✅ 检查典型场景：被拦/关闭/并发弹窗 → 自动降级为 Redirect
+    // ✅ Check typical scenarios: blocked/closed/concurrent popup → auto fallback to Redirect
     const code = String(error?.code || '');
     if (
       code === 'auth/popup-blocked' ||
@@ -239,7 +239,7 @@ export async function logout() {
   try {
     console.log('Firebase logout: Starting signOut...');
     
-    // ✅ 先清理本地会话
+    // ✅ Clear local session first
     import('./session.js').then(({ clearSession }) => {
       clearSession();
     });

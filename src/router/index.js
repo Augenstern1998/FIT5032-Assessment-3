@@ -33,7 +33,7 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 });
 
-// ✅ 等待 Firebase 初始化完成
+// ✅ Wait for Firebase initialization to complete
 let authReady = null;
 function waitAuthReady() {
   if (!authReady) {
@@ -50,27 +50,27 @@ function waitAuthReady() {
 router.beforeEach(async (to) => {
   console.log('Route guard: Navigating to', to.path);
   
-  // ✅ 如果不需要认证，直接放行
+  // ✅ If no authentication required, allow access
   if (!to.meta?.requiresAuth) {
     console.log('Route guard: No auth required, access granted');
     return true;
   }
   
   try {
-    // ✅ 等待 Firebase 完成初始化
+    // ✅ Wait for Firebase initialization to complete
     await waitAuthReady();
     console.log('Route guard: Firebase auth ready');
     
     const user = await getCurrentUser();
     console.log('Route guard: Current user', user ? 'authenticated' : 'not authenticated');
     
-    // ✅ 检查 Firebase 用户和本地会话
+    // ✅ Check Firebase user and local session
     if (!user) {
       console.log('Route guard: No Firebase user, redirecting to login');
       return { name: 'login', query: { redirect: to.fullPath } };
     }
     
-    // ✅ 检查本地会话有效性
+    // ✅ Check local session validity
     const sessionValid = isSessionValid();
     console.log('Route guard: Session valid', sessionValid);
     

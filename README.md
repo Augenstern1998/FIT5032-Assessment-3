@@ -1,41 +1,40 @@
-# 🏥 Men's Health Resource Platform
+# Men's Health Resource Platform
 
 A comprehensive web application built with Vue 3 and Firebase, designed to provide health resources and community support for men's wellness.
 
-## 🚀 Live Demo
+## Live Demo
 
 - **Firebase Hosting**: https://mens-health-app-b7749.web.app
 - **Cloudflare Pages**: https://fit5032-assessment-3.pages.dev
 - **Cloud Functions**: [https://us-central1-mens-health-app-b7749.cloudfunctions.net](https://console.firebase.google.com/project/mens-health-app-b7749/functions)
-  
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication System
+### Authentication System
 - **Firebase Authentication** with email/password
 - **Google OAuth 2.0** integration
 - **Secure session management**
 - **User role management** (member/admin)
 
-### 📧 Email Services
+### Email Services
 - **Dual email architecture**: Cloud Functions + EmailJS fallback
 - **Contact form** with attachment support
 - **HTML email templates**
 - **Password reset functionality**
 
-### 📊 Interactive Data Management
+### Interactive Data Management
 - **Advanced data table** with sorting, searching, and pagination
 - **User management dashboard**
 - **Resource management system**
 - **Rating and review system**
 
-### ☁️ Cloud Infrastructure
+### Cloud Infrastructure
 - **Firebase Cloud Functions** (5 deployed functions)
 - **Firebase Firestore** database
 - **Multi-platform deployment**
 - **Automated CI/CD pipeline**
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Frontend
 - **Vue 3** with Composition API
@@ -54,17 +53,17 @@ A comprehensive web application built with Vue 3 and Firebase, designed to provi
 - **Cloudflare Pages** (CDN)
 - **GitHub Actions** (CI/CD)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 FIT5032-Assessment-3/
-├── 📁 src/                          # Frontend source code
-│   ├── 📁 components/               # Reusable Vue components
+├── src/                          # Frontend source code
+│   ├── components/               # Reusable Vue components
 │   │   ├── InteractiveTable.vue     # Advanced data table
 │   │   ├── NavBar.vue              # Navigation component
 │   │   ├── ResourceCard.vue        # Resource display card
 │   │   └── ResponsiveGrid.vue      # Responsive grid layout
-│   ├── 📁 pages/                   # Application pages
+│   ├── pages/                   # Application pages
 │   │   ├── AdminDashboard.vue      # Admin management panel
 │   │   ├── Contact.vue             # Contact form page
 │   │   ├── Home.vue                # Landing page
@@ -72,35 +71,35 @@ FIT5032-Assessment-3/
 │   │   ├── Register.vue            # User registration
 │   │   ├── Resources.vue           # Resource listing
 │   │   └── ResourceManagement.vue  # Resource admin panel
-│   ├── 📁 config/                  # Configuration files
+│   ├── config/                  # Configuration files
 │   │   ├── firebase.js             # Firebase configuration
 │   │   └── emailjs.js              # EmailJS configuration
-│   ├── 📁 services/                # External service integrations
+│   ├── services/                # External service integrations
 │   │   └── cloudFunctions.js       # Cloud Functions client
-│   ├── 📁 utils/                   # Utility functions
+│   ├── utils/                   # Utility functions
 │   │   ├── auth.js                 # Authentication utilities
 │   │   ├── firebaseAuth.js         # Firebase auth wrapper
 │   │   ├── emailService.js         # Email service utilities
 │   │   └── security.js             # Security utilities
-│   └── 📁 data/                    # Static data files
+│   └── data/                    # Static data files
 │       ├── resources.json          # Health resources data
 │       └── tips.json               # Health tips data
-├── 📁 functions/                   # Firebase Cloud Functions
-│   ├── 📁 src/                     # TypeScript source
+├── functions/                   # Firebase Cloud Functions
+│   ├── src/                     # TypeScript source
 │   │   ├── index.ts                # Main functions entry
 │   │   ├── emailService.ts         # Email service functions
 │   │   └── dataProcessor.ts        # Data processing functions
-│   └── 📁 lib/                     # Compiled JavaScript
-├── 📁 public/                      # Static assets
-├── 📁 dist/                        # Production build
-├── 🔧 firebase.json                # Firebase configuration
-├── 🔧 firestore.rules              # Database security rules
-├── 🔧 firestore.indexes.json       # Database indexes
-├── 🔧 vite.config.js               # Vite configuration
-└── 📋 package.json                 # Dependencies and scripts
+│   └── lib/                     # Compiled JavaScript
+├── public/                      # Static assets
+├── dist/                        # Production build
+├── firebase.json                # Firebase configuration
+├── firestore.rules              # Database security rules
+├── firestore.indexes.json       # Database indexes
+├── vite.config.js               # Vite configuration
+└── package.json                 # Dependencies and scripts
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
@@ -150,7 +149,7 @@ npm run deploy
 npm run deploy:functions
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -174,33 +173,33 @@ firebase functions:config:set email.password="your_app_password"
 firebase functions:config:set admin.email="admin@example.com"
 ```
 
-## 📋 Business Requirements Implementation
+## Business Requirements Implementation
 
-### ✅ BR D.1: External Authentication
+### BR D.1: External Authentication
 - **Firebase Authentication** with email/password
 - **Google OAuth 2.0** integration
 - **Secure session management**
 - **User-friendly login flow**
 
-### ✅ BR D.2: Email Functionality
+### BR D.2: Email Functionality
 - **Dual email service** (Cloud Functions + EmailJS)
 - **Attachment support** for contact forms
 - **HTML email templates**
 - **Robust error handling**
 
-### ✅ BR D.3: Interactive Table Data
+### BR D.3: Interactive Table Data
 - **Advanced data table** with sorting, searching, pagination
 - **Multi-dataset support** (users, resources, admin data)
 - **Responsive design** for mobile compatibility
 - **Real-time data filtering**
 
-### ✅ BR D.4: Deployment to the Cloud
+### BR D.4: Deployment to the Cloud
 - **Multi-platform deployment** (Firebase + Cloudflare)
 - **GitHub Actions** automated deployment
 - **Live URLs** with full functionality
 - **Environment management**
 
-### ✅ BR E.1: Cloud Functions
+### BR E.1: Cloud Functions
 - **5 Firebase Cloud Functions** deployed:
   - `healthCheck` - System health monitoring
   - `sendEmail` - Email sending service
@@ -210,7 +209,7 @@ firebase functions:config:set admin.email="admin@example.com"
 - **Serverless architecture** with HTTP triggers
 - **Secure backend logic** with environment variables
 
-## 🧪 Testing
+## Testing
 
 ### Manual Testing
 1. **Authentication**: Test login/register with email and Google
@@ -228,7 +227,7 @@ npm run lint
 npm run test:functions
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Firebase Hosting
 ```bash
@@ -246,14 +245,14 @@ firebase deploy --only hosting
 firebase deploy --only functions
 ```
 
-## 📊 Performance
+## Performance
 
 - **Lighthouse Score**: 90+ across all metrics
 - **Bundle Size**: Optimized with code splitting
 - **Loading Time**: < 3 seconds on 3G
 - **Cloud Functions**: < 500ms response time
 
-## 🔒 Security
+## Security
 
 - **Firebase Security Rules** for database access
 - **Input validation** and sanitization
@@ -261,7 +260,7 @@ firebase deploy --only functions
 - **Environment variable** protection
 - **Authentication** required for sensitive operations
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -269,11 +268,11 @@ firebase deploy --only functions
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is part of FIT5032 Assessment 3 - Monash University
 
-## 📞 Support
+## Support
 
 For technical support or questions:
 - **Email**: Contact through the application's contact form
@@ -281,4 +280,4 @@ For technical support or questions:
 
 ---
 
-**Built with ❤️ for men's health and wellness**
+**Built with care for men's health and wellness**
