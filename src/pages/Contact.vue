@@ -287,26 +287,36 @@ async function onSubmit() {
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // Send contact email (prefer cloud function, fallback to EmailJS)
+    // Send contact email (prefer EmailJS, fallback to cloud function)
     let emailSent = false;
     try {
-      // Try to send email using cloud function
-      console.log('Attempting to send email via cloud function...');
-      const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
-      if (cloudResult.success) {
-        emailSent = true;
-        console.log('Email sent successfully via cloud function');
+      // Try to send email using EmailJS first
+      console.log('Attempting to send email via EmailJS...');
+      emailSent = await sendSimpleContactEmail(cleanData);
+      if (emailSent) {
+        console.log('Email sent successfully via EmailJS');
       } else {
-        throw new Error('Cloud function failed');
+        throw new Error('EmailJS failed');
       }
-    } catch (cloudError) {
-      console.warn('Cloud function failed, falling back to EmailJS:', cloudError);
-      // Fallback to EmailJS
+    } catch (emailJSError) {
+      console.warn('EmailJS failed, falling back to cloud function:', emailJSError);
+      // Fallback to cloud function
       try {
-        emailSent = await sendSimpleContactEmail(cleanData);
-      } catch (error) {
-        console.error('Simple email failed, trying full version:', error);
-        emailSent = await sendContactEmail(cleanData);
+        const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
+        if (cloudResult.success) {
+          emailSent = true;
+          console.log('Email sent successfully via cloud function');
+        } else {
+          throw new Error('Cloud function failed');
+        }
+      } catch (cloudError) {
+        console.error('Both EmailJS and cloud function failed:', cloudError);
+        // Try full EmailJS as last resort
+        try {
+          emailSent = await sendContactEmail(cleanData);
+        } catch (finalError) {
+          console.error('All email methods failed:', finalError);
+        }
       }
     }
 
