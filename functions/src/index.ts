@@ -41,7 +41,10 @@ export const sendEmail = functions.https.onRequest((req, res) => {
       console.log('Email request received:', { type, data });
 
       // Check if email credentials are available
-      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      const emailUser = functions.config().email?.user;
+      const emailPassword = functions.config().email?.password;
+      
+      if (!emailUser || !emailPassword) {
         console.log('Email credentials not configured, simulating email send');
         res.status(200).json({
           success: true,

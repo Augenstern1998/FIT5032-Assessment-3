@@ -1,4 +1,5 @@
 import * as nodemailer from 'nodemailer';
+import * as functions from 'firebase-functions';
 
 interface ContactEmailData {
   name: string;
@@ -28,14 +29,14 @@ export async function sendContactEmail(data: ContactEmailData): Promise<EmailRes
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+        user: process.env.EMAIL_USER || functions.config().email?.user,
+        pass: process.env.EMAIL_PASSWORD || functions.config().email?.password
       }
     });
 
     // Email content
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USER || functions.config().email?.user,
       to: process.env.ADMIN_EMAIL || 'admin@example.com',
       subject: `[Website Contact Form] ${data.subject}`,
       html: `
@@ -102,7 +103,7 @@ export async function sendPasswordResetEmail(userEmail: string, resetLink: strin
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USER || functions.config().email?.user,
       to: userEmail,
       subject: 'Password Reset Request - FIT5032 Assessment 3',
       html: `
@@ -161,7 +162,7 @@ export async function sendWelcomeEmail(userEmail: string, userName: string): Pro
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USER || functions.config().email?.user,
       to: userEmail,
       subject: 'Welcome to FIT5032 Assessment 3!',
       html: `

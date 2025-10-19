@@ -37,22 +37,24 @@ exports.sendContactEmail = sendContactEmail;
 exports.sendPasswordResetEmail = sendPasswordResetEmail;
 exports.sendWelcomeEmail = sendWelcomeEmail;
 const nodemailer = __importStar(require("nodemailer"));
+const functions = __importStar(require("firebase-functions"));
 /**
  * Send contact email
  */
 async function sendContactEmail(data) {
+    var _a, _b, _c;
     try {
         // Create email transporter
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASSWORD
+                user: process.env.EMAIL_USER || ((_a = functions.config().email) === null || _a === void 0 ? void 0 : _a.user),
+                pass: process.env.EMAIL_PASSWORD || ((_b = functions.config().email) === null || _b === void 0 ? void 0 : _b.password)
             }
         });
         // Email content
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: process.env.EMAIL_USER || ((_c = functions.config().email) === null || _c === void 0 ? void 0 : _c.user),
             to: process.env.ADMIN_EMAIL || 'admin@example.com',
             subject: `[Website Contact Form] ${data.subject}`,
             html: `
@@ -106,6 +108,7 @@ async function sendContactEmail(data) {
  * Send password reset email
  */
 async function sendPasswordResetEmail(userEmail, resetLink) {
+    var _a;
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -115,7 +118,7 @@ async function sendPasswordResetEmail(userEmail, resetLink) {
             }
         });
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: process.env.EMAIL_USER || ((_a = functions.config().email) === null || _a === void 0 ? void 0 : _a.user),
             to: userEmail,
             subject: 'Password Reset Request - FIT5032 Assessment 3',
             html: `
@@ -162,6 +165,7 @@ async function sendPasswordResetEmail(userEmail, resetLink) {
  * Send welcome email
  */
 async function sendWelcomeEmail(userEmail, userName) {
+    var _a;
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -171,7 +175,7 @@ async function sendWelcomeEmail(userEmail, userName) {
             }
         });
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: process.env.EMAIL_USER || ((_a = functions.config().email) === null || _a === void 0 ? void 0 : _a.user),
             to: userEmail,
             subject: 'Welcome to FIT5032 Assessment 3!',
             html: `

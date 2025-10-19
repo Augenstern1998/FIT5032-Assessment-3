@@ -59,6 +59,7 @@ exports.healthCheck = functions.https.onRequest((req, res) => {
 // Email sending cloud function
 exports.sendEmail = functions.https.onRequest((req, res) => {
     corsHandler(req, res, async () => {
+        var _a, _b;
         try {
             // Only allow POST requests
             if (req.method !== 'POST') {
@@ -72,7 +73,9 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
             }
             console.log('Email request received:', { type, data });
             // Check if email credentials are available
-            if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+            const emailUser = (_a = functions.config().email) === null || _a === void 0 ? void 0 : _a.user;
+            const emailPassword = (_b = functions.config().email) === null || _b === void 0 ? void 0 : _b.password;
+            if (!emailUser || !emailPassword) {
                 console.log('Email credentials not configured, simulating email send');
                 res.status(200).json({
                     success: true,

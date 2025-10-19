@@ -287,30 +287,30 @@ async function onSubmit() {
       subscribeNewsletter: formData.value.subscribeNewsletter
     };
 
-    // Send contact email (prefer EmailJS, fallback to cloud function)
+    // Send contact email (prefer Firebase Cloud Functions, fallback to EmailJS)
     let emailSent = false;
     try {
-      // Try to send email using EmailJS first
-      console.log('Attempting to send email via EmailJS...');
-      emailSent = await sendSimpleContactEmail(cleanData);
-      if (emailSent) {
-        console.log('Email sent successfully via EmailJS');
+      // Try to send email using Firebase Cloud Functions first
+      console.log('Attempting to send email via Firebase Cloud Functions...');
+      const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
+      if (cloudResult.success) {
+        emailSent = true;
+        console.log('Email sent successfully via Firebase Cloud Functions');
       } else {
-        throw new Error('EmailJS failed');
+        throw new Error('Cloud function failed');
       }
-    } catch (emailJSError) {
-      console.warn('EmailJS failed, falling back to cloud function:', emailJSError);
-      // Fallback to cloud function
+    } catch (cloudError) {
+      console.warn('Firebase Cloud Functions failed, falling back to EmailJS:', cloudError);
+      // Fallback to EmailJS
       try {
-        const cloudResult = await cloudFunctionService.sendContactEmail(cleanData);
-        if (cloudResult.success) {
-          emailSent = true;
-          console.log('Email sent successfully via cloud function');
+        emailSent = await sendSimpleContactEmail(cleanData);
+        if (emailSent) {
+          console.log('Email sent successfully via EmailJS');
         } else {
-          throw new Error('Cloud function failed');
+          throw new Error('EmailJS failed');
         }
-      } catch (cloudError) {
-        console.error('Both EmailJS and cloud function failed:', cloudError);
+      } catch (emailJSError) {
+        console.error('Both Cloud Functions and EmailJS failed:', emailJSError);
         // Try full EmailJS as last resort
         try {
           emailSent = await sendContactEmail(cleanData);
